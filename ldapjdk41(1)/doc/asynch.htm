@@ -1,0 +1,563 @@
+<html><head>
+<title>"Directory SDK for Java 4.0 Programmer's Guide": Using the Asynchronous Interface
+ </title>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+
+        // for older browsers, will just replace the document
+
+        function showHideLayerSwitch(ignored)
+        {
+                document.location = 'contents.htm';
+        }
+
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript1.2">
+
+
+        var visibleVar="null";
+
+    if (navigator.appName == "Netscape") {
+        layerStyleRef="layer.";
+        layerRef="document.layers";
+        styleSwitch="";
+        visibleVar="show";
+    } else {
+        layerStyleRef="layer.style.";
+        layerRef="document.all";
+        styleSwitch=".style";
+        visibleVar="visible";
+    }
+        
+    function showHideLayerSwitch(layerName)
+    {
+        if (eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility == visibleVar')) {
+                hideLayer(layerName);
+        } else {
+            showLayer(layerName);
+        }
+    }
+
+    function showLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="visible"');
+    }
+        
+    function hideLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="hidden"');
+    }
+
+
+</SCRIPT>
+
+<STYLE TYPE="text/css">
+        #header {
+                z-index: 5;
+                visibility: visible;
+        }
+        #pulldownMenu {
+                position: absolute; 
+                z-index: 10; 
+                visibility: hidden; 
+                left: 182px; 
+                top: 55px;
+        }
+</STYLE>
+
+<DIV BGCOLOR="#000000" id="pulldownMenu" >
+
+<SCRIPT>
+        function onMouseOut()
+        {
+                visibility="hide";
+        }
+</SCRIPT>
+
+<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0> <TR> <TD BGCOLOR="#9999CC">
+
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+<A HREF="contents.htm"> <FONT COLOR="white"> Complete Contents</FONT></A><BR> 
+
+<A HREF="preface.htm"> <FONT COLOR="white"> Preface</FONT></A><BR> 
+
+<A HREF="ldap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 1</FONT> Understanding LDAP</FONT></A><BR> 
+
+<A HREF="api.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 2</FONT> Using the Netscape Directory SDK for Java</FONT> 
+</A><BR> 
+
+<A HREF="qckstart.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 3</FONT> Quick Start</FONT> 
+</A><BR> 
+
+<A HREF="writing.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 4</FONT> Writing an LDAP Client</FONT></A><BR> 
+
+<A HREF="using.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 5</FONT>  Using the LDAP Java Classes</FONT></A><BR> 
+
+<A HREF="search.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 6</FONT> Searching the Directory</FONT></A><BR> 
+
+<A HREF="filter.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 7</FONT> Using Filter Configuration Files</FONT></A><BR>
+
+<A HREF="addmod.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 8</FONT> Adding, Updating, and Deleting Entries</FONT></A><BR>
+
+<A HREF="compare.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 9</FONT> Comparing Values in Entries</FONT></A><BR>
+
+<A HREF="url.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 10</FONT> Working with LDAP URLs</FONT></A><BR>
+
+<A HREF="servinfo.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 11</FONT> Getting Server Information</FONT></A><BR>
+
+<A HREF="ssl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 12</FONT> Connecting Over SSL</FONT></A><BR>
+
+<A HREF="controls.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 13</FONT> Working with LDAP Controls</FONT></A><BR>
+
+<A HREF="sasl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 14</FONT> Using SASL Authentication</FONT></A><BR>
+
+<A HREF="JNDIchap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 15</FONT> Using Netscape's JNDI Service Provider</FONT></A><BR>
+
+<A HREF="extendop.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 16</FONT> Working with Extended Operations</FONT></A><BR>
+
+<A HREF="asynch.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 17</FONT> Using the Asynchronous Interface</FONT></A><BR>
+
+<A HREF="glossary.htm"> <FONT COLOR="white"> Glossary</A><BR> 
+
+</TD> </TR> </TABLE> </DIV>
+
+</SCRIPT>
+
+</HEAD>
+
+<BODY LINK="#666699" VLINK="#666699" ALINK="#333366" BGCOLOR="#FFFFFF"><FONT FACE="PrimaSans BT, Verdana, 
+
+Sans-Serif" Size=-1>
+<a name="TOP">
+<TABLE CELLPADDING=10 CELLSPACING=2 border=0 WIDTH=100% BGCOLOR="#CCCCCC"> 
+
+<TR><TD><TABLE CELLPADDING=5 CELLSPACING=2 border=0>
+<TR>
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="extendop.htm"><IMG SRC="prev.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0>Previous</a></FONT>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="glossary.htm">Next<IMG SRC="next.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0></a></FONT>
+  </TD>   
+
+  <TD></TD>
+
+  <TD BGCOLOR="#9999CC"> <A HREF="javascript:showHideLayerSwitch('pulldownMenu');"><FONT FACE="PrimaSans BT, 
+
+Verdana, Sans-Serif" SIZE=-1 
+  COLOR="white">Contents</FONT></A>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><A HREF="index.htm">Index</A></FONT>
+  </TD>
+
+</TR>
+</TABLE>
+</TD></TR> 
+</TABLE>
+
+<BR> <BR>
+
+</a>
+</DIV>
+
+</P>
+
+<CENTER>
+<TABLE CELLPADDING=2 CELLSPACING=2 WIDTH="85%" BORDER=0>
+<TR>
+  <TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="
+">
+</A>
+<A NAME="1001595">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+
+
+</FONT></B><P><A NAME="
+">
+</A>
+<A NAME="1005437">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="#999999">
+<B>
+Chapter 17
+</B></FONT></A><A NAME="Using the Asynchronous Interface
+">
+</A>
+<A NAME="1005439">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+Using the Asynchronous Interface
+
+</FONT></B><P><A NAME="1006945">
+This chapter shows you how to use the Asynchronous Interface to LDAP in Java applications.</P></A>
+<A NAME="1011976">
+This chapter contains the following sections:
+</P>
+</A>
+<ul><P>
+<A NAME="1012288">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="asynch.htm#1012297">"Synchronous vs. Asynchronous Connections"</a></FONT></LI></A><P>
+<A NAME="1021386">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="asynch.htm#1021352">"Common Uses for the Asynchronous Interface"</a></FONT></LI></A><P>
+<A NAME="1012553">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="asynch.htm#1012340">"New Classes in the Asynchronous Interface"</a></FONT></LI></A><P>
+<A NAME="1012294">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="asynch.htm#1013087">"Performing Asynchronous Searches"</a></FONT></LI></A><P>
+<A NAME="1012296">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="asynch.htm#1023982">"Where to Go for More Information"</a></FONT></LI></A></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Synchronous vs. Asynchronous Connections"></A>
+<A NAME="1012297">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Synchronous vs. Asynchronous Connections</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="1012287">
+Most operations using the Directory SDK for Java are performed synchronously. A connection is established, a request is sent, the results are returned, and the application resumes. Though the SDK can deliver one search result at a time, other operations block until completion when accessing an LDAP server. 
+</P>
+</A>
+<A NAME="1012339">
+Sometimes it is useful to initiate a new request while another one executes. An additional interface is provided to access the SDK's built-in support for these asynchronous requests. By returning control to an application before obtaining a response, the Asynchronous Interface allows you to perform complex operations requiring access to low-level LDAP mechanisms.
+</P>
+</A>
+<A NAME="1021468">
+Beginning with version 4.0 of the Directory SDK for Java, <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> methods support both asynchronous and synchronous requests. Synchronous methods wait for response messages from a server and then process them for you. Asynchronous methods require you to check for the messages and perform the processing in your code. This allows you to make additional LDAP requests while waiting for results to return.
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Common Uses for the Asynchronous Interface"></A>
+<A NAME="1021352">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Common Uses for the Asynchronous Interface</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="1021353">
+Since it involves managing more complex code in an application, it is best to use the asynchronous methods only when required. The most common use is for merging the results of searches that involve multiple servers or that are executed simultaneously on different subtrees. This is sometimes referred to as "multiplexing."
+</P>
+</A>
+<A NAME="1021354">
+A search that multiplexes servers can make a request to an array of hosts. A search that multiplexes query statements can make different requests to different subtrees of a server. If you combine these search methods you can perform complex searches across a number of servers without having to wait for individual responses. 
+</P>
+</A>
+<A NAME="1021355">
+The following example illustrates a practical use of multiplexed searches and the asynchronous interface.
+</P>
+</A>
+<A NAME="1021356">
+Suppose we want to implement event notification as a generic service using LDAP persistent search. Synchronous methods require a new thread for every request to the service. This solution is not scalable and can exhaust system resources very quickly.
+</P>
+</A>
+<A NAME="1024219">
+If we rewrite the search using the asynchronous interface, performance will improve dramatically. Since asynchronous searches do not block until completion, we can multiplex the persistent search results into one queue and then process them on a single thread.
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="New Classes in the Asynchronous Interface"></A>
+<A NAME="1012340">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>New Classes in the Asynchronous Interface</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="1012576">
+The Directory SDK for Java handles asynchronous communication through the <FONT FACE="courier, courier new, monospace">LDAPAsynchronousConnection</FONT> interface and its dependent classes. These files collectively form the asynchronous extensions to the LDAP API.
+</P>
+</A>
+<A NAME="1012577">
+<FONT FACE="courier, courier new, monospace">LDAPAsynchronousConnection</FONT> defines methods for authenticating to a server, as well as for searching, modifying, comparing and deleting entries in the directory.
+</P>
+</A>
+<A NAME="1012603">
+When you call a method of <FONT FACE="courier, courier new, monospace">LDAPAsynchronousConnection</FONT>, it returns a listener object. This object acts as a message queue and accepts search results and server-generated responses to LDAP requests. It is the responsibility of the LDAP client to read and process these messages.
+</P>
+</A>
+<A NAME="1012583">
+<FONT FACE="courier, courier new, monospace">LDAPAsynchronousConnection</FONT> incorporates the following classes which handle asynchronous client-server interactions:
+</P>
+</A>
+<ul><P>
+<A NAME="1022782">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">LDAPMessage</FONT>, which is the base class for LDAP request and response messages.</FONT></LI></A><P>
+<A NAME="1022689">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">LDAPResponse</FONT>, which extends <FONT FACE="courier, courier new, monospace">LDAPMessage</FONT>, represents a message received from an LDAP server in response to a request.</FONT></LI></A><P>
+<A NAME="1022776">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">LDAPExtendedResponse</FONT>, which extends <FONT FACE="courier, courier new, monospace">LDAPResponse</FONT>. It is the response that an LDAP server returns when handling an extended operation request.</FONT></LI></A><P>
+<A NAME="1022716">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">LDAPResponseListener</FONT> queues <FONT FACE="courier, courier new, monospace">LDAPResponse</FONT> messages.</FONT></LI></A><P>
+<A NAME="1022379">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">LDAPSearchResult</FONT>, which extends <FONT FACE="courier, courier new, monospace">LDAPMessage</FONT>. It contains a single LDAP entry and is one of the responses that an LDAP server can return when handling a search request.</FONT></LI></A><P>
+<A NAME="1022381">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">LDAPSearchResultReference</FONT>, which extends <FONT FACE="courier, courier new, monospace">LDAPMessage</FONT>. It contains a referral and is one of the responses that an LDAP server can return when handling a search request. </FONT></LI></A><P>
+<A NAME="1022751">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">LDAPSearchListener</FONT> queues search results and references.</FONT></LI></A></ul><A NAME="1022431">
+The rest of this chapter shows you how to use the asynchronous interface to perform multiplexed searches.
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Performing Asynchronous Searches"></A>
+<A NAME="1013087">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Performing Asynchronous Searches</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="1013109">
+One of the most common uses of the asynchronous interface is for performing multiplexed searches using more than one server or query. The rest of this section will show you how to do this.
+</P>
+</A>
+<A NAME="Searching Multiple Servers">
+</A><A NAME="1013172">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Searching Multiple Servers</B>
+</FONT></A><br>
+<A NAME="1013183">
+To perform a search on more than one server:
+</P>
+</A>
+<ol>
+<P><a name="1013191">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Connect to all the servers.</LI></a><P><a name="1013195">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Create a response listener for one search.</LI></a><P><a name="1013196">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Share the response listener all the other searches.</LI></a><P><a name="1013198">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Obtain and process the results.</LI></a><P><a name="1013199">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Disconnect from the servers.</LI></a></ol>
+<A NAME="1013204">
+The following code demonstrates how to do this in an application: 
+</P>
+</A>
+<PRE><A NAME="1022801"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>import netscape.ldap.*;<br>
+import java.util.*;<br>
+/* This example multiplexes the input from three different servers */<br>
+public class MultiplexServers {<br>
+&nbsp;&nbsp;&nbsp;public static void main( String[] args )<br>
+&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAsynch[] ld = new LDAPAsynch[3];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] hosts = { "foo1", "foo2", "foo3" };<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int[] ports = { 389, 389, 2018 }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] bases =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ "o=Airius.com", "o=Acme.com", "dc=Acme,dc=com" };<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* search for all entries with surname of Jensen */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MY_FILTER = "sn=Jensen";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for( int i = 0; i &lt; ld.length; i++ ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld[i] = new LDAPAsynch();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Connect to server */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld[i].connect( hosts[i], ports[i] );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get a response listener for one search */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPSearchListener l =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld[0].search( bases[0],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ld.SCOPE_SUB,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  MY_FILTER,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  null,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  false,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  (LDAPSearchListener)null );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Share the listener */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for( i = 1; i &lt; ld.length; i++ ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld[i].search( bases[i],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ld[i].SCOPE_SUB,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  MY_FILTER,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  null,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  false,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  l );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Loop on results until finished */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPMessage msg;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while( (msg = l.getResponse()) != null ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( msg instanceof LDAPSearchResultReference ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] urls =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((LDAPSearchResultReference)msg).getUrls();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Do something with the referrals...<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if ( msg instanceof LDAPSearchResult ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPEntry entry =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((LDAPSearchResult)msg).getEntry();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// The rest of the processing is the same as for<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// a synchronous search<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( entry.getDN() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// A search response<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPResponse res = (LDAPResponse)msg;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int status = res.getResultCode();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( status == LDAPException.SUCCESS ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Nothing to do<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String err =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPException.errorCodeToString(status);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new LDAPException(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;res.getErrorMessage(),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;res.getMatchedDN() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.err.println( e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Done, so disconnect */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( ld.isConnected() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.disconnect();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;}<br>
+}
+</FONT></A></PRE>
+
+
+<A NAME="Multiple Search Statements">
+</A><A NAME="1023286">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Multiple Search Statements</B>
+</FONT></A><br>
+<A NAME="1014367">
+To perform multiple searches in different subtrees of a single server:
+</P>
+</A>
+<ol>
+<P><a name="1014368">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Connect to the server.</LI></a><P><a name="1014369">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Create a response listener for one search.</LI></a><P><a name="1014370">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Share (multiplex) the response listener with the other searches.</LI></a><P><a name="1014371">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Obtain and process the results.</LI></a><P><a name="1014372">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Disconnect from the server.</LI></a></ol>
+<A NAME="1014373">
+The following code demonstrates how to do this in an application: 
+</P>
+</A>
+<PRE><A NAME="1022907"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>import netscape.ldap.*;<br>
+import java.util.*;<br>
+/* This example multiplexes the input from three searches in<br>
+different subtrees of the same server */<br>
+public class MultiplexTrees {<br>
+&nbsp;&nbsp;&nbsp;public static void main( String[] args )<br>
+&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAsynch ld = new LDAPAsynch();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Connect to server */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MY_HOST = "localhost";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int MY_PORT = 389;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.connect( MY_HOST, MY_PORT );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MY_FILTER = "sn=Jensen";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] bases =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ "o=Airius.com", "o=Acme.com", "dc=Acme,dc=com" };<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get a response listener for one search */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPSearchListener l =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.search( bases[0],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ld.SCOPE_SUB,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  MY_FILTER,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  null,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  false,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  (LDAPSearchListener)null );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Share the listener */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for( i = 1; i &lt; bases.length; i++ ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.search( bases[i],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ld.SCOPE_SUB,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  MY_FILTER,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  null,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  false,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  l );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Loop on results until finished */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPMessage msg;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while( (msg = l.getResponse()) != null ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* The rest is the same as in the previous example */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* ... */
+</FONT></A></PRE>
+
+
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Where to Go for More Information"></A>
+<A NAME="1023982">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Where to Go for More Information</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="1015065">
+The javadocs for the Directory SDK for Java describe all the classes, methods and exceptions of the <FONT FACE="courier, courier new, monospace">LDAPAsynchronousConnection</FONT> interface. For more information on using the javadocs, see <a href="preface.htm#2828183">"Where to Find Reference Information"</a>.
+</P>
+</A>
+<A NAME="1015079">
+The Internet-Draft titled "The Java LDAP Application Program Interface Asynchronous Extension" is available at the following URL:
+</P>
+</A>
+<A NAME="1015098">
+<FONT FACE="courier, courier new, monospace"><A HREF="http://www.ietf.org/internet-drafts/draft-ietf-ldapext-ldap-java-api-asynch-ext-00.txt" TARGET="_blank">http://www.ietf.org/internet-drafts/draft-ietf-ldapext-ldap-java-api-asynch-ext-00.txt</a>.</FONT>
+</P>
+</A>
+<a name="1024927">
+<B>Note. </B></A><A NAME="1024925">
+Internet-Drafts expire every six months. If the URL above does not work, try incrementing the number by one. For example, <FONT FACE="courier, courier new, monospace">draft-06.txt</FONT> would become <FONT FACE="courier, courier new, monospace">draft-07.txt</FONT>.
+</P>
+</A>
+</FONT>
+  </TD>
+</TR>
+<TR>
+  <TD>&nbsp;
+  </TD>
+</TR>
+<TR>
+  <TD BGCOLOR="#9999CC"><A HREF="#top"><IMG SRC="up.gif" BORDER=0></A>
+  </TD>
+</TR>
+</TABLE>
+<BR>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-2 COLOR="#999999">
+&copy; Copyright 1999 Netscape Communications Corporation.  All rights reserved.
+</FONT> </CENTER>
+
+<BR>
+
+</BODY>
+
+</HTML>

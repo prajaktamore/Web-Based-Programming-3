@@ -1,0 +1,120 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import java.util.Hashtable;
+import java.util.Enumeration;
+
+import javax.naming.*;
+import javax.naming.directory.*;
+
+public class Submit {
+	 public static String base;
+	  public static String filter;
+	  public static String scope;
+	  public static String sName,sFname,sLastname,smailid,rName,rFname,rLastname,rmailid;
+		public Submit() {
+			super(); 
+			// TODO Auto-generated constructor stub
+		}
+
+		protected void doGet(HttpServletRequest request,
+				HttpServletResponse response) throws ServletException, IOException {
+			// TODO Auto-generated method stub
+
+		}
+
+		protected void doPost(HttpServletRequest request,
+				HttpServletResponse response) throws ServletException, IOException {
+			response.setContentType("text/html");  
+			PrintWriter out = response.getWriter();  
+			HttpSession session = request.getSession(false);
+			try {
+				   base = "o=airius.com";
+				   String tempo = "uid=" + request.getParameter("username");  
+			       filter = tempo;
+			        
+			      Hashtable environment = new Hashtable();
+			       environment.put(Context.INITIAL_CONTEXT_FACTORY,"com.sun.jndi.ldap.LdapCtxFactory");
+			       environment.put(Context.PROVIDER_URL,"ldap://bigyellowcat.cs.binghamton.edu:389");
+			       DirContext context = new InitialDirContext(environment);
+			       
+			       SearchControls scope = new SearchControls();
+			       scope.setSearchScope(SearchControls.SUBTREE_SCOPE);
+			       // this limits the number of entries returned
+			       scope.setCountLimit(10);
+			       NamingEnumeration result = context.search(base, filter, scope);
+			       // 
+			       SearchResult srchresults;
+
+			 while (result.hasMore())
+			   {
+			       srchresults = (SearchResult) result.next();
+			       String dn = srchresults.getName();
+			       String temp = "dn= " + dn ;
+			       Attributes attrs = srchresults.getAttributes();
+			       NamingEnumeration  ne = attrs.getAll();
+			       while (ne.hasMore())
+			       {
+			         Attribute attr = (Attribute) ne.next();
+			         String attrname = attr.getID() + ": ";
+			         Enumeration values = attr.getAll();
+			         while (values.hasMoreElements())
+			        	 if(attrname.equals("attrname")){
+			        		 session.setAttribute("sfname", values.nextElement());
+			        	 }
+			         if(attrname.equals("sn")){
+		        		 session.setAttribute("ssname", values.nextElement());
+		        	 }
+			         if(attrname.equals("l")){
+		        		 session.setAttribute("slname", values.nextElement());
+		        	 }
+			         if(attrname.equals("mail")){
+		        		 session.setAttribute("smail", values.nextElement());
+		        	 }
+			       }
+			    }
+			}
+			 catch (Exception e)
+		      {
+		        System.out.println("Execption: " + e.toString());
+		      }
+			    
+	
+		String tempo = "sn=" + request.getParameter("lastname");  
+		filter = "uid="+ tempo;
+		 try
+	     {
+	       Hashtable<String,String> environment = new Hashtable<String,String>();
+	       environment.put(Context.INITIAL_CONTEXT_FACTORY,"com.sun.jndi.ldap.LdapCtxFactory");
+	       environment.put(Context.PROVIDER_URL,"ldap://bigyellowcat.cs.binghamton.edu:389");
+	       DirContext context = new InitialDirContext(environment);
+	       SearchControls scope = new SearchControls();
+	       scope.setSearchScope(SearchControls.SUBTREE_SCOPE);
+	       NamingEnumeration result = context.search(base, filter, scope);
+	       SearchResult srchresults = (SearchResult) result.next();
+	       String dn = srchresults.getName();
+	       String temp = "dn= " + dn + base;
+	       Attributes attrs = srchresults.getAttributes();
+	       NamingEnumeration  ne = attrs.getAll();
+	       while (ne.hasMoreElements())
+	       {
+	         Attribute attr = (Attribute) ne.next();	
+	         String attrname = attr.getID() + ": ";
+	         Enumeration values = attr.getAll();
+	         while (values.hasMoreElements())
+	            System.out.println(attrname + values.nextElement());
+	       }
+	    }
+	    catch (Exception e)
+	      {
+	        System.out.println("Execption: " + e.toString());
+	      }
+	  
+		}
+}

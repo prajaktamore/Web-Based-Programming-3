@@ -1,0 +1,78 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import java.net.URL;
+import java.sql.*;
+
+public class Awards  extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	public String BASE = "o=airius.com";
+	public String FILTER;
+	public Awards() {
+		super(); 
+		// TODO Auto-generated constructor stub
+	}
+
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
+	}
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html");  
+		PrintWriter out = response.getWriter();  
+		HttpSession session = request.getSession(false);
+		
+		String query ="INSERT INTO Award(sname,smname,slname,smail,sdept,rname,rmname,rlname,rmail,rdept,award,diff)values('"+request.getParameter("u1")+"','"+
+		request.getParameter("u2")+"','"+request.getParameter("u3")+"','"+request.getParameter("u4")+"','"+request.getParameter("u5")+"','"
+		+request.getParameter("rdown")+"','"+request.getParameter("r2")+"','"+request.getParameter("r3")+"','"+request.getParameter("r4")+"','"+request.getParameter("r5")+"','"
+		+request.getParameter("r6")+"','"+request.getParameter("r7")+"')"; 
+		
+        // default data source name 
+        String url   = "jdbc:mysql://bigyellowcat.cs.binghamton.edu/more";
+
+        try {
+			Class.forName ("com.mysql.jdbc.jdbc2.optional.MysqlDataSource").newInstance();
+		
+			Connection con = DriverManager.getConnection("jdbc:mysql://bigyellowcat.cs.binghamton.edu/more?" + "user=more&password=more7755");
+        Connection con = DriverManager.getConnection (url, "more", "more7755");
+
+        // Create statement
+        Statement stmt = con.createStatement();
+        
+        
+        // Execute the query
+        int rs = stmt.executeUpdate(query );
+        if(rs ==1){
+        	out.print("Awarded");
+        }else{
+        	out.print("Failure");
+        }
+        } catch (InstantiationException e) {
+        	RequestDispatcher rd=request.getRequestDispatcher("./Awards.jsp");  
+		    rd.include(request,response);
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			RequestDispatcher rd=request.getRequestDispatcher("./Awards.jsp");  
+		    rd.include(request,response);
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			RequestDispatcher rd=request.getRequestDispatcher("./Awards.jsp");  
+		    rd.include(request,response);
+			e.printStackTrace();
+		} catch (SQLException e) {
+			RequestDispatcher rd=request.getRequestDispatcher("./Awards.jsp");  
+		    rd.include(request,response);
+			e.printStackTrace();
+		}
+	}
+}

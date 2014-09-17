@@ -1,0 +1,147 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.0 [en] (WinNT; U) [Netscape]">
+   <TITLE>LDAPGetEntries</TITLE>
+</HEAD>
+<BODY>
+
+<H4>
+A very simple example of fetching all matching LDAP entries
+(distinguished names only). The LDAPGetEntries JavaBean is used.
+JavaScript fetches user-entered values and retrieves all matching
+entres from the specified directory, by setting properties on
+LDAPGetEntries and calling its getEntries()
+method.<BR>
+<BR>
+</H4>
+Examples of filters to test:
+<H5>
+objectclass=person<BR>
+objectclass=organization<BR> 
+objectclass=groupOfUniqueNames<BR>
+cn=*Jensen
+</H5>
+
+<SCRIPT LANGUAGE="JavaScript">
+</SCRIPT>
+
+<FORM NAME=input>
+<TABLE WIDTH="300" >
+<TR>
+<TD>Host:</TD>
+
+<TD><INPUT TYPE=text NAME="host" VALUE="localhost" SIZE=40></TD>
+</TR>
+
+<TR>
+<TD>Port:</TD>
+
+<TD><INPUT TYPE=text NAME="port" VALUE=389 SIZE=40></TD>
+</TR>
+
+<TR>
+<TD>Directory base:</TD>
+
+<TD><INPUT TYPE=text NAME="base"
+VALUE="o=Airius.com" SIZE=40></TD>
+</TR>
+
+<TR>
+<TD>Filter:</TD>
+
+<TD><INPUT TYPE=text NAME="filter" VALUE="objectclass=groupOfUniqueNames"
+SIZE=40></TD>
+</TR>
+</TABLE>
+
+
+<P><INPUT TYPE=button VALUE="Get entries"
+ onClick="getProperty()">
+</FORM>
+
+<P><FORM NAME=output>
+<TEXTAREA NAME="results" ROWS=10 COLS=70></TEXTAREA>
+</FORM>
+<SCRIPT LANGUAGE="JavaScript">
+
+function showStrings(values) {
+	if ( values != null ) {
+	    var retstr = "";
+		for( var i = 0; i < values.length; i++ ) {
+	        retstr += values[i] + "\n";
+		}
+	    document.output.results.value=retstr;
+    } else {
+		showError();
+	}
+}
+
+function showError() {
+	var err = getter.getErrorCode();
+	var pkg = netscape.ldap.beans.LDAPGetEntries;
+	if ( err == pkg.INVALID_PARAMETER )
+		errString = "Invalid parameter";
+	else if ( err == pkg.CONNECT_ERROR )
+		errString = "Unable to connect to server";
+	else if ( err == pkg.AUTHENTICATION_ERROR )
+		errString = "Unable to authenticate to server";
+	else if ( err == pkg.PROPERTY_NOT_FOUND )
+		errString = "Entry or property not found";
+	else
+		errString = "Unexpected error " + err;
+
+	alert( "Error fetching entries: " + errString );
+}
+
+var getter;
+function getProperty() {
+	if ( document.input.filter.value.length < 1 ) {
+		alert( "Must enter a value for Filter" );
+	}
+	// Get parameters from form fields
+	getter.setHost( document.input.host.value );
+	getter.setPort( parseInt(document.input.port.value) );
+	getter.setBase( document.input.base.value );
+	getter.setFilter( document.input.filter.value );
+	// Do we need privileges for network connections?
+//    host = java.net.InetAddress.getLocalHost().getHostName();
+//	if ( host != document.input.host.value )
+//		netscape.security.PrivilegeManager.enablePrivilege("UniversalConnect");
+	// Do the search
+	values = getter.getEntries();
+	// Display the results
+	showStrings( values );
+}
+
+function doWire() {
+	// Create an instance of the Bean
+	getter = new netscape.ldap.beans.LDAPGetEntries();
+	getter.setDebug( true );
+	document.input.host.value =
+		java.net.InetAddress.getLocalHost().getHostName();
+}
+
+window.onload=doWire()
+</SCRIPT>
+<P>
+The JavaScript code to do this is as follows:
+<PRE>
+	// Create an instance of the Bean
+	getter = new netscape.ldap.beans.LDAPGetEntries();
+	// Get parameters from form fields
+	getter.setHost( document.input.host.value );
+	getter.setPort( parseInt(document.input.port.value) );
+	getter.setBase( document.input.base.value );
+	getter.setFilter( document.input.filter.value );
+	// Do we need privileges for network connections?
+    host = netscape.application.AWTCompatibility.awtApplet().getCodeBase().getHost();
+	if ( host != document.input.host.value )
+		netscape.security.PrivilegeManager.enablePrivilege("UniversalConnect");
+	// Do the search
+	values = getter.getEntries();
+	// Display the results
+	showStrings( values );
+</PRE>
+</BODY>
+</HTML>

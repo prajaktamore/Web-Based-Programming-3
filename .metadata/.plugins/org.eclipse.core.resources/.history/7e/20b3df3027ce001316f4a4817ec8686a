@@ -1,0 +1,98 @@
+
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Map;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import java.util.Hashtable;
+import java.util.Enumeration;
+
+import javax.naming.*;
+import javax.naming.directory.*;
+
+import netscape.ldap.LDAPConnection;
+import netscape.ldap.LDAPException;
+/**
+ * Servlet implementation class Login
+ */
+public class Login extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	public String BASE = "o=airius.com";
+	public String FILTER;
+	public Login() {
+		super(); 
+		// TODO Auto-generated constructor stub
+	}
+
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html");  
+		PrintWriter out = response.getWriter();  
+
+		String n=request.getParameter("username");  
+		String p=request.getParameter("password");  
+
+		if(validate(n, p)){  
+			
+		}  
+		else{  
+		    out.print("Sorry username or password error");  
+		      
+		}  
+
+		String value = null;
+		if(n == null || p == null || n =="" || p ==""){
+			
+		}
+		LDAPConnection ld = null;
+		int status = -1;
+		try {
+			ld = new LDAPConnection();
+			/* Connect to server */
+			String MY_HOST = "bigyellowcat.cs.binghamton.edu:389";
+			int MY_PORT = 389;
+			
+			ld.connect( MY_HOST, MY_PORT );
+
+			/* Authenticate to the server */
+			String DN = n;
+			String PW = p;
+			ld.authenticate( 3, DN, PW );
+			
+			out.print( "Authentication successful" );
+			RequestDispatcher view = request.getRequestDispatcher("/entrance.jsp");
+			view.forward(request, response);
+			
+		}
+		catch( LDAPException e ) {
+			if ( e.getLDAPResultCode() == LDAPException.INVALID_CREDENTIALS ) {
+				out.print( "Invalid credentials" );
+				RequestDispatcher rd=request.getRequestDispatcher("Login.jsp");  
+			    rd.include(request,response);
+			} else if ( e.getLDAPResultCode() == LDAPException.NO_SUCH_OBJECT ) {
+				out.print( "No such user" );
+				RequestDispatcher rd=request.getRequestDispatcher("Login.jsp");  
+			    rd.include(request,response);
+			} else {
+				out.print( "Error on authentication: " + e.toString() );
+				RequestDispatcher rd=request.getRequestDispatcher("Login.jsp");  
+			    rd.include(request,response);
+			}
+		}
+		out.close();  
+		}
+	}

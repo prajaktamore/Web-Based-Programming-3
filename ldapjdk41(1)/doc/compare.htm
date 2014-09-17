@@ -1,0 +1,377 @@
+<html><head>
+<title>"Directory SDK for Java 4.0 Programmer's Guide": Comparing Values in Entries
+ </title>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+
+        // for older browsers, will just replace the document
+
+        function showHideLayerSwitch(ignored)
+        {
+                document.location = 'contents.htm';
+        }
+
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript1.2">
+
+
+        var visibleVar="null";
+
+    if (navigator.appName == "Netscape") {
+        layerStyleRef="layer.";
+        layerRef="document.layers";
+        styleSwitch="";
+        visibleVar="show";
+    } else {
+        layerStyleRef="layer.style.";
+        layerRef="document.all";
+        styleSwitch=".style";
+        visibleVar="visible";
+    }
+        
+    function showHideLayerSwitch(layerName)
+    {
+        if (eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility == visibleVar')) {
+                hideLayer(layerName);
+        } else {
+            showLayer(layerName);
+        }
+    }
+
+    function showLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="visible"');
+    }
+        
+    function hideLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="hidden"');
+    }
+
+
+</SCRIPT>
+
+<STYLE TYPE="text/css">
+        #header {
+                z-index: 5;
+                visibility: visible;
+        }
+        #pulldownMenu {
+                position: absolute; 
+                z-index: 10; 
+                visibility: hidden; 
+                left: 182px; 
+                top: 55px;
+        }
+</STYLE>
+
+<DIV BGCOLOR="#000000" id="pulldownMenu" >
+
+<SCRIPT>
+        function onMouseOut()
+        {
+                visibility="hide";
+        }
+</SCRIPT>
+
+<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0> <TR> <TD BGCOLOR="#9999CC">
+
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+<A HREF="contents.htm"> <FONT COLOR="white"> Complete Contents</FONT></A><BR> 
+
+<A HREF="preface.htm"> <FONT COLOR="white"> Preface</FONT></A><BR> 
+
+<A HREF="ldap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 1</FONT> Understanding LDAP</FONT></A><BR> 
+
+<A HREF="api.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 2</FONT> Using the Netscape Directory SDK for Java</FONT> 
+</A><BR> 
+
+<A HREF="qckstart.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 3</FONT> Quick Start</FONT> 
+</A><BR> 
+
+<A HREF="writing.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 4</FONT> Writing an LDAP Client</FONT></A><BR> 
+
+<A HREF="using.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 5</FONT>  Using the LDAP Java Classes</FONT></A><BR> 
+
+<A HREF="search.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 6</FONT> Searching the Directory</FONT></A><BR> 
+
+<A HREF="filter.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 7</FONT> Using Filter Configuration Files</FONT></A><BR>
+
+<A HREF="addmod.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 8</FONT> Adding, Updating, and Deleting Entries</FONT></A><BR>
+
+<A HREF="compare.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 9</FONT> Comparing Values in Entries</FONT></A><BR>
+
+<A HREF="url.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 10</FONT> Working with LDAP URLs</FONT></A><BR>
+
+<A HREF="servinfo.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 11</FONT> Getting Server Information</FONT></A><BR>
+
+<A HREF="ssl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 12</FONT> Connecting Over SSL</FONT></A><BR>
+
+<A HREF="controls.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 13</FONT> Working with LDAP Controls</FONT></A><BR>
+
+<A HREF="sasl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 14</FONT> Using SASL Authentication</FONT></A><BR>
+
+<A HREF="JNDIchap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 15</FONT> Using Netscape's JNDI Service Provider</FONT></A><BR>
+
+<A HREF="extendop.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 16</FONT> Working with Extended Operations</FONT></A><BR>
+
+<A HREF="asynch.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 17</FONT> Using the Asynchronous Interface</FONT></A><BR>
+
+<A HREF="glossary.htm"> <FONT COLOR="white"> Glossary</A><BR> 
+
+</TD> </TR> </TABLE> </DIV>
+
+</SCRIPT>
+
+</HEAD>
+
+<BODY LINK="#666699" VLINK="#666699" ALINK="#333366" BGCOLOR="#FFFFFF"><FONT FACE="PrimaSans BT, Verdana, 
+
+Sans-Serif" Size=-1>
+<a name="TOP">
+<TABLE CELLPADDING=10 CELLSPACING=2 border=0 WIDTH=100% BGCOLOR="#CCCCCC"> 
+
+<TR><TD><TABLE CELLPADDING=5 CELLSPACING=2 border=0>
+<TR>
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="addmod.htm"><IMG SRC="prev.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0>Previous</a></FONT>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="url.htm">Next<IMG SRC="next.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0></a></FONT>
+  </TD>   
+
+  <TD></TD>
+
+  <TD BGCOLOR="#9999CC"> <A HREF="javascript:showHideLayerSwitch('pulldownMenu');"><FONT FACE="PrimaSans BT, 
+
+Verdana, Sans-Serif" SIZE=-1 
+  COLOR="white">Contents</FONT></A>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><A HREF="index.htm">Index</A></FONT>
+  </TD>
+
+</TR>
+</TABLE>
+</TD></TR> 
+</TABLE>
+
+<BR> <BR>
+
+</a>
+</DIV>
+
+</P>
+
+<CENTER>
+<TABLE CELLPADDING=2 CELLSPACING=2 WIDTH="85%" BORDER=0>
+<TR>
+  <TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="
+">
+</A>
+<A NAME="1915312">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+
+
+</FONT></B><P><A NAME="
+">
+</A>
+<A NAME="1915314">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="#999999">
+<B>
+Chapter 9
+</B></FONT></A><A NAME="Comparing Values in Entries
+">
+</A>
+<A NAME="2832217">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+Comparing Values in Entries
+
+</FONT></B><P><A NAME="2832223">
+This chapter explains how to compare the value of an attribute in an entry against a specified value. </P></A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Comparing the Value of an Attribute"></A>
+<A NAME="2839987">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Comparing the Value of an Attribute</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2840129">
+The LDAP Java classes allow you to compare a specified value against the value of an entry in the directory. For example, you can check to see if the "mail" attribute of an entry contains the value "bjensen@airius.com". 
+</P>
+</A>
+<A NAME="2840101">
+To compare a specified value against an attribute of an entry in the directory, you need to follow this general procedure: 
+</P>
+</A>
+<ol>
+<P><a name="2840102">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Specify the name of the attribute that you want to check and the value that you want to use for comparison. (See <a href="compare.htm#2840194">"Specifying the Attribute and Value"</a>.) </LI></a><P><a name="2840121">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Use the distinguished name of the entry to find the entry in the directory and perform the comparison. (See <a href="compare.htm#2840197">"Performing the Comparison"</a>.)</LI></a></ol>
+<A NAME="2840181">
+For a complete example, see <a href="compare.htm#2840149">"Example of Comparing a Value Against an Attribute"</a>. 
+</P>
+</A>
+<A NAME="Specifying the Attribute and Value">
+</A><A NAME="2840194">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Specifying the Attribute and Value</B>
+</FONT></A><br>
+<A NAME="2840195">
+Use an <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> object to specify the name of the attribute that you want to check and the value that you want to use in the comparison. 
+</P>
+</A>
+<A NAME="2840201">
+For example, to compare the value "bjensen@airius.com" against the value of the "mail" attribute in an entry, use the following constructor: 
+</P>
+</A>
+<PRE><A NAME="2840202"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+LDAPAttribute attr = new LDAPAttribute( "mail", "bjensen@airius.com" );<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="Performing the Comparison">
+</A><A NAME="2840197">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Performing the Comparison</B>
+</FONT></A><br>
+<A NAME="2840218">
+To perform the comparison, use the <FONT FACE="courier, courier new, monospace">compare</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object. Specify the distinguished name (DN) of the entry that you want to compare.
+</P>
+</A>
+<A NAME="2840236">
+This method returns<FONT FACE="courier, courier new, monospace"> true </FONT>if the attribute in the entry contains the specified value. 
+</P>
+</A>
+<A NAME="Example of Comparing a Value Against an Attribute">
+</A><A NAME="2840149">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Example of Comparing a Value Against an Attribute</B>
+</FONT></A><br>
+<A NAME="2840150">
+The following section of code determines if the values "person" and "xyzzy" are in the "objectclass" attribute of the entry for Barbara Jensen. 
+</P>
+</A>
+<PRE><A NAME="2840245"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>import netscape.ldap.*;<br>
+import java.util.*;<br>
+public class Compare {<br>
+&nbsp;&nbsp;&nbsp;public static void main( String[] args ) {<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Connect to the server and perform the comparison. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPConnection ld = null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int status = -1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld = new LDAPConnection();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Connect to the server. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String HOSTNAME = "localhost";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.connect( HOSTNAME, LDAPv2.DEFAULT_PORT );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Authenticate to the server as the directory manager. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MGR_DN = "cn=Directory Manager";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MGR_PW = "23skidoo";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.authenticate( MGR_DN, MGR_PW );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Perform the comparisons. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String ENTRYDN = "uid=bjensen, ou=People, o=Airius.com";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttribute attr = new LDAPAttribute( "objectclass", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"person" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boolean ok = ld.compare( ENTRYDN, attr );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reportResults( ok, attr );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attr = new LDAPAttribute( "objectclass", "xyzzy" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ok = ld.compare( ENTRYDN, attr );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reportResults( ok, attr );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Done, so disconnect */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( (ld != null) &amp;&amp; ld.isConnected() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.disconnect();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(status);<br>
+&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Print the results of the comparison. */<br>
+&nbsp;&nbsp;&nbsp;private static void reportResults( boolean ok, LDAPAttribute attr ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String result;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( ok )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result = new String();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result = new String( "not " );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enumeration en = attr.getStringValues();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (en != null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String val = (String)en.nextElement();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"The value " + val + " is " + result + "contained in the " +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attr.getName() + " attribute." );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;}<br>
+}
+</FONT></A></PRE>
+
+
+<A NAME="2841742">
+
+</P>
+</A>
+</FONT>
+  </TD>
+</TR>
+<TR>
+  <TD>&nbsp;
+  </TD>
+</TR>
+<TR>
+  <TD BGCOLOR="#9999CC"><A HREF="#top"><IMG SRC="up.gif" BORDER=0></A>
+  </TD>
+</TR>
+</TABLE>
+<BR>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-2 COLOR="#999999">
+&copy; Copyright 1999 Netscape Communications Corporation.  All rights reserved.
+</FONT> </CENTER>
+
+<BR>
+
+</BODY>
+
+</HTML>

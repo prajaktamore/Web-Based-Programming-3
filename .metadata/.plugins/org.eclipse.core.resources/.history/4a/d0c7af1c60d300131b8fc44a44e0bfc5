@@ -1,0 +1,540 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.*,java.sql.Connection,java.sql.DriverManager,java.sql.SQLException,java.sql.Statement,java.sql.ResultSet" session="true"%>
+<%@ page errorPage="ShowError.jsp" %>
+  
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Awards</title>
+<link href="more.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+var myArray = new Array();
+var loc = -1;
+var insertflag1;
+
+var upstatus;
+ function approvedelete() {
+ var index = 0;
+ var curLocation;
+ var a,b,c,d,e,f,g;
+ 	if(parseInt(document.getElementById("approve1").selectedIndex) > 0){
+ 		index = document.getElementById("approve1").selectedIndex;
+ 		curLocation = document.getElementById("pos1").value;
+		
+		 a = document.getElementById("name1").value;
+		 b = document.getElementById("detail1").value;
+		 c = document.getElementById("sdept1").value;
+		 d = document.getElementById("rdept1").value;
+		 f = document.getElementById("award1").value;
+		 g = document.getElementById("smail1").value;
+		 h = document.getElementById("rmail1").value;
+		
+ 	}else if(parseInt(document.getElementById("approve2").selectedIndex) > 0){
+ 		index = document.getElementById("approve2").selectedIndex;
+ 		curLocation = document.getElementById("pos2").value;
+ 		
+ 		 a = document.getElementById("name2").value;
+		 b = document.getElementById("detail2").value;
+		 c = document.getElementById("sdept2").value;
+		 d = document.getElementById("rdept2").value;
+		 f = document.getElementById("award2").value;
+		 g = document.getElementById("smail2").value;
+		 h = document.getElementById("rmail2").value;
+ 		
+ 		
+ 	}else if(parseInt(document.getElementById("approve3").selectedIndex) > 0){
+ 		index = document.getElementById("approve3").selectedIndex;
+ 		curLocation = document.getElementById("pos3").value;
+ 		
+		 session.setAttribute("suidUnique", document.getElementById("name3").value);
+	          session.setAttribute("ruidUnique", document.getElementById("detail3").valu);
+	          session.setAttribute("sdeptUnique", document.getElementById("sdept3").value);
+	          session.setAttribute("rdeptUnique", document.getElementById("rdept3").value);
+	          session.setAttribute("awardUnique", document.getElementById("award3").value);
+	          session.setAttribute("smailUnique", document.getElementById("smail3").value);
+	          session.setAttribute("rmailUnique", document.getElementById("rmail3").value);
+ 		
+ 	}
+   	   	 	
+	 	document.getElementById("pos1").value
+	if(parseInt(index) == 1){
+	<% 
+	try{
+			Class.forName ("com.mysql.jdbc.jdbc2.optional.MysqlDataSource").newInstance();
+			
+			Class.forName("com.mysql.jdbc.Driver").newInstance(); 
+			Connection con = DriverManager.getConnection("jdbc:mysql://bigyellowcat.cs.binghamton.edu/more", "more", "more7755");
+			
+		    // Create statement
+		    Statement stmt = con.createStatement();
+		    
+			String query1 = "SELECT * FROM AwardList";
+		    // Execute the query
+		    ResultSet rs1 = stmt.executeQuery(query1);
+		  
+		    	ArrayList<String>  aawardname =  new ArrayList<String>();
+		    	
+		    	while(rs1.next())
+			      {
+			          String str1 = rs1.getString("AwardName");
+			          aawardname.add(str1);
+			      }
+			      session.setAttribute("aawardname", aawardname);
+		}catch (SQLException e) {
+			out.print("Error on authentication: " + e.toString());
+			RequestDispatcher rd = request
+					.getRequestDispatcher("./entranceAdminFunction.jsp");
+			rd.include(request, response);
+		}
+	%>
+	}else if(parseInt(index) == 2){
+		<% 
+		try{
+				Class.forName ("com.mysql.jdbc.jdbc2.optional.MysqlDataSource").newInstance();
+				
+				Class.forName("com.mysql.jdbc.Driver").newInstance(); 
+				Connection con = DriverManager.getConnection("jdbc:mysql://bigyellowcat.cs.binghamton.edu/more", "more", "more7755");
+				
+			    // Create statement
+			    Statement stmt = con.createStatement();
+			    
+				String query1 = "SELECT * FROM AwardList";
+			    // Execute the query
+			    ResultSet rs1 = stmt.executeQuery(query1);
+			  
+			    	ArrayList<String>  aawardname =  new ArrayList<String>();
+			    	
+			    	while(rs1.next())
+				      {
+				          String str1 = rs1.getString("AwardName");
+				          aawardname.add(str1);
+				      }
+				      session.setAttribute("aawardname", aawardname);
+			}catch (SQLException e) {
+				out.print("Error on authentication: " + e.toString());
+				RequestDispatcher rd = request
+						.getRequestDispatcher("./entranceAdminFunction.jsp");
+				rd.include(request, response);
+			}
+		%>
+	}
+}
+function successCallback(){
+   	var name = '<%= session.getAttribute( "suidApprove" ) %>';
+	var details = '<%= session.getAttribute( "ruidApprove" ) %>';
+	var name1 = '<%= session.getAttribute( "sdeptApprove" ) %>';
+	var details1 = '<%= session.getAttribute( "rdeptApprove" ) %>';
+	var name2 = '<%= session.getAttribute( "awardApprove" ) %>';
+	var details2 = '<%= session.getAttribute( "smailApprove" ) %>';
+	var name3 = '<%= session.getAttribute( "rmailApprove" ) %>';
+		var array1Token = name.toString();
+		array1Token = array1Token.slice(1, array1Token.length-1); 
+		var fields = array1Token.split(/,/);
+		
+		var array2Token = details.toString();
+		array2Token = array2Token.slice(1, array2Token.length-1); 
+		var fields2 = array2Token.split(/,/);
+		
+		var array1Token1 = name1.toString();
+		array1Token1 = array1Token1.slice(1, array1Token1.length-1); 
+		var fields3 = array1Token1.split(/,/);
+		
+		var array2Token2 = details1.toString();
+		array2Token2 = array2Token2.slice(1, array2Token2.length-1); 
+		var fields4 = array2Token2.split(/,/);
+		
+		var array1Token3 = name2.toString();
+		array1Token3 = array1Token3.slice(1, array1Token3.length-1); 
+		var fields5 = array1Token3.split(/,/);
+		
+		var array2Token4 = details2.toString();
+		array2Token4 = array2Token4.slice(1, array2Token4.length-1); 
+		var fields6 = array2Token4.split(/,/);
+		
+		var array1Token5 = name3.toString();
+		array1Token5 = array1Token5.slice(1, array1Token5.length-1); 
+		var fields7 = array1Token5.split(/,/);
+		loc = -1;
+		
+ 		for (var i = 0; i < 3 ; i++) {
+					var num = i + 1;
+					var n = num.toString(); 
+					
+					var name = "name".concat(n);
+					document.getElementById(name).value = "";
+					
+					var sssn = "detail".concat(n);
+					document.getElementById(sssn).value = "";
+					
+					var sdept = "sdept".concat(n);
+					document.getElementById(sdept).value = "";
+					
+					var rdept = "rdept".concat(n);
+					document.getElementById(rdept).value = "";
+					
+					var award = "award".concat(n);
+					document.getElementById(award).value = "";
+					
+					var smail = "smail".concat(n);
+					document.getElementById(smail).value = "";
+					
+					var rmail = "rmail".concat(n);
+					document.getElementById(rmail).value = "";
+					
+					var pos = "pos".concat(n);
+					document.getElementById(pos).value = "";
+		}
+										
+		for (var i = 0; i < fields.length ; i++) {
+					if(i >= 3) {
+						loc = loc + 1;
+					
+							document.getElementById("name1").value = fields[i-2];
+							document.getElementById("detail1").value = fields2[i-2];
+							document.getElementById("sdept1").value = fields3[i-2];
+							document.getElementById("rdept1").value = fields4[i-2];
+							document.getElementById("award1").value = fields5[i-2];
+							document.getElementById("smail1").value = fields6[i-2];
+							document.getElementById("rmail1").value = fields7[i-2];
+							document.getElementById("pos1").value = i-2;
+							
+							document.getElementById("name2").value = fields[i-1];
+							document.getElementById("detail2").value = fields2[i-1];
+							document.getElementById("sdept2").value = fields3[i-1];
+							document.getElementById("rdept2").value = fields4[i-1];
+							document.getElementById("award2").value = fields5[i-1];
+							document.getElementById("smail2").value = fields6[i-1];
+							document.getElementById("rmail2").value = fields7[i-1];
+							document.getElementById("pos2").value = i-1;
+
+							document.getElementById("name3").value = fields[i];
+							document.getElementById("detail3").value = fields2[i];
+							document.getElementById("sdept3").value = fields3[i];
+							document.getElementById("rdept3").value = fields4[i];
+							document.getElementById("award3").value = fields5[i];
+							document.getElementById("smail3").value = fields6[i];
+							document.getElementById("rmail3").value = fields7[i];
+							document.getElementById("pos3").value = i;
+							
+					
+					}
+					else{
+						
+							loc = loc + 1;
+							var num = i + 1;
+							var n = num.toString(); 
+							
+							var name = "name".concat(n);
+							document.getElementById(name).value = fields[i];
+							
+							var sssn = "detail".concat(n);
+							document.getElementById(sssn).value = fields2[i];
+							
+							var sdept = "sdept".concat(n);
+					document.getElementById(sdept).value = fields3[i];
+					
+					var rdept = "rdept".concat(n);
+					document.getElementById(rdept).value = fields4[i];
+					
+					var award = "award".concat(n);
+					document.getElementById(award).value = fields5[i];
+					
+					var smail = "smail".concat(n);
+					document.getElementById(smail).value =fields6[i];
+					
+					var rmail = "rmail".concat(n);
+					document.getElementById(rmail).value = fields7[i];
+					
+							var pos = "pos".concat(n);
+							document.getElementById(pos).value = i;
+							alert(pos);
+					}
+					
+				}
+				
+}
+
+function scrollDown()
+{	
+		var scrollstatus = document.getElementById("pos1").value;
+		
+		var name = '<%= session.getAttribute( "suidApprove" ) %>';
+	var details = '<%= session.getAttribute( "ruidApprove" ) %>';
+	var name1 = '<%= session.getAttribute( "sdeptApprove" ) %>';
+	var details1 = '<%= session.getAttribute( "rdeptApprove" ) %>';
+	var name2 = '<%= session.getAttribute( "awardApprove" ) %>';
+	var details2 = '<%= session.getAttribute( "smailApprove" ) %>';
+	var name3 = '<%= session.getAttribute( "rmailApprove" ) %>';
+		var array1Token = name.toString();
+		array1Token = array1Token.slice(1, array1Token.length-1); 
+		var fields = array1Token.split(/,/);
+		
+		var array2Token = details.toString();
+		array2Token = array2Token.slice(1, array2Token.length-1); 
+		var fields2 = array2Token.split(/,/);
+		
+		var array1Token1 = name1.toString();
+		array1Token1 = array1Token1.slice(1, array1Token1.length-1); 
+		var fields3 = array1Token1.split(/,/);
+		
+		var array2Token2 = details1.toString();
+		array2Token2 = array2Token2.slice(1, array2Token2.length-1); 
+		var fields4 = array2Token2.split(/,/);
+		
+		var array1Token3 = name2.toString();
+		array1Token3 = array1Token3.slice(1, array1Token3.length-1); 
+		var fields5 = array1Token3.split(/,/);
+		
+		var array2Token4 = details2.toString();
+		array2Token4 = array2Token4.slice(1, array2Token4.length-1); 
+		var fields6 = array2Token4.split(/,/);
+		
+		var array1Token5 = name3.toString();
+		array1Token5 = array1Token5.slice(1, array1Token5.length-1); 
+		var fields7 = array1Token5.split(/,/);	
+		
+		loc = -1;
+		
+	if(fields.length < 3 || (parseInt(parseInt(scrollstatus) + 3))== fields.length){
+			alert("Cannot scroll down");
+	}else {
+ 		for (var i = 0; i < 3 ; i++) {
+					var num = i + 1;
+					var n = num.toString(); 
+					
+					var name = "name".concat(n);
+					document.getElementById(name).value = "";
+					
+					var sssn = "detail".concat(n);
+					document.getElementById(sssn).value = "";
+					
+					var sdept = "sdept".concat(n);
+					document.getElementById(sdept).value = "";
+					
+					var rdept = "rdept".concat(n);
+					document.getElementById(rdept).value = "";
+					
+					var award = "award".concat(n);
+					document.getElementById(award).value = "";
+					
+					var smail = "smail".concat(n);
+					document.getElementById(smail).value = "";
+					
+					var rmail = "rmail".concat(n);
+					document.getElementById(rmail).value = "";
+					
+					var pos = "pos".concat(n);
+					document.getElementById(pos).value = "";
+		}
+	
+		var i = parseInt(parseInt(scrollstatus));
+							
+							document.getElementById("name1").value = fields[i+1];
+							document.getElementById("detail1").value = fields2[i+1];
+							document.getElementById("sdept1").value = fields3[i+1];
+							document.getElementById("rdept1").value = fields4[i+1];
+							document.getElementById("award1").value = fields5[i+1];
+							document.getElementById("smail1").value = fields6[i+1];
+							document.getElementById("rmail1").value = fields7[i+1];
+							document.getElementById("pos1").value = i+1;
+
+							document.getElementById("name2").value = fields[i+2];
+							document.getElementById("detail2").value = fields2[i+2];
+							document.getElementById("sdept2").value = fields3[i+2];
+							document.getElementById("rdept2").value = fields4[i+2];
+							document.getElementById("award2").value = fields5[i+2];
+							document.getElementById("smail2").value = fields6[i+2];
+							document.getElementById("rmail2").value = fields7[i+2];
+							document.getElementById("pos2").value = i+2;
+
+							document.getElementById("name3").value = fields[i+3];
+							document.getElementById("detail3").value = fields2[i+3];
+							document.getElementById("sdept3").value = fields3[i+3];
+							document.getElementById("rdept3").value = fields4[i+3];
+							document.getElementById("award3").value = fields5[i+3];
+							document.getElementById("smail3").value = fields6[i+3];
+							document.getElementById("rmail3").value = fields7[i+3];
+							document.getElementById("pos3").value = i+3;					
+		}
+}
+
+function scrollUp()
+{
+		var scrollstatus = document.getElementById("pos3").value;
+	
+	var name = '<%= session.getAttribute( "suidApprove" ) %>';
+	var details = '<%= session.getAttribute( "ruidApprove" ) %>';
+	var name1 = '<%= session.getAttribute( "sdeptApprove" ) %>';
+	var details1 = '<%= session.getAttribute( "rdeptApprove" ) %>';
+	var name2 = '<%= session.getAttribute( "awardApprove" ) %>';
+	var details2 = '<%= session.getAttribute( "smailApprove" ) %>';
+	var name3 = '<%= session.getAttribute( "rmailApprove" ) %>';
+		var array1Token = name.toString();
+		array1Token = array1Token.slice(1, array1Token.length-1); 
+		var fields = array1Token.split(/,/);
+		
+		var array2Token = details.toString();
+		array2Token = array2Token.slice(1, array2Token.length-1); 
+		var fields2 = array2Token.split(/,/);
+		
+		var array1Token1 = name1.toString();
+		array1Token1 = array1Token1.slice(1, array1Token1.length-1); 
+		var fields3 = array1Token1.split(/,/);
+		
+		var array2Token2 = details1.toString();
+		array2Token2 = array2Token2.slice(1, array2Token2.length-1); 
+		var fields4 = array2Token2.split(/,/);
+		
+		var array1Token3 = name2.toString();
+		array1Token3 = array1Token3.slice(1, array1Token3.length-1); 
+		var fields5 = array1Token3.split(/,/);
+		
+		var array2Token4 = details2.toString();
+		array2Token4 = array2Token4.slice(1, array2Token4.length-1); 
+		var fields6 = array2Token4.split(/,/);
+		
+		var array1Token5 = name3.toString();
+		array1Token5 = array1Token5.slice(1, array1Token5.length-1); 
+		var fields7 = array1Token5.split(/,/);
+		
+		
+		loc = -1;
+		
+		if(fields.length < 3 || (parseInt(parseInt(scrollstatus) - 3)) < 0){
+				alert("Cannot scroll up");
+		}else {
+	 		for (var i = 0; i < 3 ; i++) {
+					var num = i + 1;
+					var n = num.toString(); 
+					
+					var name = "name".concat(n);
+					document.getElementById(name).value = "";
+					
+					var sssn = "detail".concat(n);
+					document.getElementById(sssn).value = "";
+					
+					var sdept = "sdept".concat(n);
+					document.getElementById(sdept).value = "";
+					
+					var rdept = "rdept".concat(n);
+					document.getElementById(rdept).value = "";
+					
+					var award = "award".concat(n);
+					document.getElementById(award).value = "";
+					
+					var smail = "smail".concat(n);
+					document.getElementById(smail).value = "";
+					
+					var rmail = "rmail".concat(n);
+					document.getElementById(rmail).value = "";
+					
+					var pos = "pos".concat(n);
+					document.getElementById(pos).value = "";
+					
+		}
+	
+		var i = parseInt(parseInt(scrollstatus));
+							document.getElementById("name1").value = fields[i-3];
+							document.getElementById("detail1").value = fields2[i-3];
+							document.getElementById("sdept1").value = fields3[i-3];
+							document.getElementById("rdept1").value = fields4[i-3];
+							document.getElementById("award1").value = fields5[i-3];
+							document.getElementById("smail1").value = fields6[i-3];
+							document.getElementById("rmail1").value = fields7[i-3];
+							document.getElementById("pos1").value = i-3;
+
+							document.getElementById("name2").value = fields[i-2];
+							document.getElementById("detail2").value = fields2[i-2];
+							document.getElementById("sdept2").value = fields3[i-2];
+							document.getElementById("rdept2").value = fields4[i-2];
+							document.getElementById("award2").value = fields5[i-2];
+							document.getElementById("smail2").value = fields6[i-2];
+							document.getElementById("rmail2").value = fields7[i-2];
+							document.getElementById("pos2").value = i-2;
+
+							document.getElementById("name3").value = fields[i-1];
+							document.getElementById("detail3").value = fields2[i-1];
+							document.getElementById("sdept3").value = fields3[i-1];
+							document.getElementById("rdept3").value = fields4[i-1];
+							document.getElementById("award3").value = fields5[i-1];
+							document.getElementById("smail3").value = fields6[i-1];
+							document.getElementById("rmail3").value = fields7[i-1];
+							document.getElementById("pos3").value = i-1;
+						
+		}
+}
+
+</script>
+</head>
+<body  onload="successCallback()">
+		<h1>Award Form</h1>
+			<form name="myForm"  method="POST">
+				<table width="page">
+					<tr>
+						<td align="center">Award</td>
+						<td align="center">Details</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><input type="submit" name="sub" id="sub1" value="Select1"></td>
+						<td><input id="name1" type="text" name="name1" readonly></td>
+						<td><input id="detail1" type="text" name="detail" readonly></td>
+						<td><input id="sdept1" type="text" name="sdept" readonly></td>
+						<td><input id="rdept1" type="text" name="rdept" readonly></td>
+						<td><input id="award1" type="text" name="award" readonly></td>
+						<td><input id="smail1" type="text" name="smail" readonly></td>
+						<td><input id="rmail1" type="text" name="rmail" readonly></td>
+						<td>
+	 					    <select name="approve1" id="approve1" onchange="approvedelete()" >  
+						        <OPTION  value="-1" label="--Select--" selected="selected">  
+						        <option value="ACTIVE">ACTIVE</option>
+						        <option value="INACTIVE">INACTIVE</option>
+						     </select> 
+					    </td>
+						<td><input type="button" name="up" value="Scroll Up" onClick="scrollUp()"></td>
+						<td><input id="pos1" type="hidden" readonly></td>
+					</tr>
+					<tr>
+						<td><input type="submit" name="sub" id="sub2" value="Select2"></td>
+						<td><input id="name2" type="text" name="name2" readonly></td>
+						<td><input id="detail2" type="text" name="detail" readonly></td>
+						<td><input id="sdept2" type="text" name="sdept" readonly></td>
+						<td><input id="rdept2" type="text" name="rdept" readonly></td>
+						<td><input id="award2" type="text" name="award" readonly></td>
+						<td><input id="smail2" type="text" name="smail" readonly></td>
+						<td><input id="rmail2" type="text" name="rmail" readonly></td>
+						<td>
+	 					    <select name="approve2" id="approve2" onchange="approvedelete()" >  
+						        <OPTION  value="-1" label="--Select--" selected="selected">  
+						        <option value="ACTIVE">ACTIVE</option>
+						        <option value="INACTIVE">INACTIVE</option>
+						     </select> 
+					    </td>
+						<td><input id="pos2" type="hidden" readonly></td>
+					</tr>
+					<tr>
+						<td><input type="submit" name="sub" id="sub3" value="Select3"></td>
+						<td><input id="name3" type="text" name="name3" readonly></td>
+						<td><input id="detail3" type="text" name="detail" readonly></td>
+						<td><input id="sdept3" type="text" name="sdept" readonly></td>
+						<td><input id="rdept3" type="text" name="rdept" readonly></td>
+						<td><input id="award3" type="text" name="award" readonly></td>
+						<td><input id="smail3" type="text" name="smail" readonly></td>
+						<td><input id="rmail3" type="text" name="rmail" readonly></td>
+						<td>
+	 					    <select name="approve3" id="approve3" onchange="approvedelete()">  
+						        <OPTION  value="-1" label="--Select--" selected="selected">  
+						        <option value="ACTIVE">ACTIVE</option>
+						        <option value="INACTIVE">INACTIVE</option>
+						     </select> 
+					    </td>
+						<td><input type="button" name="down" value="Scroll Down" onClick="scrollDown()"></td>
+						<td><input id="pos3" type="hidden" readonly></td>
+					</tr>
+				</table>
+			</form>
+</body>
+</html>

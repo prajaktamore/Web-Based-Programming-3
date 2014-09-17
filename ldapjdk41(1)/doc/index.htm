@@ -1,0 +1,713 @@
+<HTML>
+
+<HEAD>
+
+<TITLE> "Directory SDK for Java 4.0 Programmer's Guide": Index</TITLE>
+<SCRIPT LANGUAGE="JavaScript">
+
+
+        // for older browsers, will just replace the document
+
+        function showHideLayerSwitch(ignored)
+        {
+                document.location = 'contents.htm';
+        }
+
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript1.2">
+
+
+        var visibleVar="null";
+
+    if (navigator.appName == "Netscape") {
+        layerStyleRef="layer.";
+        layerRef="document.layers";
+        styleSwitch="";
+        visibleVar="show";
+    } else {
+        layerStyleRef="layer.style.";
+        layerRef="document.all";
+        styleSwitch=".style";
+        visibleVar="visible";
+    }
+        
+    function showHideLayerSwitch(layerName)
+    {
+        if (eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility == visibleVar')) {
+                hideLayer(layerName);
+        } else {
+            showLayer(layerName);
+        }
+    }
+
+    function showLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="visible"');
+    }
+        
+    function hideLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="hidden"');
+    }
+
+
+</SCRIPT>
+
+<STYLE TYPE="text/css">
+        #header {
+                z-index: 5;
+                visibility: visible;
+        }
+        #pulldownMenu {
+                position: absolute; 
+                z-index: 10; 
+                visibility: hidden; 
+                left: 22px; 
+                top: 55px;
+        }
+</STYLE>
+
+<DIV BGCOLOR="#000000" id="pulldownMenu">
+
+<SCRIPT>
+        function onMouseOut()
+        {
+                visibility="hide";
+        }
+</SCRIPT>
+
+<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0> <TR> <TD BGCOLOR="#9999CC">
+
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+<A HREF="contents.htm"> <FONT COLOR="white"> Complete Contents</FONT></A><BR> 
+
+<A HREF="preface.htm"> <FONT COLOR="white"> Preface</FONT></A><BR> 
+
+<A HREF="ldap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 1</FONT> Understanding LDAP</FONT></A><BR> 
+
+<A HREF="api.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 2</FONT> Using the Netscape Directory SDK for Java</FONT> 
+</A><BR> 
+
+<A HREF="qckstart.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 3</FONT> Quick Start</FONT> 
+</A><BR> 
+
+<A HREF="writing.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 4</FONT> Writing an LDAP Client</FONT></A><BR> 
+
+<A HREF="using.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 5</FONT>  Using the LDAP Java Classes</FONT></A><BR> 
+
+<A HREF="search.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 6</FONT> Searching the Directory</FONT></A><BR> 
+
+<A HREF="filter.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 7</FONT> Using Filter Configuration Files</FONT></A><BR>
+
+<A HREF="addmod.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 8</FONT> Adding, Updating, and Deleting Entries</FONT></A><BR>
+
+<A HREF="compare.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 9</FONT> Comparing Values in Entries</FONT></A><BR>
+
+<A HREF="url.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 10</FONT> Working with LDAP URLs</FONT></A><BR>
+
+<A HREF="servinfo.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 11</FONT> Getting Server Information</FONT></A><BR>
+
+<A HREF="ssl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 12</FONT> Connecting Over SSL</FONT></A><BR>
+
+<A HREF="controls.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 13</FONT> Working with LDAP Controls</FONT></A><BR>
+
+<A HREF="sasl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 14</FONT> Using SASL Authentication</FONT></A><BR>
+
+<A HREF="JNDIchap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 15</FONT> Using Netscape's JNDI Service Provider</FONT></A><BR>
+
+<A HREF="extendop.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 16</FONT> Working with Extended Operations</FONT></A><BR>
+
+<A HREF="asynch.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 17</FONT> Using the Asynchronous Interface</FONT></A><BR>
+
+<A HREF="glossary.htm"> <FONT COLOR="white"> Glossary</A><BR> 
+
+</TD> </TR> </TABLE> </DIV>
+
+</SCRIPT>
+
+</HEAD>
+
+<BODY LINK="#666699" VLINK="#666699" ALINK="#333366" BGCOLOR="#FFFFFF"><FONT FACE="PrimaSans BT, Verdana, 
+
+Sans-Serif" Size=-1>
+
+<TABLE CELLPADDING=10 CELLSPACING=2 border=0 WIDTH=100% BGCOLOR="#CCCCCC"> 
+
+<TR><TD><TABLE CELLPADDING=5 CELLSPACING=2 border=0> 
+<TR>
+  <TD BGCOLOR="#9999CC"> <A HREF="javascript:showHideLayerSwitch('pulldownMenu');">
+  <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="white">Contents</FONT></A>
+  </TD>
+
+</TR> 
+</TABLE>
+</TD>
+</TR>
+</TABLE>
+
+
+<BR> <BR>
+
+<CENTER>
+<TABLE CELLPADDING=2 CELLSPACING=2 WIDTH="85%" BORDER=0>
+<TR>
+  <TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><A NAME="
+">
+</A>
+<A NAME="4359">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+
+
+</FONT></B></A><P><BR></TD></TR><TR>
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0>
+</A>
+<A NAME="A">
+</A>
+<A NAME="64751">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white">
+<B>A</B></FONT></A></TD></TR><TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><a href="search.htm#2830942">abandoning a search </a>
+<BR>
+adding
+<BR>
+&nbsp;&nbsp;<a href="addmod.htm#2842844">attributes to an entry </a>
+<BR>&nbsp;&nbsp;<a href="addmod.htm#2828841">entries </a>
+<BR>&nbsp;&nbsp;<a href="jndichap.htm#1013524">JNDI object schema </a>
+<BR>&nbsp;&nbsp;<a href="addmod.htm#2842761">values to an attribute </a>
+<BR><a href="writing.htm#2852226">anonymous bind </a>
+<BR>
+applets
+<BR>
+&nbsp;&nbsp;<a href="api.htm#2834766">checking version of LDAP classes </a>
+<BR>&nbsp;&nbsp;<a href="api.htm#2834286">security framework and </a>
+<BR>asynchronous interface
+<BR>
+&nbsp;&nbsp;<a href="asynch.htm#1012576">classes </a>
+<BR>&nbsp;&nbsp;<a href="asynch.htm#1021353">common uses </a>
+<BR>&nbsp;&nbsp;<a href="asynch.htm#1012287">connections, explained </a>
+<BR>&nbsp;&nbsp;<a href="asynch.htm#1013172">searches with multiple servers </a>
+<BR>&nbsp;&nbsp;<a href="asynch.htm#1023286">searches with multiple statements </a>
+<BR>AsynchronousConnection
+<BR>
+&nbsp;&nbsp;<a href="asynch.htm#1012583">See LDAPAsynchronousConnection</a>
+<BR>attributes
+<BR>
+&nbsp;&nbsp;<a href="addmod.htm#2842844">adding to an entry </a>
+<BR>&nbsp;&nbsp;<a href="addmod.htm#2842761">adding values to </a>
+<BR>&nbsp;&nbsp;<a href="compare.htm#2832217">comparing </a>
+<BR>&nbsp;&nbsp;<a href="ldap.htm#1018886">defined </a>
+<BR>&nbsp;&nbsp;<a href="ldap.htm#1018888">example of </a>
+<BR>&nbsp;&nbsp;<a href="search.htm#2843662">getting from an entry </a>
+<BR>&nbsp;&nbsp;<a href="search.htm#2831717">getting names and values of </a>
+<BR>&nbsp;&nbsp;<a href="search.htm#2846484">operational </a>
+<BR>&nbsp;&nbsp;<a href="addmod.htm#2842478">removing from an entry </a>
+<BR>&nbsp;&nbsp;<a href="addmod.htm#2842850">removing values from </a>
+<BR>&nbsp;&nbsp;<a href="addmod.htm#2842939">replacing values of </a>
+<BR>&nbsp;&nbsp;<a href="search.htm#2846484">retrieving in a search </a>
+<BR>authentication
+<BR>
+&nbsp;&nbsp;<a href="writing.htm#2851998">certificate-based </a><a href="ssl.htm#2847694"></a>
+<BR>&nbsp;&nbsp;<a href="using.htm#2844121">reauthenticating during referrals </a>
+<BR>&nbsp;&nbsp;<a href="sasl.htm#2851758">SASL callbacks, implementing </a>
+<BR>&nbsp;&nbsp;<a href="writing.htm#2854112">simple </a>
+<BR>&nbsp;&nbsp;<a href="sasl.htm#2850814">using SASL </a>
+<BR><BR></TD></TR><TR>
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0>
+</A>
+<A NAME="B">
+</A>
+<A NAME="64824">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white">
+<B>B</B></FONT></A></TD></TR><TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1>base DN
+<BR>
+&nbsp;&nbsp;<a href="search.htm#2842334">explained </a>
+<BR><a href="api.htm#2836235">beans </a>
+<BR>
+<a href="writing.htm#2828582">bind operation </a>
+<BR>
+<a href="writing.htm#2828582">binding </a>
+<BR>
+&nbsp;&nbsp;<a href="writing.htm#2852226">anonymously </a>
+<BR><BR></TD></TR><TR>
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0>
+</A>
+<A NAME="C">
+</A>
+<A NAME="64837">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white">
+<B>C</B></FONT></A></TD></TR><TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><a href="using.htm#2848762">cache </a>
+<BR>
+&nbsp;&nbsp;<a href="using.htm#2849997">explained </a>
+<BR>&nbsp;&nbsp;<a href="using.htm#2850490">flushing </a>
+<BR>&nbsp;&nbsp;<a href="using.htm#2850078">getting statistics </a>
+<BR>&nbsp;&nbsp;<a href="using.htm#2850250">setting up </a>
+<BR>&nbsp;&nbsp;<a href="using.htm#2850076">sharing between connections </a>
+<BR>callbacks
+<BR>
+&nbsp;&nbsp;<a href="sasl.htm#2851758">implementing for SASL </a>
+<BR><a href="writing.htm#2851998">certificate-based client authentication</a><a href="ssl.htm#2847694"></a>
+<BR>
+<a href="addmod.htm#2834429">changing the name of an entry </a>
+<BR>
+CLASSPATH
+<BR>
+&nbsp;&nbsp;<a href="api.htm#2835629">beans and </a>
+<BR>&nbsp;&nbsp;<a href="api.htm#2834938">setting </a>
+<BR><a href="writing.htm#2828650">closing an LDAP connection </a>
+<BR>
+cn
+<BR>
+&nbsp;&nbsp;<a href="ldap.htm#1018912">example of </a>
+<BR><a href="api.htm#2835345">com.oroinc.text.regex package </a>
+<BR>
+common names
+<BR>
+&nbsp;&nbsp;<a href="ldap.htm#1018912">example of </a>
+<BR><a href="compare.htm#2832217">comparing attributes </a>
+<BR>
+<a href="compare.htm#2832217">comparing entries </a>
+<BR>
+connect (method of LDAPConnection)
+<BR>
+&nbsp;&nbsp;<a href="writing.htm#2850565">example </a>
+<BR>connection
+<BR>
+&nbsp;&nbsp;<a href="using.htm#2848762">caching results </a>
+<BR>&nbsp;&nbsp;<a href="using.htm#2849095">cloning </a>
+<BR>&nbsp;&nbsp;<a href="writing.htm#2828650">closing </a>
+<BR>&nbsp;&nbsp;<a href="writing.htm#2853017">creating </a>
+<BR>&nbsp;&nbsp;<a href="writing.htm#2850563">establishing </a>
+<BR>&nbsp;&nbsp;<a href="writing.htm#2853017">setting preferences </a>
+<BR>&nbsp;&nbsp;<a href="using.htm#2850076">sharing a cache </a>
+<BR>&nbsp;&nbsp;<a href="ssl.htm#1915315">using SSL </a>
+<BR><a href="controls.htm#1915315">controls </a>
+<BR>
+<BR></TD></TR><TR>
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0>
+</A>
+<A NAME="D">
+</A>
+<A NAME="64900">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white">
+<B>D</B></FONT></A></TD></TR><TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><a href="addmod.htm#2838220">deleting entries </a>
+<BR>
+directory
+<BR>
+&nbsp;&nbsp;<a href="ldap.htm#1018884">defined </a>
+<BR>directory service
+<BR>
+&nbsp;&nbsp;<a href="ldap.htm#1018894">defined </a>
+<BR>distinguished names
+<BR>
+&nbsp;&nbsp;<a href="ldap.htm#1018910">defined </a>
+<BR>&nbsp;&nbsp;<a href="search.htm#2830940">getting from an entry </a>
+<BR>&nbsp;&nbsp;<a href="ldap.htm#1018922">illustrated </a>
+<BR>&nbsp;&nbsp;<a href="using.htm#2850089">manipulating </a>
+<BR>DN
+<BR>
+&nbsp;&nbsp;<a href="ldap.htm#1018910">See distinguished names</a>
+<BR><a href="servinfo.htm#2850331">DSE </a>
+<BR>
+&nbsp;&nbsp;<a href="servinfo.htm#2850362">root </a>
+<BR><BR></TD></TR><TR>
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0>
+</A>
+<A NAME="E">
+</A>
+<A NAME="64926">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white">
+<B>E</B></FONT></A></TD></TR><TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><a href="writing.htm#2828650">ending an LDAP session </a>
+<BR>
+entries
+<BR>
+&nbsp;&nbsp;<a href="addmod.htm#2828841">adding </a>
+<BR>&nbsp;&nbsp;<a href="controls.htm#2849610">change notification </a>
+<BR>&nbsp;&nbsp;<a href="compare.htm#2832217">comparing </a>
+<BR>&nbsp;&nbsp;<a href="ldap.htm#1018884">defined </a>
+<BR>&nbsp;&nbsp;<a href="addmod.htm#2838220">deleting </a>
+<BR>&nbsp;&nbsp;<a href="ldap.htm#1018888">example of </a>
+<BR>&nbsp;&nbsp;<a href="search.htm#2843662">getting attributes from </a>
+<BR>&nbsp;&nbsp;<a href="search.htm#2830933">getting from search results </a>
+<BR>&nbsp;&nbsp;<a href="search.htm#2846221">listing subentries of </a>
+<BR>&nbsp;&nbsp;<a href="addmod.htm#2829050">modifying </a>
+<BR>&nbsp;&nbsp;<a href="ldap.htm#1018901">organization in LDAP </a>
+<BR>&nbsp;&nbsp;<a href="search.htm#2846186">reading from directory </a>
+<BR>&nbsp;&nbsp;<a href="addmod.htm#2838220">removing </a>
+<BR>&nbsp;&nbsp;<a href="addmod.htm#2842478">removing attributes from </a>
+<BR>&nbsp;&nbsp;<a href="addmod.htm#2834429">renaming </a>
+<BR>&nbsp;&nbsp;<a href="search.htm#1915315">searching for </a>
+<BR>&nbsp;&nbsp;<a href="addmod.htm#2829050">updating </a>
+<BR>environment properties
+<BR>
+&nbsp;&nbsp;<a href="jndichap.htm#1013584">JNDI</a><a href="jndichap.htm#1015297"></a>
+<BR><a href="using.htm#2847373">ErrorCodes.props file </a>
+<BR>
+exceptions
+<BR>
+&nbsp;&nbsp;<a href="using.htm#2846775">getting information about </a>
+<BR>&nbsp;&nbsp;<a href="using.htm#2833003">handling </a>
+<BR><a href="extendop.htm#1915315">extended operations </a>
+<BR>
+EXTERNAL mechanism
+<BR>
+&nbsp;&nbsp;<a href="sasl.htm#2853042">using with SASL </a>
+<BR><BR></TD></TR><TR>
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0>
+</A>
+<A NAME="F">
+</A>
+<A NAME="64981">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white">
+<B>F</B></FONT></A></TD></TR><TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><a href="filter.htm#2832076">filter configuration files </a>
+<BR>
+&nbsp;&nbsp;<a href="filter.htm#2829616">loading </a>
+<BR>&nbsp;&nbsp;<a href="filter.htm#2828848">retrieving filters </a>
+<BR>&nbsp;&nbsp;<a href="filter.htm#2833925">syntax </a>
+<BR><a href="search.htm#2832737">filters </a>
+<BR>
+&nbsp;&nbsp;<a href="filter.htm#2832076">configuration files </a>
+<BR>&nbsp;&nbsp;<a href="filter.htm#2828848">retrieving from files </a>
+<BR><BR></TD></TR><TR>
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0>
+</A>
+<A NAME="I">
+</A>
+<A NAME="64997">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white">
+<B>I</B></FONT></A></TD></TR><TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><a href="using.htm#2848762">in-memory cache </a>
+<BR>
+<BR></TD></TR><TR>
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0>
+</A>
+<A NAME="J">
+</A>
+<A NAME="65003">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white">
+<B>J</B></FONT></A></TD></TR><TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><a href="api.htm#2836235">Java beans </a>
+<BR>
+Java Naming and Directory Interface
+<BR>
+&nbsp;&nbsp;<a href="jndichap.htm#1012453">See JNDI</a>
+<BR><a href="api.htm#2835441">JavaScript </a>
+<BR>
+JNDI
+<BR>
+&nbsp;&nbsp;<a href="jndichap.htm#1013584">environment properties</a><a href="jndichap.htm#1015297"></a>
+<BR>&nbsp;&nbsp;<a href="jndichap.htm#1012453">explained </a>
+<BR>&nbsp;&nbsp;<a href="jndichap.htm#1012703">Netscape LDAP Service Provider for </a>
+<BR>&nbsp;&nbsp;<a href="jndichap.htm#1013524">object schema, adding </a>
+<BR><BR></TD></TR><TR>
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0>
+</A>
+<A NAME="L">
+</A>
+<A NAME="65022">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white">
+<B>L</B></FONT></A></TD></TR><TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1>LDAP
+<BR>
+&nbsp;&nbsp;<a href="ldap.htm#1018901">organization of data </a>
+<BR><a href="ldap.htm#1018897">LDAP clients </a>
+<BR>
+&nbsp;&nbsp;<a href="writing.htm#2828582">authenticating with LDAP servers </a>
+<BR>&nbsp;&nbsp;<a href="ldap.htm#1018944">authentication </a>
+<BR>&nbsp;&nbsp;<a href="writing.htm#2828582">binding with LDAP servers </a>
+<BR>&nbsp;&nbsp;<a href="writing.htm#2828650">closing connection to server </a>
+<BR>&nbsp;&nbsp;<a href="writing.htm#2850563">connecting to a server </a>
+<BR>&nbsp;&nbsp;<a href="ldap.htm#1018942">connecting with LDAP servers </a>
+<BR>&nbsp;&nbsp;<a href="controls.htm#1915315">controls and </a>
+<BR>&nbsp;&nbsp;<a href="ldap.htm#1018899">example of </a><a href="qckstart.htm#1915315"></a><a href="writing.htm#2843498"></a>
+<BR>&nbsp;&nbsp;<a href="extendop.htm#2850169">extended operations and </a>
+<BR>&nbsp;&nbsp;<a href="writing.htm#2843498">general procedure for writing </a>
+<BR>&nbsp;&nbsp;<a href="ldap.htm#1018933">LDAP servers and </a>
+<BR>&nbsp;&nbsp;<a href="ldap.htm#1018933">operations performed by </a>
+<BR>&nbsp;&nbsp;<a href="writing.htm#2852180">specifying protocol version </a>
+<BR>&nbsp;&nbsp;<a href="ssl.htm#1915315">using SSL </a>
+<BR>&nbsp;&nbsp;<a href="api.htm#2834286">writing applets </a>
+<BR><a href="api.htm#2836235">LDAP Java beans </a>
+<BR>
+<a href="api.htm#2831543">LDAP Java Classes </a>
+<BR>
+&nbsp;&nbsp;<a href="api.htm#2834766">different versions of </a>
+<BR>&nbsp;&nbsp;<a href="using.htm#2843655">getting information about </a>
+<BR>&nbsp;&nbsp;<a href="api.htm#2835441">JavaScript and </a>
+<BR>&nbsp;&nbsp;<a href="api.htm#2835441">LiveConnect and </a>
+<BR><a href="writing.htm#2852302">LDAP operations </a>
+<BR>
+<a href="using.htm#2846775">LDAP result code </a>
+<BR>
+&nbsp;&nbsp;<a href="using.htm#2846776">string description for </a>
+<BR><a href="ldap.htm#1018897">LDAP servers </a>
+<BR>
+&nbsp;&nbsp;<a href="writing.htm#2828582">authenticating to </a>
+<BR>&nbsp;&nbsp;<a href="ldap.htm#1018944">authentication </a>
+<BR>&nbsp;&nbsp;<a href="writing.htm#2828582">binding to </a>
+<BR>&nbsp;&nbsp;<a href="writing.htm#2828650">closing connection from client </a>
+<BR>&nbsp;&nbsp;<a href="writing.htm#2850563">connecting to </a>
+<BR>&nbsp;&nbsp;<a href="ldap.htm#1018942">connecting with LDAP clients </a>
+<BR>&nbsp;&nbsp;<a href="controls.htm#1915315">controls and </a>
+<BR>&nbsp;&nbsp;<a href="ldap.htm#1018899">example of </a>
+<BR>&nbsp;&nbsp;<a href="extendop.htm#2850318">extended operations and </a>
+<BR>&nbsp;&nbsp;<a href="ldap.htm#1018929">how data is distributed </a>
+<BR>&nbsp;&nbsp;<a href="ldap.htm#1018901">how data is organized </a>
+<BR>&nbsp;&nbsp;<a href="ldap.htm#1018931">how referrals work </a>
+<BR>&nbsp;&nbsp;<a href="ldap.htm#1018933">LDAP clients and </a>
+<BR>&nbsp;&nbsp;<a href="servinfo.htm#2850513">protocol version supported </a>
+<BR>&nbsp;&nbsp;<a href="servinfo.htm#2850607">schema </a>
+<BR>&nbsp;&nbsp;<a href="search.htm#1915315">searching </a>
+<BR>&nbsp;&nbsp;<a href="ssl.htm#1915315">using SSL </a>
+<BR>LDAP session
+<BR>
+&nbsp;&nbsp;<a href="using.htm#2848762">caching results </a>
+<BR>&nbsp;&nbsp;<a href="writing.htm#2828650">ending </a>
+<BR>&nbsp;&nbsp;<a href="writing.htm#2853017">setting preferences </a>
+<BR>&nbsp;&nbsp;<a href="writing.htm#2850563">starting </a>
+<BR><a href="url.htm#2830333">LDAP URLs </a>
+<BR>
+<a href="asynch.htm#1012583">LDAPAsynchronousConnection </a>
+<BR>
+LDAPCompareAttributeNames (class)
+<BR>
+&nbsp;&nbsp;<a href="search.htm#2845311">example of </a>
+<BR>LDAPEntryComparator (interface)
+<BR>
+&nbsp;&nbsp;<a href="search.htm#2845311">example of </a>
+<BR><a href="api.htm#2834272">ldapfilt.jar JAR file </a>
+<BR>
+<a href="api.htm#2834269">ldapjdk.jar JAR file </a>
+<BR>
+<a href="api.htm#2835441">LiveConnect </a>
+<BR>
+<a href="filter.htm#2829616">loading filter configuration files </a>
+<BR>
+<BR></TD></TR><TR>
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0>
+</A>
+<A NAME="M">
+</A>
+<A NAME="65143">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white">
+<B>M</B></FONT></A></TD></TR><TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><a href="api.htm#2835260">makejars.bat batch file </a>
+<BR>
+<a href="api.htm#2835260">makejars.sh shell script </a>
+<BR>
+mechanism
+<BR>
+&nbsp;&nbsp;<a href="sasl.htm#2853042">EXTERNAL for SASL </a>
+<BR>multiplex searches
+<BR>
+&nbsp;&nbsp;See asynchronous
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;<a href="asynch.htm#1023286">searches</a>
+<BR><BR></TD></TR><TR>
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0>
+</A>
+<A NAME="N">
+</A>
+<A NAME="65156">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white">
+<B>N</B></FONT></A></TD></TR><TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><a href="api.htm#2828180">Netscape Directory SDK for Java </a>
+<BR>
+&nbsp;&nbsp;<a href="api.htm#2834933">contents </a>
+<BR>&nbsp;&nbsp;<a href="api.htm#2835023">downloading </a>
+<BR>&nbsp;&nbsp;<a href="qckstart.htm#1915315">example of using </a>
+<BR>&nbsp;&nbsp;<a href="api.htm#2834933">exploring </a>
+<BR>&nbsp;&nbsp;<a href="using.htm#2843655">getting information about </a>
+<BR>&nbsp;&nbsp;<a href="api.htm#2835023">installing </a>
+<BR>&nbsp;&nbsp;<a href="api.htm#2835441">JavaScript and </a>
+<BR>&nbsp;&nbsp;<a href="api.htm#2836235">LDAP Java beans </a>
+<BR>&nbsp;&nbsp;<a href="api.htm#2835032">packages </a>
+<BR>&nbsp;&nbsp;<a href="preface.htm#2834534">what's new</a>
+<BR>&nbsp;&nbsp;<a href="api.htm#2834286">writing applets for </a>
+<BR><BR></TD></TR><TR>
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0>
+</A>
+<A NAME="O">
+</A>
+<A NAME="65182">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white">
+<B>O</B></FONT></A></TD></TR><TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1>object schema
+<BR>
+&nbsp;&nbsp;<a href="jndichap.htm#1013524">adding JNDI </a>
+<BR><a href="search.htm#2846484">operational attributes </a>
+<BR>
+<a href="preface.htm#2837537">overview of this manual</a>
+<BR>
+<BR></TD></TR><TR>
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0>
+</A>
+<A NAME="P">
+</A>
+<A NAME="65191">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white">
+<B>P</B></FONT></A></TD></TR><TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1>packages
+<BR>
+&nbsp;&nbsp;<a href="api.htm#2835032">summary of </a>
+<BR><a href="controls.htm#2848498">password policy controls </a>
+<BR>
+<a href="controls.htm#2851860">persistent searches </a>
+<BR>
+properties
+<BR>
+&nbsp;&nbsp;<a href="jndichap.htm#1013584">JNDI environment</a><a href="jndichap.htm#1015297"></a>
+<BR><BR></TD></TR><TR>
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0>
+</A>
+<A NAME="R">
+</A>
+<A NAME="65204">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white">
+<B>R</B></FONT></A></TD></TR><TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><a href="search.htm#2846186">reading an entry from the directory </a>
+<BR>
+<a href="ldap.htm#1018931">referrals</a> <a href="using.htm#2844087"></a>
+<BR>
+&nbsp;&nbsp;<a href="search.htm#2843114">getting from search results </a>
+<BR>&nbsp;&nbsp;<a href="using.htm#2847481">handling automatically </a>
+<BR>&nbsp;&nbsp;<a href="search.htm#2843114">LDAPReferralException and </a>
+<BR>&nbsp;&nbsp;<a href="using.htm#2844121">reauthenticating </a>
+<BR>&nbsp;&nbsp;<a href="using.htm#2844097">specifying maximum hops </a>
+<BR>removing
+<BR>
+&nbsp;&nbsp;<a href="addmod.htm#2838220">entries </a>
+<BR>&nbsp;&nbsp;<a href="addmod.htm#2842850">values from an attribute </a>
+<BR><a href="addmod.htm#2834429">renaming an entry </a>
+<BR>
+<a href="servinfo.htm#2850362">root DSE </a>
+<BR>
+<BR></TD></TR><TR>
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0>
+</A>
+<A NAME="S">
+</A>
+<A NAME="65231">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white">
+<B>S</B></FONT></A></TD></TR><TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1>SASL
+<BR>
+&nbsp;&nbsp;<a href="sasl.htm#2850814">authenticating with </a>
+<BR>&nbsp;&nbsp;<a href="sasl.htm#2851758">callbacks, implementing </a>
+<BR>&nbsp;&nbsp;<a href="sasl.htm#2853536">client-side requirements </a>
+<BR>&nbsp;&nbsp;<a href="sasl.htm#2833774">defined</a><a href="sasl.htm#2853506"></a>
+<BR>&nbsp;&nbsp;<a href="sasl.htm#2851716">server-side requirements </a>
+<BR>&nbsp;&nbsp;<a href="sasl.htm#2853042">using the EXTERNAL mechanism with </a>
+<BR><a href="servinfo.htm#2850607">schema </a>
+<BR>
+&nbsp;&nbsp;<a href="jndichap.htm#1013524">adding JNDI </a>
+<BR>scope
+<BR>
+&nbsp;&nbsp;<a href="search.htm#2842334">explained </a>
+<BR><a href="search.htm#2832737">search filters </a>
+<BR>
+&nbsp;&nbsp;<a href="filter.htm#2832076">configuration files </a>
+<BR>&nbsp;&nbsp;<a href="filter.htm#2828848">retrieving from files </a>
+<BR>search results
+<BR>
+&nbsp;&nbsp;<a href="using.htm#2848762">caching </a>
+<BR>&nbsp;&nbsp;<a href="controls.htm#2849610">entry change notification </a>
+<BR>&nbsp;&nbsp;<a href="search.htm#2828841">getting </a>
+<BR>&nbsp;&nbsp;<a href="search.htm#2843662">getting attributes </a>
+<BR>&nbsp;&nbsp;<a href="search.htm#2830940">getting DNs </a>
+<BR>&nbsp;&nbsp;<a href="search.htm#2830933">getting entries </a>
+<BR>&nbsp;&nbsp;<a href="search.htm#2845509">setting size limits </a>
+<BR>&nbsp;&nbsp;<a href="search.htm#2845509">setting time limits </a>
+<BR>&nbsp;&nbsp;<a href="search.htm#2845086">sorting</a><a href="controls.htm#2848857"></a>
+<BR><a href="search.htm#1915315">searching the directory </a>
+<BR>
+&nbsp;&nbsp;<a href="search.htm#2830942">abandoning the search </a>
+<BR>&nbsp;&nbsp;<a href="search.htm#2845478">example of </a>
+<BR><a href="writing.htm#2854112">simple authentication </a>
+<BR>
+Simple Authentication and Security Layer
+<BR>
+&nbsp;&nbsp;<a href="sasl.htm#2833774">See SASL</a>
+<BR><a href="search.htm#2845086">sorting search results</a><a href="controls.htm#2848857"></a>
+<BR>
+<a href="ssl.htm#1915315">SSL </a>
+<BR>
+&nbsp;&nbsp;<a href="writing.htm#2851998">authenticating over </a>
+<BR>&nbsp;&nbsp;<a href="sasl.htm#2853042">using with SASL </a>
+<BR>synchronous connections
+<BR>
+&nbsp;&nbsp;<a href="asynch.htm#1012287">explained </a>
+<BR><BR></TD></TR><TR>
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0>
+</A>
+<A NAME="U">
+</A>
+<A NAME="65303">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white">
+<B>U</B></FONT></A></TD></TR><TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><a href="url.htm#2830333">URLs, LDAP </a>
+<BR>
+</FONT>
+  </TD>
+</TR>
+<TR>
+  <TD>&nbsp;
+  </TD>
+</TR>
+<TR>
+  <TD BGCOLOR="#9999CC"><A HREF="#top"><IMG SRC="up.gif" BORDER=0></A>
+  </TD>
+</TR>
+</TABLE>
+
+<BR>
+
+<CENTER> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-2 COLOR="#999999">
+&copy; Copyright 1999 Netscape Communications Corporation.  All rights reserved.
+</FONT> </CENTER>
+
+<BR>
+
+</BODY>
+
+</HTML>

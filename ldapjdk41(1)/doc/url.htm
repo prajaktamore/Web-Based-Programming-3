@@ -1,0 +1,594 @@
+<html><head>
+<title>"Directory SDK for Java 4.0 Programmer's Guide": Working with LDAP URLs
+ </title>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+
+        // for older browsers, will just replace the document
+
+        function showHideLayerSwitch(ignored)
+        {
+                document.location = 'contents.htm';
+        }
+
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript1.2">
+
+
+        var visibleVar="null";
+
+    if (navigator.appName == "Netscape") {
+        layerStyleRef="layer.";
+        layerRef="document.layers";
+        styleSwitch="";
+        visibleVar="show";
+    } else {
+        layerStyleRef="layer.style.";
+        layerRef="document.all";
+        styleSwitch=".style";
+        visibleVar="visible";
+    }
+        
+    function showHideLayerSwitch(layerName)
+    {
+        if (eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility == visibleVar')) {
+                hideLayer(layerName);
+        } else {
+            showLayer(layerName);
+        }
+    }
+
+    function showLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="visible"');
+    }
+        
+    function hideLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="hidden"');
+    }
+
+
+</SCRIPT>
+
+<STYLE TYPE="text/css">
+        #header {
+                z-index: 5;
+                visibility: visible;
+        }
+        #pulldownMenu {
+                position: absolute; 
+                z-index: 10; 
+                visibility: hidden; 
+                left: 182px; 
+                top: 55px;
+        }
+</STYLE>
+
+<DIV BGCOLOR="#000000" id="pulldownMenu" >
+
+<SCRIPT>
+        function onMouseOut()
+        {
+                visibility="hide";
+        }
+</SCRIPT>
+
+<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0> <TR> <TD BGCOLOR="#9999CC">
+
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+<A HREF="contents.htm"> <FONT COLOR="white"> Complete Contents</FONT></A><BR> 
+
+<A HREF="preface.htm"> <FONT COLOR="white"> Preface</FONT></A><BR> 
+
+<A HREF="ldap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 1</FONT> Understanding LDAP</FONT></A><BR> 
+
+<A HREF="api.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 2</FONT> Using the Netscape Directory SDK for Java</FONT> 
+</A><BR> 
+
+<A HREF="qckstart.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 3</FONT> Quick Start</FONT> 
+</A><BR> 
+
+<A HREF="writing.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 4</FONT> Writing an LDAP Client</FONT></A><BR> 
+
+<A HREF="using.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 5</FONT>  Using the LDAP Java Classes</FONT></A><BR> 
+
+<A HREF="search.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 6</FONT> Searching the Directory</FONT></A><BR> 
+
+<A HREF="filter.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 7</FONT> Using Filter Configuration Files</FONT></A><BR>
+
+<A HREF="addmod.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 8</FONT> Adding, Updating, and Deleting Entries</FONT></A><BR>
+
+<A HREF="compare.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 9</FONT> Comparing Values in Entries</FONT></A><BR>
+
+<A HREF="url.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 10</FONT> Working with LDAP URLs</FONT></A><BR>
+
+<A HREF="servinfo.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 11</FONT> Getting Server Information</FONT></A><BR>
+
+<A HREF="ssl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 12</FONT> Connecting Over SSL</FONT></A><BR>
+
+<A HREF="controls.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 13</FONT> Working with LDAP Controls</FONT></A><BR>
+
+<A HREF="sasl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 14</FONT> Using SASL Authentication</FONT></A><BR>
+
+<A HREF="JNDIchap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 15</FONT> Using Netscape's JNDI Service Provider</FONT></A><BR>
+
+<A HREF="extendop.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 16</FONT> Working with Extended Operations</FONT></A><BR>
+
+<A HREF="asynch.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 17</FONT> Using the Asynchronous Interface</FONT></A><BR>
+
+<A HREF="glossary.htm"> <FONT COLOR="white"> Glossary</A><BR> 
+
+</TD> </TR> </TABLE> </DIV>
+
+</SCRIPT>
+
+</HEAD>
+
+<BODY LINK="#666699" VLINK="#666699" ALINK="#333366" BGCOLOR="#FFFFFF"><FONT FACE="PrimaSans BT, Verdana, 
+
+Sans-Serif" Size=-1>
+<a name="TOP">
+<TABLE CELLPADDING=10 CELLSPACING=2 border=0 WIDTH=100% BGCOLOR="#CCCCCC"> 
+
+<TR><TD><TABLE CELLPADDING=5 CELLSPACING=2 border=0>
+<TR>
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="compare.htm"><IMG SRC="prev.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0>Previous</a></FONT>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="advpart.htm">Next<IMG SRC="next.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0></a></FONT>
+  </TD>   
+
+  <TD></TD>
+
+  <TD BGCOLOR="#9999CC"> <A HREF="javascript:showHideLayerSwitch('pulldownMenu');"><FONT FACE="PrimaSans BT, 
+
+Verdana, Sans-Serif" SIZE=-1 
+  COLOR="white">Contents</FONT></A>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><A HREF="index.htm">Index</A></FONT>
+  </TD>
+
+</TR>
+</TABLE>
+</TD></TR> 
+</TABLE>
+
+<BR> <BR>
+
+</a>
+</DIV>
+
+</P>
+
+<CENTER>
+<TABLE CELLPADDING=2 CELLSPACING=2 WIDTH="85%" BORDER=0>
+<TR>
+  <TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="
+">
+</A>
+<A NAME="1915312">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+
+
+</FONT></B><P><A NAME="
+">
+</A>
+<A NAME="2830331">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="#999999">
+<B>
+Chapter 10
+</B></FONT></A><A NAME="Working with LDAP URLs
+">
+</A>
+<A NAME="2830333">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+Working with LDAP URLs
+
+</FONT></B><P><A NAME="2835945">
+This chapter describes what LDAP URLs are and explains how to use LDAP URLs to search and retrieve data from the directory. </P></A>
+<A NAME="2835965">
+The chapter contains the following sections:
+</P>
+</A>
+<ul><P>
+<A NAME="2834266">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="url.htm#2831945">"Understanding LDAP URLs"</a></FONT></LI></A><P>
+<A NAME="2834275">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="url.htm#2831915">"Examples of LDAP URLs"</a></FONT></LI></A><P>
+<A NAME="2834290">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="url.htm#2831628">"Getting the Components of an LDAP URL"</a></FONT></LI></A><P>
+<A NAME="2835931">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="url.htm#2831621">"Processing an LDAP URL"</a></FONT></LI></A></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Understanding LDAP URLs"></A>
+<A NAME="2831945">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Understanding LDAP URLs</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2835959">
+An LDAP URL is a URL that begins with the<FONT FACE="courier, courier new, monospace"> ldap:// </FONT>protocol prefix (or <FONT FACE="courier, courier new, monospace">ldaps://</FONT>, if the server is communicating over an SSL connection) and specifies a search request to be sent to an LDAP server. 
+</P>
+</A>
+<A NAME="2835960">
+In the LDAP Java classes, you can represent an LDAP URL as an <FONT FACE="courier, courier new, monospace">LDAPUrl</FONT> object. You can invoke methods of this object to parse an LDAP URL into its components and to process a search request specified by an LDAP URL. 
+</P>
+</A>
+<A NAME="2831659">
+LDAP URLs have the following syntax: 
+</P>
+</A>
+<PRE><A NAME="2831664"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>ldap[s]://<em>&lt;hostname&gt;</em>:<em>&lt;port&gt;</em>/<em>&lt;base_dn&gt;</em>?<em>&lt;attributes&gt;</em>?<em>&lt;scope&gt;</em>?<em>&lt;filter&gt;
+</em></FONT></A></PRE>
+
+
+<A NAME="2831677">
+(<A HREF="http://www.ietf.org/rfc/rfc2255.txt" TARGET="_blank">RFC 2255, The LDAP URL Format</a>, also specifies that a "bindname" extension can be present at the end of the URL. At this point in time, the LDAP Java classes do not handle this extension.) 
+</P>
+</A>
+<A NAME="2836131">
+The <FONT FACE="courier, courier new, monospace">ldap:// </FONT>protocol is used to connect to LDAP servers over unsecured connections, and the <FONT FACE="courier, courier new, monospace">ldaps:// </FONT>protocol is used to connect to LDAP servers over SSL connections. 
+</P>
+</A>
+<A NAME="2835182">
+<a href="url.htm#2831702">Table 10.1</a> lists the components of an LDAP URL.
+</P>
+</A>
+<A NAME="2836913">
+<TABLE BORDER=1 cellpadding=4 cellspacing=3>
+<CAPTION></caption>
+<A NAME="Components of an LDAP URL
+">
+</A>
+<A NAME="2831702">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<B>
+Table 10.1   Components of an LDAP URL
+
+</B>
+</font><br></a></caption><tr><th valign=baseline align=left><b><A NAME="Component">
+</A>
+<A NAME="2831706">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Component
+</FONT>
+</B>
+</A>
+<BR><B></th><th valign=baseline align=left><b><A NAME="Description">
+</A>
+<A NAME="2831708">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Description
+</FONT>
+</B>
+</A>
+<BR><B></th></tr>
+<tr><td valign=top><PRE><A NAME="2831710"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&lt;hostname&gt;
+</FONT></A></PRE>
+
+
+</td><td valign=top><A NAME="2831712">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Name (or IP address in dotted format) of the LDAP server (for example,<FONT FACE="courier, courier new, monospace"> ldap.netscape.com </FONT>or<FONT FACE="courier, courier new, monospace"> 192.202.185.90</FONT>). 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><PRE><A NAME="2831714"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11><em>&lt;port&gt;
+</em></FONT></A></PRE>
+
+
+</td><td valign=top><A NAME="2831716">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Port number of the LDAP server (for example, 696). 
+</FONT>
+</A>
+<BR><A NAME="2831958">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+If no port is specified, the standard LDAP port (389) is used. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><PRE><A NAME="2831718"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11><em>&lt;base_dn&gt;
+</em></FONT></A></PRE>
+
+
+</td><td valign=top><A NAME="2831720">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Distinguished name (DN) of an entry in the directory. This DN identifies the entry that is starting point of the search. 
+</FONT>
+</A>
+<BR><A NAME="2835191">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+If this component is empty, the search starts at the root DN. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><PRE><A NAME="2831722"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11><em>&lt;attributes&gt;
+</em></FONT></A></PRE>
+
+
+</td><td valign=top><A NAME="2831724">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The attributes to be returned. To specify more than one attribute, use commas to delimit the attributes (for example, "cn,mail,telephoneNumber"). 
+</FONT>
+</A>
+<BR><A NAME="2831845">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+If no attributes are specified in the URL, all attributes are returned. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><PRE><A NAME="2831726"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11><em>&lt;scope&gt;
+</em></FONT></A></PRE>
+
+
+</td><td valign=top><A NAME="2835382">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The scope of the search, which can be one of these values: 
+</FONT>
+</A>
+<BR><ul><A NAME="2831810">
+<LI>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">base </FONT>retrieves information only about the distinguished name (<em>&lt;base_dn&gt;</em>) specified in the URL. 
+</FONT>
+</LI>
+</A><A NAME="2831811">
+<LI>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">one </FONT>retrieves information about entries one level below the distinguished name (<em>&lt;base_dn&gt;</em>) specified in the URL. The base entry is not included in this scope. 
+</FONT>
+</LI>
+</A><A NAME="2831812">
+<LI>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">sub </FONT>retrieves information about entries at all levels below the distinguished name (<em>&lt;base_dn&gt;</em>) specified in the URL. The base entry is included in this scope.
+</FONT>
+</LI>
+</A></ul><A NAME="2831854">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+If no scope is specified, the server performs a<FONT FACE="courier, courier new, monospace"> base </FONT>search. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><PRE><A NAME="2831730"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11><em>&lt;filter&gt;
+</em></FONT></A></PRE>
+
+
+</td><td valign=top><A NAME="2831732">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Search filter to apply to entries within the specified scope of the search. 
+</FONT>
+</A>
+<BR><A NAME="2831876">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+If no filter is specified, the server uses the filter <FONT FACE="courier, courier new, monospace">(objectClass=*)</FONT>. 
+</FONT>
+</A>
+<BR></td></tr>
+</TABLE></P></A>
+<A NAME="2832358">
+Any "unsafe" characters in the URL need to be represented by a special sequence of characters (this is often called escaping unsafe characters). For example, a space must be represented as <FONT FACE="courier, courier new, monospace">%20</FONT>. Thus, the distinguished name <FONT FACE="courier, courier new, monospace">"ou=Product Development"</FONT> must be encoded as <FONT FACE="courier, courier new, monospace">"ou=Product%20Development"</FONT>. 
+</P>
+</A>
+<A NAME="2832356">
+Note that <FONT FACE="courier, courier new, monospace">&lt;</FONT><I>attributes</I><FONT FACE="courier, courier new, monospace">&gt;</FONT>, <FONT FACE="courier, courier new, monospace">&lt;</FONT><I>scope</I><FONT FACE="courier, courier new, monospace">&gt;</FONT>, and <FONT FACE="courier, courier new, monospace">&lt;</FONT><I>filter</I><FONT FACE="courier, courier new, monospace">&gt;</FONT> are identified by their positions in the URL. If you do not want to specify any attributes, you still need to include the question marks delimiting that field. 
+</P>
+</A>
+<A NAME="2831992">
+For example, to specify a subtree search starting from <FONT FACE="courier, courier new, monospace">"o=Airius.com"</FONT> that returns all attributes for entries matching <FONT FACE="courier, courier new, monospace">"(sn=Jensen)"</FONT>, use the following URL: 
+</P>
+</A>
+<PRE><A NAME="2832017"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>ldap://ldap.netscape.com/o=Airius.com??sub?(sn=Jensen)
+</FONT></A></PRE>
+
+
+<A NAME="2832042">
+Note that the two consecutive question marks &#151; ?? &#151; indicate that no attributes have been specified. Since no specific attributes are identified in the URL, all attributes are returned in the search.
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Examples of LDAP URLs"></A>
+<A NAME="2831915">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Examples of LDAP URLs</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2831953">
+The following LDAP URL specifies a base search for the entry with the distinguished name <FONT FACE="courier, courier new, monospace">"o=Airius.com"</FONT>. 
+</P>
+</A>
+<PRE><A NAME="2831954"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>ldap://ldap.netscape.com/o=Airius.com
+</FONT></A></PRE>
+
+
+<ul><P>
+<A NAME="2831956">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Because no port number is specified, the standard LDAP port number (389) is used. </FONT></LI></A><P>
+<A NAME="2831964">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Because no attributes are specified, the search returns all attributes. </FONT></LI></A><P>
+<A NAME="2831977">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Because no search scope is specified, the search is restricted to the base entry <FONT FACE="courier, courier new, monospace">"o=Airius.com"</FONT>. </FONT></LI></A><P>
+<A NAME="2831986">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Because no filter is specified, the default filter <FONT FACE="courier, courier new, monospace">"(objectclass=*)"</FONT> is used. </FONT></LI></A></ul><A NAME="2831957">
+The following LDAP URL retrieves the <FONT FACE="courier, courier new, monospace">postalAddress</FONT> attribute of the<FONT FACE="courier, courier new, monospace"> o=Airius.com </FONT>entry:
+</P>
+</A>
+<PRE><A NAME="2832100"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>ldap://ldap.netscape.com/o=Airius.com?postalAddress
+</FONT></A></PRE>
+
+
+<ul><P>
+<A NAME="2832157">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Because no search scope is specified, the search is restricted to the base entry <FONT FACE="courier, courier new, monospace">"o=Airius.com"</FONT>. </FONT></LI></A><P>
+<A NAME="2832158">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Because no filter is specified, the default filter <FONT FACE="courier, courier new, monospace">"(objectclass=*)"</FONT> is used. </FONT></LI></A></ul><A NAME="2832960">
+The following LDAP URL retrieves the <FONT FACE="courier, courier new, monospace">cn</FONT>, <FONT FACE="courier, courier new, monospace">mail</FONT>, and <FONT FACE="courier, courier new, monospace">telephoneNumber</FONT> attributes of the entry for Barbara Jensen:
+</P>
+</A>
+<PRE><A NAME="2832961"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>ldap://ldap.netscape.com/
+uid=bjensen,ou=People,o=Airius.com?cn,mail,telephoneNumber
+</FONT></A></PRE>
+
+
+<ul><P>
+<A NAME="2835882">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Because no search scope is specified, the search is restricted to the base entry <FONT FACE="courier, courier new, monospace">"uid=bjensen,ou=People,o=Airius.com"</FONT>. </FONT></LI></A><P>
+<A NAME="2835883">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Because no filter is specified, the default filter <FONT FACE="courier, courier new, monospace">"(objectclass=*)"</FONT> is used. </FONT></LI></A></ul><A NAME="2832101">
+The following LDAP URL specifies a search for entries that have the last name <FONT FACE="courier, courier new, monospace">Jensen</FONT> and are at any level under <FONT FACE="courier, courier new, monospace">"o=Airius.com"</FONT>:
+</P>
+</A>
+<PRE><A NAME="2832128"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>ldap://ldap.netscape.com/o=Airius.com??sub?(sn=Jensen)
+</FONT></A></PRE>
+
+
+<ul><P>
+<A NAME="2832243">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Because no attributes are specified, the search returns all attributes. </FONT></LI></A><P>
+<A NAME="2832190">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Because the search scope is<FONT FACE="courier, courier new, monospace"> sub</FONT>, the search encompasses the base entry <FONT FACE="courier, courier new, monospace">"o=Airius.com"</FONT> and entries at all levels under the base entry. </FONT></LI></A></ul><A NAME="2832140">
+The following LDAP URL specifies a search for the object class for all entries one level under <FONT FACE="courier, courier new, monospace">"o=Airius.com"</FONT>:
+</P>
+</A>
+<PRE><A NAME="2832141"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>ldap://ldap.netscape.com/o=Airius.com?objectClass?one
+</FONT></A></PRE>
+
+
+<ul><P>
+<A NAME="2832308">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Because the search scope is<FONT FACE="courier, courier new, monospace"> one</FONT>, the search encompasses all entries one level under the base entry <FONT FACE="courier, courier new, monospace">"o=Airius.com"</FONT>. The search scope does not include the base entry. </FONT></LI></A><P>
+<A NAME="2832298">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Because no filter is specified, the default filter <FONT FACE="courier, courier new, monospace">"(objectclass=*)"</FONT> is used. </FONT></LI></A></ul><A NAME="Important
+"></A>
+<a name="2832078">
+<B>Important
+</B></A><BR><a name="2834717">The syntax for LDAP URLs does not include any means for specifying 
+credentials or passwords. Search requests initiated through LDAP URLs are 
+unauthenticated. 
+</a><P><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Getting the Components of an LDAP URL"></A>
+<A NAME="2831628">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Getting the Components of an LDAP URL</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2831625">
+To get the individual components of an LDAP URL, pass the URL to the <FONT FACE="courier, courier new, monospace">LDAPUrl</FONT> constructor to create a new <FONT FACE="courier, courier new, monospace">LDAPUrl</FONT> object, then use the following methods: 
+</P>
+</A>
+<ul><P>
+<A NAME="2836129">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get an array of the attributes that should be returned in the search results, use the <FONT FACE="courier, courier new, monospace">getAttributeArray</FONT> method. To get these attributes as an enumeration, use the <FONT FACE="courier, courier new, monospace">getAttributes</FONT> method. </FONT></LI></A><P>
+<A NAME="2836196">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get the hostname of the LDAP server, use the <FONT FACE="courier, courier new, monospace">getHost</FONT> method. </FONT></LI></A><P>
+<A NAME="2836213">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get the port number of the LDAP server, use the <FONT FACE="courier, courier new, monospace">getPort</FONT> method. </FONT></LI></A><P>
+<A NAME="2836322">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get the base DN, use the <FONT FACE="courier, courier new, monospace">getDN</FONT> method. </FONT></LI></A><P>
+<A NAME="2836339">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get the scope of the search, use the <FONT FACE="courier, courier new, monospace">getScope</FONT> method. </FONT></LI></A><P>
+<A NAME="2836329">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get the search filter, use the <FONT FACE="courier, courier new, monospace">getFilter</FONT> method. </FONT></LI></A></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Processing an LDAP URL"></A>
+<A NAME="2831621">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Processing an LDAP URL</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2833194">
+To process the search request specified by an LDAP URL, you can invoke one of the following methods, passing in the <FONT FACE="courier, courier new, monospace">LDAPUrl</FONT> object: 
+</P>
+</A>
+<ul><P>
+<A NAME="2836392">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If the URL specifies a base search for a single entry, invoke the <FONT FACE="courier, courier new, monospace">read</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object to read the entry from the directory. </FONT></LI></A><P>
+<A NAME="2836411">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Otherwise, invoke the <FONT FACE="courier, courier new, monospace">search</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object to perform the search. </FONT></LI></A></ul><A NAME="2836393">
+Both methods create a new <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object, connect to the LDAP server specified in the URL, perform the search, and disconnect. 
+</P>
+</A>
+<A NAME="2836427">
+
+</P>
+</A>
+</FONT>
+  </TD>
+</TR>
+<TR>
+  <TD>&nbsp;
+  </TD>
+</TR>
+<TR>
+  <TD BGCOLOR="#9999CC"><A HREF="#top"><IMG SRC="up.gif" BORDER=0></A>
+  </TD>
+</TR>
+</TABLE>
+<BR>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-2 COLOR="#999999">
+&copy; Copyright 1999 Netscape Communications Corporation.  All rights reserved.
+</FONT> </CENTER>
+
+<BR>
+
+</BODY>
+
+</HTML>

@@ -1,0 +1,1049 @@
+<html><head>
+<title>"Directory SDK for Java 4.0 Programmer's Guide": Using the LDAP Java Classes
+ </title>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+
+        // for older browsers, will just replace the document
+
+        function showHideLayerSwitch(ignored)
+        {
+                document.location = 'contents.htm';
+        }
+
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript1.2">
+
+
+        var visibleVar="null";
+
+    if (navigator.appName == "Netscape") {
+        layerStyleRef="layer.";
+        layerRef="document.layers";
+        styleSwitch="";
+        visibleVar="show";
+    } else {
+        layerStyleRef="layer.style.";
+        layerRef="document.all";
+        styleSwitch=".style";
+        visibleVar="visible";
+    }
+        
+    function showHideLayerSwitch(layerName)
+    {
+        if (eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility == visibleVar')) {
+                hideLayer(layerName);
+        } else {
+            showLayer(layerName);
+        }
+    }
+
+    function showLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="visible"');
+    }
+        
+    function hideLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="hidden"');
+    }
+
+
+</SCRIPT>
+
+<STYLE TYPE="text/css">
+        #header {
+                z-index: 5;
+                visibility: visible;
+        }
+        #pulldownMenu {
+                position: absolute; 
+                z-index: 10; 
+                visibility: hidden; 
+                left: 182px; 
+                top: 55px;
+        }
+</STYLE>
+
+<DIV BGCOLOR="#000000" id="pulldownMenu" >
+
+<SCRIPT>
+        function onMouseOut()
+        {
+                visibility="hide";
+        }
+</SCRIPT>
+
+<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0> <TR> <TD BGCOLOR="#9999CC">
+
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+<A HREF="contents.htm"> <FONT COLOR="white"> Complete Contents</FONT></A><BR> 
+
+<A HREF="preface.htm"> <FONT COLOR="white"> Preface</FONT></A><BR> 
+
+<A HREF="ldap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 1</FONT> Understanding LDAP</FONT></A><BR> 
+
+<A HREF="api.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 2</FONT> Using the Netscape Directory SDK for Java</FONT> 
+</A><BR> 
+
+<A HREF="qckstart.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 3</FONT> Quick Start</FONT> 
+</A><BR> 
+
+<A HREF="writing.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 4</FONT> Writing an LDAP Client</FONT></A><BR> 
+
+<A HREF="using.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 5</FONT>  Using the LDAP Java Classes</FONT></A><BR> 
+
+<A HREF="search.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 6</FONT> Searching the Directory</FONT></A><BR> 
+
+<A HREF="filter.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 7</FONT> Using Filter Configuration Files</FONT></A><BR>
+
+<A HREF="addmod.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 8</FONT> Adding, Updating, and Deleting Entries</FONT></A><BR>
+
+<A HREF="compare.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 9</FONT> Comparing Values in Entries</FONT></A><BR>
+
+<A HREF="url.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 10</FONT> Working with LDAP URLs</FONT></A><BR>
+
+<A HREF="servinfo.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 11</FONT> Getting Server Information</FONT></A><BR>
+
+<A HREF="ssl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 12</FONT> Connecting Over SSL</FONT></A><BR>
+
+<A HREF="controls.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 13</FONT> Working with LDAP Controls</FONT></A><BR>
+
+<A HREF="sasl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 14</FONT> Using SASL Authentication</FONT></A><BR>
+
+<A HREF="JNDIchap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 15</FONT> Using Netscape's JNDI Service Provider</FONT></A><BR>
+
+<A HREF="extendop.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 16</FONT> Working with Extended Operations</FONT></A><BR>
+
+<A HREF="asynch.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 17</FONT> Using the Asynchronous Interface</FONT></A><BR>
+
+<A HREF="glossary.htm"> <FONT COLOR="white"> Glossary</A><BR> 
+
+</TD> </TR> </TABLE> </DIV>
+
+</SCRIPT>
+
+</HEAD>
+
+<BODY LINK="#666699" VLINK="#666699" ALINK="#333366" BGCOLOR="#FFFFFF"><FONT FACE="PrimaSans BT, Verdana, 
+
+Sans-Serif" Size=-1>
+<a name="TOP">
+<TABLE CELLPADDING=10 CELLSPACING=2 border=0 WIDTH=100% BGCOLOR="#CCCCCC"> 
+
+<TR><TD><TABLE CELLPADDING=5 CELLSPACING=2 border=0>
+<TR>
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="writing.htm"><IMG SRC="prev.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0>Previous</a></FONT>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="search.htm">Next<IMG SRC="next.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0></a></FONT>
+  </TD>   
+
+  <TD></TD>
+
+  <TD BGCOLOR="#9999CC"> <A HREF="javascript:showHideLayerSwitch('pulldownMenu');"><FONT FACE="PrimaSans BT, 
+
+Verdana, Sans-Serif" SIZE=-1 
+  COLOR="white">Contents</FONT></A>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><A HREF="index.htm">Index</A></FONT>
+  </TD>
+
+</TR>
+</TABLE>
+</TD></TR> 
+</TABLE>
+
+<BR> <BR>
+
+</a>
+</DIV>
+
+</P>
+
+<CENTER>
+<TABLE CELLPADDING=2 CELLSPACING=2 WIDTH="85%" BORDER=0>
+<TR>
+  <TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="
+">
+</A>
+<A NAME="1915312">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+
+
+</FONT></B><P><A NAME="
+">
+</A>
+<A NAME="1915314">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="#999999">
+<B>
+Chapter 5
+</B></FONT></A><A NAME="Using the LDAP Java Classes
+">
+</A>
+<A NAME="1915315">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+Using the LDAP Java Classes
+
+</FONT></B><P><A NAME="1708500">
+This chapter covers some of the general LDAP Java classes that are commonly used when writing LDAP clients. </P></A>
+<A NAME="2846242">
+This chapter covers the following topics: 
+</P>
+</A>
+<ul><P>
+<A NAME="2843857">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="using.htm#2843655">"Getting Information About the SDK"</a> </FONT></LI></A><P>
+<A NAME="2838793">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="using.htm#2833003">"Handling Exceptions"</a> </FONT></LI></A><P>
+<A NAME="2848690">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="using.htm#2844087">"Handling Referrals"</a> </FONT></LI></A><P>
+<A NAME="2849995">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="using.htm#2848762">"Using an In-Memory Cache"</a> </FONT></LI></A><P>
+<A NAME="2850097">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="using.htm#2849095">"Cloning a Connection"</a> </FONT></LI></A><P>
+<A NAME="2838798">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="using.htm#2850089">"Manipulating Distinguished Names"</a> </FONT></LI></A></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Getting Information About the SDK"></A>
+<A NAME="2843655">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Getting Information About the SDK</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2843658">
+You can get version information about the Netscape Directory SDK for Java that you are using (for example, the version of the LDAP Java classes or the highest version of the LDAP protocol that it supports). 
+</P>
+</A>
+<A NAME="2844315">
+To get this information, use the <FONT FACE="courier, courier new, monospace">getProperty</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object. For a complete list of the SDK properties you can get, see the documentation on the <FONT FACE="courier, courier new, monospace">getProperty</FONT> method.
+</P>
+</A>
+<A NAME="2846331">
+For example, the following section of code lists the properties of the SDK: 
+</P>
+</A>
+<PRE><A NAME="2846399"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>LDAPConnection ld = new LDAPConnection();<br>
+try {<br>
+&nbsp;&nbsp;&nbsp;System.out.println( "LDAP Java Classes Version: " +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Float)ld.getProperty(LDAPConnection.LDAP_PROPERTY_SDK) ); <br>
+&nbsp;&nbsp;&nbsp;System.out.println( "Highest version of LDAP supported: " +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Float)ld.getProperty(LDAPConnection.LDAP_PROPERTY_PROTOCOL) ); <br>
+&nbsp;&nbsp;&nbsp;System.out.println( "Authentication methods supported: " +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(String)ld.getProperty(LDAPConnection.LDAP_PROPERTY_SECURITY) );<br>
+} catch (LDAPException e) { <br>
+&nbsp;&nbsp;&nbsp;System.out.println( "Could not get SDK properties." );<br>
+&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+}<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2846372">
+For information on the different versions of the LDAP Java classes, see the documentation on <FONT FACE="courier, courier new, monospace">LDAP_PROPERTY_SDK</FONT>. 
+</P>
+</A>
+<A NAME="2846644">
+Note that although a<FONT FACE="courier, courier new, monospace"> setProperty </FONT>method is listed as one of the available methods, there are currently no properties that you can set. Invoking this method throws an <FONT FACE="courier, courier new, monospace">LDAPException</FONT>. 
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Handling Exceptions"></A>
+<A NAME="2833003">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Handling Exceptions</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2833004">
+In the LDAP protocol, the success or failure of an operation is specified by an LDAP result code sent back to the client. (For example, the result code 0 indicates that the operation was successful, and a non-zero result code usually indicates that an error occurred.) 
+</P>
+</A>
+<A NAME="2847141">
+The following sections explain more about exceptions in the LDAP Java classes.
+</P>
+</A>
+<ul><P>
+<A NAME="2847156">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="using.htm#2846775">"Getting Information About the Error"</a></FONT></LI></A><P>
+<A NAME="2847165">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="using.htm#2846776">"Getting the Error Message"</a></FONT></LI></A></ul><A NAME="Getting Information About the Error">
+</A><A NAME="2846775">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Getting Information About the Error</B>
+</FONT></A><br>
+<A NAME="2846596">
+In the LDAP Java classes, when an error occurs, an <FONT FACE="courier, courier new, monospace">LDAPException</FONT> is thrown. (Note that referrals cause an <FONT FACE="courier, courier new, monospace">LDAPReferralException</FONT> to be thrown. For details, see <a href="using.htm#2844087">"Handling Referrals"</a>.)
+</P>
+</A>
+<A NAME="2847185">
+An <FONT FACE="courier, courier new, monospace">LDAPException</FONT> contains the following information:
+</P>
+</A>
+<ul><P>
+<A NAME="2833005">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the LDAP result code for the error that occurred </FONT></LI></A><P>
+<A NAME="2833006">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+a message containing any additional information about the error from the server </FONT></LI></A></ul><A NAME="2840722">
+If the error occurred because an entry specified by a DN could not be found, the <FONT FACE="courier, courier new, monospace">LDAPException</FONT> also contains the DN of the "closest matching entry" that could be found.
+</P>
+</A>
+<A NAME="2846774">
+To get information from the <FONT FACE="courier, courier new, monospace">LDAPException</FONT>, use one of the following methods: 
+</P>
+</A>
+<ul><P>
+<A NAME="2846789">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get the string representation of the exception, use the <FONT FACE="courier, courier new, monospace">toString</FONT> method. </FONT></LI></A><P>
+<A NAME="2846819">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get the LDAP result code, use the <FONT FACE="courier, courier new, monospace">getLDAPResultCode</FONT> method. </FONT></LI></A><P>
+<A NAME="2846824">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get any additional information sent by the server, use the <FONT FACE="courier, courier new, monospace">getLDAPErrorMessage</FONT> method. </FONT></LI></A><P>
+<A NAME="2846811">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get the closest matching DN (in cases where your client specified a DN to a non-existent entry), use the <FONT FACE="courier, courier new, monospace">getMatchedDN</FONT> method. </FONT></LI></A></ul><A NAME="2846800">
+Note that you can also get the error message describing the LDAP result code by using the <FONT FACE="courier, courier new, monospace">errorCodeToString</FONT> method. (See the section <a href="using.htm#2846776">"Getting the Error Message"</a> for details.) 
+</P>
+</A>
+<A NAME="2847133">
+The Directory SDK for Java's JavaDocs include a listing and descriptions of the different LDAP result codes. For information on using these JavaDocs, see <a href="preface.htm#2828183">"Where to Find Reference Information"</a>. 
+</P>
+</A>
+<A NAME="2847119">
+The following section of code gets and prints information about an <FONT FACE="courier, courier new, monospace">LDAPException</FONT>:
+</P>
+</A>
+<PRE><A NAME="2846830"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+try {<br>
+/* Attempt to perform an LDAP operation here. */<br>
+} catch( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;/* Get and print the result code and any other info. */<br>
+&nbsp;&nbsp;&nbsp;int resultCode = e.getLDAPResultCode();<br>
+&nbsp;&nbsp;&nbsp;String serverInfo = e.getLDAPErrorMessage();<br>
+&nbsp;&nbsp;&nbsp;System.out.println( "LDAP Result Code: " + resultCode );<br>
+&nbsp;&nbsp;&nbsp;if ( serverInfo != null ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Additional Info: " + serverInfo );<br>
+&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;/* If the exception was thrown because an entry <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; was not found, print the DN of the closest entry found. */<br>
+&nbsp;&nbsp;&nbsp;switch( resultCode ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case LDAPException.NO_SUCH_OBJECT:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case LDAPException.ALIAS_PROBLEM:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case LDAPException.INVALID_DN_SYNTAX:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case LDAPException.ALIAS_DEREFERENCING_PROBLEM:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String matchedDN = e.getMatchedDN();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( matchedDN != null ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Closest Entry: " + matchedDN );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="Getting the Error Message">
+</A><A NAME="2846776">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Getting the Error Message</B>
+</FONT></A><br>
+<A NAME="2847380">
+To get the error message for an LDAP result code, use the <FONT FACE="courier, courier new, monospace">errorCodeToString</FONT> method. For example: 
+</P>
+</A>
+<PRE><A NAME="2847383"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+try {<br>
+/* Attempt to perform an LDAP operation here. */<br>
+} catch( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;/* Get and print the error message. */<br>
+&nbsp;&nbsp;&nbsp;int resultCode = e.getLDAPResultCode();<br>
+&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.errorCodeToString( resultCode ) );<br>
+}<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2847373">
+Error messages corresponding to each LDAP result code are stored in files in the following location: 
+</P>
+</A>
+<A NAME="2847203">
+<FONT FACE="courier, courier new, monospace">dir_root/netscape/ldap/error/ErrorCodes_locale_name.props</FONT>
+</P>
+</A>
+<A NAME="2847204">
+where<I><FONT FACE="courier, courier new, monospace"> dir_root </FONT></I>is a directory that is in your<FONT FACE="courier, courier new, monospace"> CLASSPATH</FONT>, and<I><FONT FACE="courier, courier new, monospace"> locale_name</FONT></I> is the language and country (concatenated and delimited by an underscore) of the current locale. 
+</P>
+</A>
+<A NAME="2847205">
+For example: 
+</P>
+</A>
+<PRE><A NAME="2847201"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>netscape/ldap/error/ErrorCodes_en_US.props <br>
+netscape/ldap/error/ErrorCodes_en.props 
+</FONT></A></PRE>
+
+
+<A NAME="2847225">
+A default error messages file is provided in the following location: 
+</P>
+</A>
+<PRE><A NAME="2847244"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>netscape/ldap/error/ErrorCodes.props 
+</FONT></A></PRE>
+
+
+<A NAME="2847242">
+The result codes and their corresponding descriptions have the following format in the file:
+</P>
+</A>
+<PRE><A NAME="2847226"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11><I><FONT FACE="courier, courier new, monospace">resultcode</FONT></I>=<I><FONT FACE="courier, courier new, monospace">errormessage</FONT></I> 
+</FONT></A></PRE>
+
+
+<A NAME="2847227">
+For example:
+</P>
+</A>
+<PRE><A NAME="2847231"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>0=Success<br>
+1=Operations error<br>
+2=Protocol error<br>
+3=Timelimit exceeded<br>
+4=Sizelimit exceeded<br>
+5=Compare false<br>
+6=Compare true<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2847229">
+When you invoke the <FONT FACE="courier, courier new, monospace">errorCodeToString</FONT> method of an <FONT FACE="courier, courier new, monospace">LDAPException</FONT>, the method retrieves the error messages file for the specified locale (or the default locale, if no locale is specified) and reads the error message from the file. 
+</P>
+</A>
+<A NAME="2847310">
+The method searches for the error messages file in the following locations in this order (if no file is found, the method tries to find the next file in this list): 
+</P>
+</A>
+<PRE><A NAME="2847311"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>netscape/ldap/error/ErrorCodes_language_country.props<br>
+netscape/ldap/error/ErrorCodes_language.props<br>
+netscape/ldap/error/ErrorCodes.props
+</FONT></A></PRE>
+
+
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Handling Referrals"></A>
+<A NAME="2844087">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Handling Referrals</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2847535">
+If an LDAP server receives a request for a DN that is not under its directory tree, it can refer clients to another LDAP server that may contain that DN. This is known as a <a href="glossary.htm#1014843">referral</a>.
+</P>
+</A>
+<A NAME="2847471">
+This section explains how to set up your LDAP client to handle referrals automatically. The following topics are covered:
+</P>
+</A>
+<ul><P>
+<A NAME="2847513">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="using.htm#2847472">"Understanding Referrals"</a></FONT></LI></A><P>
+<A NAME="2847519">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="using.htm#2847481">"Enabling or Disabling Referral Handling"</a></FONT></LI></A><P>
+<A NAME="2847504">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="using.htm#2844097">"Limiting Referral Hops"</a></FONT></LI></A><P>
+<A NAME="2847529">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="using.htm#2844121">"Binding When Following Referrals"</a></FONT></LI></A></ul><A NAME="Understanding Referrals">
+</A><A NAME="2847472">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Understanding Referrals</B>
+</FONT></A><br>
+<A NAME="2847650">
+Suppose an LDAP server has a directory that starts under "o=Airius.com". If your client sends the server a request to modify the entry with the DN "uid=bjensen,ou=People,o=AiriusWest.com" (an entry that is not under "o=Airius.com"), one of the following may occur:
+</P>
+</A>
+<ul><P>
+<A NAME="2847552">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If the server is not configured to send a referral, an <FONT FACE="courier, courier new, monospace">LDAPException</FONT> is thrown with the LDAP result code <FONT FACE="courier, courier new, monospace">LDAPException</FONT>.<FONT FACE="courier, courier new, monospace">NO_SUCH_OBJECT</FONT>. </FONT></LI></A><P>
+<A NAME="2847565">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If the server is configured to refer you to another LDAP server, the server sends a referral back to your client. Depending on how your LDAP client is configured one of the following may occur: </FONT></LI></A><ul>
+<P>
+<A NAME="2847672">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If your client handles referrals automatically, your client connects to the LDAP server specified in the referral and requests to modify the entry. (The client binds anonymously to that server. To bind as a specific user, see the section <a href="using.htm#2844121">"Binding When Following Referrals"</a>.) 
+</FONT></LI></A><P>
+<A NAME="2847678">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If your client does not handle referrals automatically, an <FONT FACE="courier, courier new, monospace">LDAPReferralException</FONT> is thrown. You can get the LDAP URL specified in the referral by catching the exception and invoking the <FONT FACE="courier, courier new, monospace">getURLs</FONT> method. 
+</FONT></LI></A></ul>
+<P><A NAME="2847694">
+By default, clients built with the Netscape Directory SDK for Java are 
+configured to follow referrals automatically. 
+
+</A></P>
+</ul><A NAME="2847640">
+Another concept similar to a referral is a <a href="glossary.htm#1014832">search reference</a>. A search reference is an entry with the object class "referral". The "ref" attribute of this object contains an LDAP URL that identifies another LDAP server.
+</P>
+</A>
+<A NAME="2847730">
+When your client searches a subtree of the directory that contains search references, the server returns a mix of matching entries and search references. As you iterate through the enumeration of search results, if you encounter a search reference and your client does not handle referrals automatically, an <FONT FACE="courier, courier new, monospace">LDAPReferralException</FONT> is thrown. 
+</P>
+</A>
+<A NAME="Enabling or Disabling Referral Handling">
+</A><A NAME="2847481">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Enabling or Disabling Referral Handling</B>
+</FONT></A><br>
+<A NAME="2844219">
+By default, clients built with the Netscape Directory SDK for Java automatically follow these referrals to other servers. 
+</P>
+</A>
+<A NAME="2847819">
+To change the way your client handles referrals, use the <FONT FACE="courier, courier new, monospace">setOption</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object (to change the behavior for all LDAP operations) or the <FONT FACE="courier, courier new, monospace">setReferrals</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConstraints</FONT> object (to change the behavior for a specific search request):
+</P>
+</A>
+<ul><P>
+<A NAME="2844090">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To prevent the client from automatically following referrals, pass <FONT FACE="courier, courier new, monospace">LDAPv2</FONT>.<FONT FACE="courier, courier new, monospace">REFERRALS</FONT> and<FONT FACE="courier, courier new, monospace"> false </FONT>as arguments to the <FONT FACE="courier, courier new, monospace">setOption</FONT> method, or pass<FONT FACE="courier, courier new, monospace"> false </FONT>as the argument to the <FONT FACE="courier, courier new, monospace">setReferrals</FONT> method.</FONT></LI></A><P>
+<A NAME="2844091">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If you want the client to automatically follow referrals again, pass <FONT FACE="courier, courier new, monospace">LDAPv2</FONT>.<FONT FACE="courier, courier new, monospace">REFERRALS</FONT> and<FONT FACE="courier, courier new, monospace"> true </FONT>as arguments to the <FONT FACE="courier, courier new, monospace">setOption</FONT> method, or pass<FONT FACE="courier, courier new, monospace"> true </FONT>as the argument to the <FONT FACE="courier, courier new, monospace">setReferrals</FONT> method.</FONT></LI></A></ul><A NAME="Limiting Referral Hops">
+</A><A NAME="2844097">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Limiting Referral Hops</B>
+</FONT></A><br>
+<A NAME="2847877">
+As a preference for the connection (or as a search constraint for specific search operations), you can specify the maximum number of referral hops that should be followed in a sequence of referrals. This is called the <a href="glossary.htm#1014995">referral hop limit</a>. 
+</P>
+</A>
+<A NAME="2847893">
+For example, suppose you set a limit of 2 referral hops. If your client is referred from LDAP server A to LDAP server B, from LDAP server B to LDAP server C, and from LDAP server C to LDAP server D, your client is being referred 3 times in a row, and it will not follow the referral to LDAP server D because this exceeds the referral hop limit.
+</P>
+</A>
+<A NAME="2847914">
+If the referral hop limit is exceeded, an <FONT FACE="courier, courier new, monospace">LDAPReferralException</FONT> is thrown. 
+</P>
+</A>
+<A NAME="2847935">
+To set the referral hop limit, use the <FONT FACE="courier, courier new, monospace">LDAPv2</FONT>.<FONT FACE="courier, courier new, monospace">REFERRALS_HOP_LIMIT</FONT> preference with the <FONT FACE="courier, courier new, monospace">setOption</FONT> methodof the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object (to change the behavior for all LDAP operations) or the <FONT FACE="courier, courier new, monospace">setHopLimit</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConstraints</FONT> object (to change the behavior for a specific search request). 
+</P>
+</A>
+<A NAME="2847921">
+By default, the maximum number of referral hops is 10.
+</P>
+</A>
+<A NAME="Binding When Following Referrals">
+</A><A NAME="2844121">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Binding When Following Referrals</B>
+</FONT></A><br>
+<A NAME="2844124">
+If the connection is set up so that referrals are always followed (see <a href="using.htm#2847481">"Enabling or Disabling Referral Handling"</a> for more information), the LDAP server that you connect to may refer you to another LDAP server. By default, the client binds anonymously (no username or password are specified) when following referrals. 
+</P>
+</A>
+<A NAME="2844132">
+If you want your client to authenticate to the LDAP server that it is referred to, you need to specify a way to get the DN and password to be used for authentication. You need to define a class that implements the <FONT FACE="courier, courier new, monospace">LDAPRebind</FONT> interface. Then, you specify an object of this new class using the <FONT FACE="courier, courier new, monospace">LDAPv2</FONT>.<FONT FACE="courier, courier new, monospace">REFERRALS_REBIND_PROC</FONT> preference with the <FONT FACE="courier, courier new, monospace">setOption</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object (to set this for all LDAP operations) or the <FONT FACE="courier, courier new, monospace">setRebindProc</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConstraints</FONT> object (to change the behavior for a specific search request). 
+</P>
+</A>
+<A NAME="2847983">
+The <FONT FACE="courier, courier new, monospace">LDAPRebind</FONT> interfacespecifies a <FONT FACE="courier, courier new, monospace">getRebindAuthentication</FONT> method that returns an <FONT FACE="courier, courier new, monospace">LDAPRebindAuth</FONT> object. The <FONT FACE="courier, courier new, monospace">getRebindAuthentication</FONT> method and the <FONT FACE="courier, courier new, monospace">LDAPRebindAuth</FONT> object it returns are used to get the DN and password for authentication.
+</P>
+</A>
+<A NAME="2848044">
+The following steps explain how this works: 
+</P>
+</A>
+<ol>
+<P><a name="2844134">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>The LDAP server sends a referral back to the client. The referral contains an LDAP URL that identifies another LDAP server. </LI></a><P><a name="2844135">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>The client creates a new <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object. </LI></a><P><a name="2848087">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>The client connects to the host and port specified in the LDAP URL. </LI></a><P><a name="2848088">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Using the <FONT FACE="courier, courier new, monospace">getRebindProc</FONT> method to find your object (the one that implements the <FONT FACE="courier, courier new, monospace">LDAPRebind</FONT> interface), the client invokes the <FONT FACE="courier, courier new, monospace">getRebindAuthentication</FONT> method, passing in the host and port specified in the LDAP URL. </LI></a><P><a name="2844142">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>The <FONT FACE="courier, courier new, monospace">getRebindAuthentication</FONT> method in your object returns an <FONT FACE="courier, courier new, monospace">LDAPRebindAuth</FONT> object. </LI></a><P><a name="2848119">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>The client invokes the <FONT FACE="courier, courier new, monospace">getDN</FONT> and <FONT FACE="courier, courier new, monospace">getPassword</FONT> methods of the returned <FONT FACE="courier, courier new, monospace">LDAPRebindAuth</FONT> object to get the DN and password to use for authentication. </LI></a><P><a name="2844144">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>The client invokes the <FONT FACE="courier, courier new, monospace">authenticate</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object and passes the DN and password to authenticate to the server.</LI></a></ol>
+<A NAME="2833774">
+Basically, you need to define the following:
+</P>
+</A>
+<ul><P>
+<A NAME="2848164">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+a class that implements the <FONT FACE="courier, courier new, monospace">LDAPRebind</FONT> interface </FONT></LI></A><P>
+<A NAME="2848170">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+a <FONT FACE="courier, courier new, monospace">getRebindAuthentication</FONT> that takes host name and port number and creates an <FONT FACE="courier, courier new, monospace">LDAPRebindAuth</FONT> object that specifies the DN and password to use for authentication </FONT></LI></A></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Using an In-Memory Cache"></A>
+<A NAME="2848762">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Using an In-Memory Cache</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2848766">
+The Netscape Directory SDK for Java includes an <FONT FACE="courier, courier new, monospace">LDAPCache</FONT> class that allows you to create an in-memory cache of search results for your client. When send a search request and receive results, the search request and its results are cached. The next time your client issues the same search request, the results are read from the cache.
+</P>
+</A>
+<A NAME="2850155">
+This section covers the following topics:
+</P>
+</A>
+<ul><P>
+<A NAME="2850270">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="using.htm#2849997">"How the Cache Operates"</a></FONT></LI></A><P>
+<A NAME="2850174">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="using.htm#2850250">"Setting Up an In-Memory Cache"</a></FONT></LI></A><P>
+<A NAME="2850187">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="using.htm#2850025">"Caching Requests by Base DN"</a></FONT></LI></A><P>
+<A NAME="2850200">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="using.htm#2850076">"Sharing a Cache Between Connections"</a></FONT></LI></A><P>
+<A NAME="2850467">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="using.htm#2850490">"Flushing the Cache"</a></FONT></LI></A><P>
+<A NAME="2850230">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="using.htm#2850078">"Getting Cache Statistics"</a></FONT></LI></A></ul><A NAME="How the Cache Operates">
+</A><A NAME="2849997">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>How the Cache Operates</B>
+</FONT></A><br>
+<A NAME="2850308">
+Each item in the cache represents a search request and its results. When you create the cache, you can specify the maximum size of the cache and the maximum amount of time that an item can be cached: 
+</P>
+</A>
+<ul><P>
+<A NAME="2850336">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+When an item's age exceeds that time limit, the item is removed from the cache. The cache is checked once a minute for expired items. </FONT></LI></A><P>
+<A NAME="2850291">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If adding a new item will cause the cache to exceed its maximum size, items are removed from the cache to make space for the new item. Items are removed on a FIFO (first in, first out) basis. </FONT></LI></A></ul><A NAME="2850339">
+Each item is uniquely identified by the search criteria, which includes: 
+</P>
+</A>
+<ul><P>
+<A NAME="2850292">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the host name and port number of the LDAP server </FONT></LI></A><P>
+<A NAME="2850293">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the base DN of the search </FONT></LI></A><P>
+<A NAME="2850294">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the search filter </FONT></LI></A><P>
+<A NAME="2850295">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the scope of the search </FONT></LI></A><P>
+<A NAME="2850296">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the attributes to be returned in the search results </FONT></LI></A><P>
+<A NAME="2850297">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the DN used to authenticate the client when binding to the server </FONT></LI></A><P>
+<A NAME="2850298">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the LDAP v3 controls specified in the search request </FONT></LI></A></ul><A NAME="2850299">
+Once a search request is cached, if your client performs the same search again, the results are read from the cache instead of from the server. 
+</P>
+</A>
+<A NAME="2850403">
+Note that if any part of a search request differs from a cached search request (for example, if a different DN is used when authenticating to the server or if the search request specifies that a different set of attributes should be returned), the results are not read from the cache and the search request is sent to the server. 
+</P>
+</A>
+<A NAME="2850341">
+Finally, when creating the cache, you can specify a list of the base DNs in search requests that you want to cache. For example, if you specify "ou=People, o=Airius.com" as a base DN to cache, your client caches search requests where the base DN is "ou=People, o=Airius.com". 
+</P>
+</A>
+<A NAME="Setting Up an In-Memory Cache">
+</A><A NAME="2850250">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Setting Up an In-Memory Cache</B>
+</FONT></A><br>
+<A NAME="2848767">
+To set up a cache for your connection, do the following: 
+</P>
+</A>
+<ol>
+<P><a name="2848771">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Construct a new <FONT FACE="courier, courier new, monospace">LDAPCache</FONT> object which represents the cache. </LI></a><P><a name="2848784">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Invoke the <FONT FACE="courier, courier new, monospace">setCache</FONT> method of an <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object to associate the cache with the connection. </LI></a></ol>
+<A NAME="2849807">
+For example, the following section of code creates a cache with the maximum size of 1MB. Items in the cache expire and are automatically removed after 1 hour. 
+</P>
+</A>
+<PRE><A NAME="2849324"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+import netscape.ldap.*;<br>
+import java.util.*;<br>
+...<br>
+LDAPConnection ld = null;<br>
+int status = -1;<br>
+String MY_HOST = "localhost";<br>
+<br>
+try {<br>
+&nbsp;&nbsp;&nbsp;ld = new LDAPConnection();<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Create a cache for the connection */<br>
+&nbsp;&nbsp;&nbsp;int MAX_TIME_CACHED = 3600;<br>
+&nbsp;&nbsp;&nbsp;int MAX_SIZE = 1000000;<br>
+&nbsp;&nbsp;&nbsp;LDAPCache myCache = new LDAPCache( MAX_TIME_CACHED, MAX_SIZE );<br>
+&nbsp;&nbsp;&nbsp;ld.setCache( myCache );<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Connect to server */<br>
+&nbsp;&nbsp;&nbsp;ld.connect( MY_HOST, LDAP_PORT );<br>
+&nbsp;&nbsp;&nbsp;...<br>
+} catch( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+}<br>
+...<br>
+
+</FONT></A></PRE>
+
+
+<A NAME="Caching Requests by Base DN">
+</A><A NAME="2850025">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Caching Requests by Base DN</B>
+</FONT></A><br>
+<A NAME="2850019">
+If you do not want all search requests cached, you can specify a set of base DNs for search requests that you want cached in the <FONT FACE="courier, courier new, monospace">LDAPCache</FONT> constructor.
+</P>
+</A>
+<A NAME="2850074">
+For example, the following section of code constructs a cache that only tracks search requests that specify the base DNs "ou=People, o=Airius.com" and "ou=Groups,o=Airius.com".
+</P>
+</A>
+<PRE><A NAME="2849928"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+/* Create a cache for the connection */<br>
+int MAX_TIME_CACHED = 3600;<br>
+int MAX_SIZE = 1000000;<br>
+String [] BASE_DN_CACHED = {"ou=People,o=Airius.com", <br>
+&nbsp;&nbsp;&nbsp;"ou=Groups,o=Airius.com"};<br>
+LDAPCache myCache = new LDAPCache( MAX_TIME_CACHED, MAX_SIZE, <br>
+&nbsp;&nbsp;&nbsp;BASE_DN_CACHED );<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="Sharing a Cache Between Connections">
+</A><A NAME="2850076">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Sharing a Cache Between Connections</B>
+</FONT></A><br>
+<A NAME="2850079">
+You can also share the same in-memory cache among different connections. To do this: 
+</P>
+</A>
+<ol>
+<P><a name="2850099">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Invoke the <FONT FACE="courier, courier new, monospace">getCache</FONT> methodof an <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object to get the <FONT FACE="courier, courier new, monospace">LDAPCache</FONT> object associated with it. </LI></a><P><a name="2850131">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Invoke the <FONT FACE="courier, courier new, monospace">setCache</FONT> methodof a different <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object to associate the retrieved <FONT FACE="courier, courier new, monospace">LDAPCache</FONT> object with it. </LI></a></ol>
+<A NAME="2850082">
+Note that when you clone an <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object, the new object automatically shares the same <FONT FACE="courier, courier new, monospace">LDAPCache</FONT> object with the original object. 
+</P>
+</A>
+<A NAME="Flushing the Cache">
+</A><A NAME="2850490">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Flushing the Cache</B>
+</FONT></A><br>
+<A NAME="2850497">
+To flush items from the cached, invoke the <FONT FACE="courier, courier new, monospace">flushEntries</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPCache</FONT> object. You can either flush selected items from the cache or all items from the cache.
+</P>
+</A>
+<A NAME="2850511">
+To flush selected items from the cache, specify the base DN of the search requests that you want to flush. To do this, you can specify a DN and search scope as arguments to the<FONT FACE="courier, courier new, monospace"> flushEntries</FONT> method. If the base DN of a cached search request falls within the scope you've specified, the search request is flushed from the cache.
+</P>
+</A>
+<A NAME="2850540">
+For example, the following section of code flushes selected search requests from the cache. If the base DN of a search request falls under the "ou=People,o=Airius.com" subtree, the item is removed from the cache. 
+</P>
+</A>
+<PRE><A NAME="2853479"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+import netscape.ldap.*;<br>
+import java.util.*;<br>
+...<br>
+LDAPCache myCache;<br>
+...<br>
+/* Perform search requests. */<br>
+...<br>
+/* Flush items from the cache. Flush the <br>
+&nbsp;&nbsp;&nbsp;search requests that have base DNs under the <br>
+&nbsp;&nbsp;&nbsp;"ou=People, o=Airius.com" subtree. */<br>
+myCache.flushEntries( "ou=People, o=Airius.com", <br>
+&nbsp;&nbsp;&nbsp;LDAPConnection.SCOPE_SUB );<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2853480">
+To flush all items from the cache, pass<FONT FACE="courier, courier new, monospace"> null </FONT>for the first argument of the<FONT FACE="courier, courier new, monospace"> flushEntries </FONT>method: 
+</P>
+</A>
+<PRE><A NAME="2850576"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>myCache.flushEntries( null, 0 ); 
+</FONT></A></PRE>
+
+
+<A NAME="Getting Cache Statistics">
+</A><A NAME="2850078">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Getting Cache Statistics</B>
+</FONT></A><br>
+<A NAME="2850077">
+You can invoke the following methods of the <FONT FACE="courier, courier new, monospace">LDAPCache</FONT> object to get statistics on the cache:
+</P>
+</A>
+<ul><P>
+<A NAME="2850581">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get the total amount of available space (in bytes) left in the cache, invoke the <FONT FACE="courier, courier new, monospace">getAvailableSize</FONT> method. </FONT></LI></A><P>
+<A NAME="2850620">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get the array of base DNs of the search requests to be cached, invoke the <FONT FACE="courier, courier new, monospace">getBaseDNs</FONT> method. </FONT></LI></A><P>
+<A NAME="2850622">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get the total number of items that have been flushed from the cache (not including items flushed when invoking the <FONT FACE="courier, courier new, monospace">flushEntries</FONT> method), invoke the <FONT FACE="courier, courier new, monospace">getNumFlushes</FONT> method. </FONT></LI></A><P>
+<A NAME="2850628">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get the maximum size of the cache (in bytes), invoke the <FONT FACE="courier, courier new, monospace">getSize</FONT> method. </FONT></LI></A><P>
+<A NAME="2850630">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get the maximum amount of time that an item can be cached (in seconds), get the <FONT FACE="courier, courier new, monospace">getTimeToLive</FONT> method. </FONT></LI></A></ul><A NAME="2850607">
+You can also get a running count of the number of requests that access the cache: 
+</P>
+</A>
+<ul><P>
+<A NAME="2850769">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get the total number of requests for retrieving items from the cache, invoke the <FONT FACE="courier, courier new, monospace">getTotalOperation</FONT> method. </FONT></LI></A><P>
+<A NAME="2850775">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get the total number of requests that retrieved an item from the cache, invoke the <FONT FACE="courier, courier new, monospace">getNumHits</FONT> method. </FONT></LI></A><P>
+<A NAME="2850779">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get the total number of requests that failed to find and retrieve an item from the cache, invoke the <FONT FACE="courier, courier new, monospace">getNumMisses</FONT> method. </FONT></LI></A></ul><A NAME="2850926">
+For example, the following section of code gets and prints cache statistics. 
+</P>
+</A>
+<PRE><A NAME="2850953"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+import netscape.ldap.*;<br>
+import java.util.*;<br>
+...<br>
+import netscape.ldap.*;<br>
+import java.util.*;<br>
+...<br>
+LDAPConnection ld;<br>
+...<br>
+if ( (ld != null) &amp;&amp; ld.isConnected() ) {<br>
+&nbsp;&nbsp;&nbsp;LDAPCache connCache = ld.getCache();<br>
+&nbsp;&nbsp;&nbsp;if ( connCache != null ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Cache size:\t\t" + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connCache.getSize()/1000 + " kbytes" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Available:\t\t" + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connCache.getAvailableSize()/1000 + " kbytes" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Maximum age:\t\t" + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connCache.getTimeToLive()/1000 + " seconds" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Total hits:\t\t" + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connCache.getNumHits() + " hits" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Total misses:\t\t" + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connCache.getNumMisses() + " misses" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Total requests:\t\t" + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connCache.getTotalOperations() + " requests" );<br>
+} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "No cache associated with the connection." );<br>
+...
+</FONT></A></PRE>
+
+
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Cloning a Connection"></A>
+<A NAME="2849095">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Cloning a Connection</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2850090">
+You can create several <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> objects that share a single physical network connection to the LDAP server by invoking the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT>.<FONT FACE="courier, courier new, monospace">clone</FONT> method. (Note, however, that if you clone an object before a connection is made to the server, the cloned object does not share the same connection as the original object.) 
+</P>
+</A>
+<A NAME="2851713">
+Each clone can disconnect from the server without affecting the connection for the other clones. The network connection remains open until all clones have disconnected or gone out of scope. 
+</P>
+</A>
+<A NAME="2851714">
+If the clone disconnects or reconnects, it is completely dissociated from the source object and other clones. 
+</P>
+</A>
+<A NAME="2850917">
+Note the following:
+</P>
+</A>
+<ul><P>
+<A NAME="2851735">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+A cloned <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object has a separate set of session preferences and constraints (in other words, it is associated with its own <FONT FACE="courier, courier new, monospace">LDAPSearchConstraints</FONT> object). Changing an option or search constraint will only affect requests issued using that object. </FONT></LI></A><P><A NAME="2851457">
+For example, suppose an <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object allows a maximum of 
+100 results to be returned from a search. If you clone an <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> 
+object and change the maximum number of results in the clone from 100 to 
+200, the initial object will still allow only 100 results to be returned. 
+
+</A></P>
+<P>
+<A NAME="2851492">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+All clones are authenticated to the server as the same user. If you reauthenticate to the server as a different user, the current clone will be disconnected and will connect separately to the server. (The <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object will no longer be a clone of another <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object.) </FONT></LI></A></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Manipulating Distinguished Names"></A>
+<A NAME="2850089">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Manipulating Distinguished Names</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2849096">
+A distinguished name (DN) uniquely identifies an entry in the directory tree. You can get the DN for an entry (see <a href="search.htm#2830940">"Getting Distinguished Names from the Results"</a>) or specify a DN to read an entry from the directory (see <a href="search.htm#2846186">"Reading an Entry"</a>). 
+</P>
+</A>
+<A NAME="2848719">
+The Netscape Directory SDK for Java contains a utility class, <FONT FACE="courier, courier new, monospace">LDAPDN</FONT>, that provides methods for manipulating DNs. 
+</P>
+</A>
+<A NAME="Getting the Components of a Distinguished Name">
+</A><A NAME="2848650">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Getting the Components of a Distinguished Name</B>
+</FONT></A><br>
+<A NAME="2848651">
+If you want to access individual components of a distinguished name or a relative distinguished name, invoke the <FONT FACE="courier, courier new, monospace">LDAPDN</FONT>.<FONT FACE="courier, courier new, monospace">explodeDN</FONT> method or the <FONT FACE="courier, courier new, monospace">LDAPDN</FONT>.<FONT FACE="courier, courier new, monospace">explodeRDN</FONT> method. 
+</P>
+</A>
+<A NAME="2848664">
+Both functions return an array of strings representing the individual components of the distinguished name. 
+</P>
+</A>
+<A NAME="2848665">
+You can specify whether or not you want the names of the components included in the array by using the<FONT FACE="courier, courier new, monospace"> notypes </FONT>parameter. 
+</P>
+</A>
+<ul><P>
+<A NAME="2848666">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Set <FONT FACE="courier, courier new, monospace">notypes</FONT> to<FONT FACE="courier, courier new, monospace"> false </FONT>if you want to include component names in the array.</FONT></LI></A><PRE><A NAME="2848673"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;<FONT FACE="courier, courier new, monospace">LDAPDN</FONT>.<FONT FACE="courier, courier new, monospace">explodeDN</FONT>( "uid=bjensen, ou=People, o=Airius.com", false )
+</FONT></A></PRE>
+
+
+<ul><P><A NAME="2848674">
+The method returns this array:
+
+</A></P>
+<PRE><A NAME="2848675"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;{ "uid=bjensen", "ou=People", "o=Airius.com" }
+</FONT></A></PRE>
+
+
+</ul><P>
+<A NAME="2848676">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Set<FONT FACE="courier, courier new, monospace"> notypes </FONT>to<FONT FACE="courier, courier new, monospace"> true </FONT>if you don't want to include the component names in the array. </FONT></LI></A><PRE><A NAME="2848683"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;<FONT FACE="courier, courier new, monospace">LDAPDN</FONT>.<FONT FACE="courier, courier new, monospace">explodeDN</FONT>( "uid=bjensen, ou=People, o=Airius.com", true )
+</FONT></A></PRE>
+
+
+<ul><P><A NAME="2848684">
+The method returns this array:
+
+</A></P>
+<PRE><A NAME="2848685"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;{ "bjensen", "People", "Airius.com" }
+</FONT></A></PRE>
+
+
+</ul></ul><A NAME="2848647">
+
+</P>
+</A>
+</FONT>
+  </TD>
+</TR>
+<TR>
+  <TD>&nbsp;
+  </TD>
+</TR>
+<TR>
+  <TD BGCOLOR="#9999CC"><A HREF="#top"><IMG SRC="up.gif" BORDER=0></A>
+  </TD>
+</TR>
+</TABLE>
+<BR>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-2 COLOR="#999999">
+&copy; Copyright 1999 Netscape Communications Corporation.  All rights reserved.
+</FONT> </CENTER>
+
+<BR>
+
+</BODY>
+
+</HTML>

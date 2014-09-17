@@ -1,0 +1,387 @@
+<html><head>
+<title>"Directory SDK for Java 4.0 Programmer's Guide": Preface
+</title>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+
+        // for older browsers, will just replace the document
+
+        function showHideLayerSwitch(ignored)
+        {
+                document.location = 'contents.htm';
+        }
+
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript1.2">
+
+
+        var visibleVar="null";
+
+    if (navigator.appName == "Netscape") {
+        layerStyleRef="layer.";
+        layerRef="document.layers";
+        styleSwitch="";
+        visibleVar="show";
+    } else {
+        layerStyleRef="layer.style.";
+        layerRef="document.all";
+        styleSwitch=".style";
+        visibleVar="visible";
+    }
+        
+    function showHideLayerSwitch(layerName)
+    {
+        if (eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility == visibleVar')) {
+                hideLayer(layerName);
+        } else {
+            showLayer(layerName);
+        }
+    }
+
+    function showLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="visible"');
+    }
+        
+    function hideLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="hidden"');
+    }
+
+
+</SCRIPT>
+
+<STYLE TYPE="text/css">
+        #header {
+                z-index: 5;
+                visibility: visible;
+        }
+        #pulldownMenu {
+                position: absolute; 
+                z-index: 10; 
+                visibility: hidden; 
+                left: 95px; 
+                top: 55px;
+        }
+</STYLE>
+
+<DIV BGCOLOR="#000000" id="pulldownMenu" >
+
+<SCRIPT>
+        function onMouseOut()
+        {
+                visibility="hide";
+        }
+</SCRIPT>
+
+<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0> <TR> <TD BGCOLOR="#9999CC">
+
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+<A HREF="contents.htm"> <FONT COLOR="white"> Complete Contents</FONT></A><BR> 
+
+<A HREF="preface.htm"> <FONT COLOR="white"> Preface</FONT></A><BR> 
+
+<A HREF="ldap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 1</FONT> Understanding LDAP</FONT></A><BR> 
+
+<A HREF="api.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 2</FONT> Using the Netscape Directory SDK for Java</FONT> 
+</A><BR> 
+
+<A HREF="qckstart.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 3</FONT> Quick Start</FONT> 
+</A><BR> 
+
+<A HREF="writing.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 4</FONT> Writing an LDAP Client</FONT></A><BR> 
+
+<A HREF="using.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 5</FONT>  Using the LDAP Java Classes</FONT></A><BR> 
+
+<A HREF="search.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 6</FONT> Searching the Directory</FONT></A><BR> 
+
+<A HREF="filter.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 7</FONT> Using Filter Configuration Files</FONT></A><BR>
+
+<A HREF="addmod.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 8</FONT> Adding, Updating, and Deleting Entries</FONT></A><BR>
+
+<A HREF="compare.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 9</FONT> Comparing Values in Entries</FONT></A><BR>
+
+<A HREF="url.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 10</FONT> Working with LDAP URLs</FONT></A><BR>
+
+<A HREF="servinfo.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 11</FONT> Getting Server Information</FONT></A><BR>
+
+<A HREF="ssl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 12</FONT> Connecting Over SSL</FONT></A><BR>
+
+<A HREF="controls.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 13</FONT> Working with LDAP Controls</FONT></A><BR>
+
+<A HREF="sasl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 14</FONT> Using SASL Authentication</FONT></A><BR>
+
+<A HREF="JNDIchap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 15</FONT> Using Netscape's JNDI Service Provider</FONT></A><BR>
+
+<A HREF="extendop.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 16</FONT> Working with Extended Operations</FONT></A><BR>
+
+<A HREF="asynch.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 17</FONT> Using the Asynchronous Interface</FONT></A><BR>
+
+<A HREF="glossary.htm"> <FONT COLOR="white"> Glossary</A><BR> 
+
+</TD> </TR> </TABLE> </DIV>
+
+</SCRIPT>
+
+</HEAD>
+
+<BODY LINK="#666699" VLINK="#666699" ALINK="#333366" BGCOLOR="#FFFFFF"><FONT FACE="PrimaSans BT, Verdana, 
+
+Sans-Serif" Size=-1>
+<a name="TOP">
+<TABLE CELLPADDING=10 CELLSPACING=2 border=0 WIDTH=100% BGCOLOR="#CCCCCC"> 
+
+<TR><TD><TABLE CELLPADDING=5 CELLSPACING=2 border=0>
+<TR>
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="intrpart.htm">Next<IMG SRC="next.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" BORDER=0></a></FONT>
+  </TD>   
+
+  <TD>
+  </TD>
+
+  <TD BGCOLOR="#9999CC"> <A HREF="javascript:showHideLayerSwitch('pulldownMenu');"><FONT FACE="PrimaSans BT, 
+
+Verdana, Sans-Serif" SIZE=-1 
+  COLOR="white">Contents</FONT></A>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><A HREF="index.htm">Index</A></FONT>
+  </TD>
+
+</TR>
+</TABLE>
+</TD></TR> 
+</TABLE>
+
+<BR> <BR>
+
+</a>
+</DIV>
+
+<CENTER>
+<TABLE CELLPADDING=2 CELLSPACING=2 WIDTH="85%" BORDER=0>
+<TR>
+  <TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><A NAME="Preface
+">
+</A>
+<A NAME="2837604">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+Preface
+
+</FONT></B><P><A NAME="2837608">
+The <em>Netscape Directory SDK 4.0 for Java Programmer's Guide</em> documents the Netscape Directory SDK 4.0 for Java, a development kit for writing LDAP (Lightweight Directory Access Protocol) applications.</P></A>
+<A NAME="2835329">
+The chapter has the following sections:
+</P>
+</A>
+<ul><P>
+<A NAME="2836674">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="preface.htm#2837972">"Who Should Read This Guide"</a></FONT></LI></A><P>
+<A NAME="2836676">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="preface.htm#2834996">"Where to Find LDAP Information"</a></FONT></LI></A><P>
+<A NAME="2835345">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="preface.htm#2834277">"What's New in This Release"</a></FONT></LI></A><P>
+<A NAME="2835354">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="preface.htm#2837564">"What's in This Guide"</a></FONT></LI></A><P>
+<A NAME="2836719">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="preface.htm#2828183">"Where to Find Reference Information"</a></FONT></LI></A><P>
+<A NAME="2835359">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="preface.htm#2836554">"Documentation Conventions"</a></FONT></LI></A><P>
+<A NAME="2838002">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="preface.htm#2829847">"About the Sample Code"</a></FONT></LI></A></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Who Should Read This Guide"></A>
+<A NAME="2837972">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Who Should Read This Guide</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2834994">
+This guide is intended for use by Java programmers who want to enable new or existing applications and applets to connect to, search, and update LDAP servers. It assumes that you are familiar with writing and compiling Java applications and applets. If you plan to use the LDAP Java Beans, you should also be familiar with Java Beans. 
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Where to Find LDAP Information"></A>
+<A NAME="2834996">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Where to Find LDAP Information</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2834504">
+To find more information about the LDAP protocol and directories, see LDAP and Directory Developer Central at the Netscape DevEdge site:
+</P>
+</A>
+<A NAME="2834507">
+<FONT FACE="courier, courier new, monospace"><A HREF="http://developer.netscape.com/tech/directory/index.html" TARGET="_blank">http://developer.netscape.com/tech/directory/index.html</a></FONT>
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="What's New in This Release"></A>
+<A NAME="2834277">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>What's New in This Release</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2834534">
+This manual accompanies the Netscape Directory SDK 4.0 for Java release. This SDK supports the LDAP v3 protocol and includes classes and methods for: 
+</P>
+</A>
+<ul><P>
+<A NAME="2834535">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+working with LDAP v3 controls (for example, to request server-side sorting of search results) </FONT></LI></A><P>
+<A NAME="2834536">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+requesting LDAP v3 extended operations and parsing extended responses </FONT></LI></A><P>
+<A NAME="2834537">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+handling search references </FONT></LI></A><P>
+<A NAME="2834538">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+using a SASL mechanism for authentication </FONT></LI></A><P>
+<A NAME="2835450">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+interacting with the Java Naming and Directory Interface (JNDI)</FONT></LI></A><P>
+<A NAME="2835451">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+managing asynchronous connections</FONT></LI></A></ul><A NAME="2837528">
+The Netscape Directory SDK 4.0 for Java supports the specifications detailed in the Internet-Draft "The Java LDAP Application Program Interface". This Internet-Draft is available at <A HREF="http://www.ietf.org/internet-drafts/draft-ietf-ldapext-ldap-java-api-06.txt" TARGET="_blank"><FONT FACE="courier, courier new, monospace">http://www.ietf.org/internet-drafts/draft-ietf-ldapext-ldap-java-api-06.txt</a></FONT>
+</P>
+</A>
+<a name="2838359">
+<B>Note. </B></A><a name="2838376">Internet-Drafts expire every six months. If the URL above does not work, try 
+incrementing the number by one. For example, <FONT FACE="courier, courier new, monospace">draft-06.txt</FONT> would become 
+<FONT FACE="courier, courier new, monospace">draft-07.txt</FONT>.
+</a><P><A NAME="2838337">
+For late-breaking information about the Netscape Directory SDK 4.0 for Java, read the Release Notes at:
+</P>
+</A>
+<A NAME="2837580">
+<A HREF="http://developer.netscape.com/docs/manuals/dirsdk/jsdk40/relnotes.html" TARGET="_blank"><FONT FACE="courier, courier new, monospace">http://developer.netscape.com/docs/manuals/dirsdk/jsdk40/relnotes.html</a></FONT>
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="What's in This Guide"></A>
+<A NAME="2837564">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>What's in This Guide</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2837537">
+This guide explains how to use the Netscape Directory SDK 4.0 for Java to enable applications to interact with LDAP servers. The guide documents the Java LDAP API, which consists of interfaces, classes, and methods used to communicate with LDAP servers.
+</P>
+</A>
+<A NAME="2832765">
+This manual is organized into three parts:
+</P>
+</A>
+<ul><P>
+<A NAME="2834482">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="intrpart.htm#997850">Part 1</a>, <a href="intrpart.htm#997850">"Introduction to LDAP and the Netscape Directory SDK for Java"</a>, explains how you can use the Netscape Directory SDK 4.0 for Java to enable your applications for LDAP.</FONT></LI></A><P>
+<A NAME="2832775">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="usngpart.htm#996796">Part 2</a>, <a href="usngpart.htm#996796">"Writing Clients with the Netscape Directory SDK for Java"</a> teaches you how to employ the LDAP Java API in your software.</FONT></LI></A><P>
+<A NAME="2834467">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="advpart.htm#996796">Part 3</a>, <a href="advpart.htm#996796">"Advanced Topics"</a>, contains additional material that you might need, including documentation of the classes and methods that support LDAP v3 features, a discussion of secure authentication methods and information about JNDI and asynchronous communication.</FONT></LI></A></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Where to Find Reference Information"></A>
+<A NAME="2828183">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Where to Find Reference Information</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2836555">
+All interface, class and method reference materials for the Netscape Directory SDK 4.0 for Java are generated using the Javadoc utility. You can access this information either online at: <A HREF="http://developer.netscape.com/docs/manuals/dirsdk/jsdk40/Reference/" TARGET="_blank"><FONT FACE="courier, courier new, monospace">http://developer.netscape.com/docs/manuals/dirsdk/jsdk40/Reference/</FONT></a> or by pointing your Web browser to the <FONT FACE="courier, courier new, monospace">index.html</FONT> file in the <FONT FACE="courier, courier new, monospace">/dist/doc </FONT>subdirectory of your SDK installation. Any updates or changes to these materials are reflected in the online references.
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Documentation Conventions"></A>
+<A NAME="2836554">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Documentation Conventions</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2834368">
+This book uses the following font conventions:
+</P>
+</A>
+<ul><P>
+<A NAME="2834369">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">The monospace font </FONT>is used for sample code and code listings, API and language elements (such as function names and class names), filenames, pathnames, directory names, HTML tags, and any text that must be typed on the screen. (<I><FONT FACE="courier, courier new, monospace">Monospace italic font</FONT></I> is used for placeholders embedded in code.) </FONT></LI></A><P>
+<A NAME="2834370">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<I>Italic type </I>is used for book titles, emphasis, variables and placeholders, and words used in the literal sense. </FONT></LI></A><P>
+<A NAME="2834371">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<B>Boldface type </B>is used for glossary terms. </FONT></LI></A></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="About the Sample Code"></A>
+<A NAME="2829847">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>About the Sample Code</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2834317">
+This book contains sample Java code for LDAP clients. This code was tested with the JDK 1.1.8 on a machine running Microsoft Windows NT version 4.0 SP4.
+</P>
+</A>
+</FONT>
+  </TD>
+</TR>
+<TR>
+  <TD>&nbsp;
+  </TD>
+</TR>
+<TR>
+  <TD BGCOLOR="#9999CC"><A HREF="#top"><IMG SRC="up.gif" BORDER=0></A>
+  </TD>
+</TR>
+</TABLE>
+
+<BR>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-2 COLOR="#999999">
+&copy; Copyright 1999 Netscape Communications Corporation.  All rights reserved.
+</FONT> </CENTER>
+
+<BR>
+
+</BODY>
+
+</HTML>

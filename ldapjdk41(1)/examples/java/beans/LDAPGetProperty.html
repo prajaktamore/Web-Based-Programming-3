@@ -1,0 +1,149 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.0 [en] (WinNT; U) [Netscape]">
+   <TITLE>LDAP GetProperty</TITLE>
+</HEAD>
+<BODY>
+
+<H4>
+A very simple example of fetching a single property with LDAP. A
+JavaBean - LDAPGetProperty - is instantiated on the page. JavaScript
+fetches user-entered values and retrieves an attribute value from the
+specified directory, by setting properties on LDAPGetProperty and
+calling its getProperty() method.<BR>
+<BR>
+The filter is matched to the "cn" field in a subdirectory search, unless
+a real filter expression is provided (e.g. uid=john*). If there is more
+than one match, it is considered an error and nothing is returned. On errors,
+the error code is retrieved, translated, and presented in an alert.</H4>
+Examples of filters to test:
+<H5>
+Paula*, S*son, *Walker</H5>
+Examples of attributes to fetch:
+<H5>
+telephonenumber, cn, uid, mail, roomnumber</H5>
+<FORM NAME=input>
+<TABLE WIDTH="300" >
+<TR>
+<TD>Host:</TD>
+
+<TD><INPUT TYPE=text NAME="host" VALUE="localhost" SIZE=40></TD>
+</TR>
+
+<TR>
+<TD>Port:</TD>
+
+<TD><INPUT TYPE=text NAME="port" VALUE=389 SIZE=40></TD>
+</TR>
+
+<TR>
+<TD>Directory base:</TD>
+
+<TD><INPUT TYPE=text NAME="base"
+VALUE="o=Airius.com" SIZE=40></TD>
+</TR>
+
+<TR>
+<TD>Filter:</TD>
+
+<TD><INPUT TYPE=text NAME="filter" VALUE="Paula*" SIZE=40></TD>
+</TR>
+
+<TR>
+<TD>Attribute:</TD>
+
+<TD><INPUT TYPE=text NAME="attribute" VALUE="cn" SIZE=40></TD>
+</TR>
+</TABLE>
+
+
+<P><INPUT TYPE=button VALUE="Get value" 
+ onClick="getProperty()"></FORM>
+
+<P><FORM NAME=output><TEXTAREA NAME="results" ROWS=6 COLS=70></TEXTAREA></FORM><SCRIPT LANGUAGE="JavaScript">
+
+function showStrings(values) {
+	if ( values != null ) {
+	    var retstr = "";
+		for( var i = 0; i < values.length; i++ ) {
+	        retstr += values[i] + "\n";
+		}
+	    document.output.results.value=retstr;
+    } else {
+		showError();
+	}
+}
+
+function showError() {
+	var err = getter.getErrorCode();
+	var pkg = netscape.ldap.beans.LDAPGetProperty;
+	if ( err == pkg.INVALID_PARAMETER )
+		errString = "Invalid parameter";
+	else if ( err == pkg.CONNECT_ERROR )
+		errString = "Unable to connect to server";
+	else if ( err == pkg.AUTHENTICATION_ERROR )
+		errString = "Unable to authenticate to server";
+	else if ( err == pkg.PROPERTY_NOT_FOUND )
+		errString = "Entry or property not found";
+	else if ( err == pkg.AMBIGUOUS_RESULTS )
+		errString = "More than one matching entry";
+
+	alert( "Error fetching property: " + errString );
+}
+
+var getter;
+function getProperty() {
+	if ( document.input.filter.value.length < 1 ) {
+		alert( "Must enter a value for Filter" );
+	}
+	if ( document.input.attribute.value.length < 1 ) {
+		alert( "Must enter a value for Attribute" );
+	}
+	// Create an instance of the Bean
+	getter = new netscape.ldap.beans.LDAPGetProperty();
+	// Get parameters from form fields
+	getter.setHost( document.input.host.value );
+	getter.setPort( parseInt(document.input.port.value) );
+	getter.setBase( document.input.base.value );
+	filter = document.input.filter.value;
+	// If the filter expression is incomplete, assume "cn="
+	if ( filter.indexOf("=") == -1 )
+		filter = "cn=" + filter;
+	getter.setFilter( filter );
+	getter.setAttribute( document.input.attribute.value );
+	// Do the search
+	values = getter.getProperty();
+	// Display the results
+	showStrings( values );
+}
+
+function doWire() {
+	document.input.host.value =
+		java.net.InetAddress.getLocalHost().getHostName();
+}
+
+window.onload=doWire()
+</SCRIPT>
+<P>
+The JavaScript code to do this is as follows:
+<PRE>
+	// Create an instance of the Bean
+	getter = new netscape.ldap.beans.LDAPGetProperty();
+	// Get parameters from form fields
+	getter.setHost( document.input.host.value );
+	getter.setPort( parseInt(document.input.port.value) );
+	getter.setBase( document.input.base.value );
+	filter = document.input.filter.value;
+	// If the filter expression is incomplete, assume "cn="
+	if ( filter.indexOf("=") == -1 )
+		filter = "cn=" + filter;
+	getter.setFilter( filter );
+	getter.setAttribute( document.input.attribute.value );
+	// Do the search
+	values = getter.getProperty();
+	// Display the results
+	showStrings( values );
+</PRE>
+</BODY>
+</HTML>

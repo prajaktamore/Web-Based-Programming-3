@@ -1,0 +1,5 @@
+INDEX VERSION 1.126
+D:\WEB BASED PROGRAMMING\Homework4\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1703525614.index
+\BinaryCalculator\src
+D:\WEB BASED PROGRAMMING\Homework4\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\969643527.index
+\BinaryCalculator\src

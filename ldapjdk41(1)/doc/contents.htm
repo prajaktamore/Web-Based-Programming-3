@@ -1,0 +1,1290 @@
+<HTML> 
+
+<HEAD> 
+
+<TITLE>"Directory SDK for Java 4.0 Programmer's Guide"</TITLE> 
+<SCRIPT LANGUAGE="JavaScript"> 
+  
+
+        // for older browsers, will just replace the document 
+
+        function showHideLayerSwitch(ignored) 
+        { 
+                document.location = 'contents.htm'; 
+        } 
+  
+
+</SCRIPT> 
+
+<SCRIPT LANGUAGE="JavaScript1.2"> 
+  
+
+        var visibleVar="null"; 
+
+    if (navigator.appName == "Netscape") { 
+        layerStyleRef="layer."; 
+        layerRef="document.layers"; 
+        styleSwitch=""; 
+        visibleVar="show"; 
+    } else { 
+        layerStyleRef="layer.style."; 
+        layerRef="document.all"; 
+        styleSwitch=".style"; 
+        visibleVar="visible"; 
+    } 
+  
+    function showHideLayerSwitch(layerName) 
+    { 
+        if (eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility == visibleVar')) { 
+                hideLayer(layerName); 
+        } else { 
+            showLayer(layerName); 
+        } 
+    } 
+
+    function showLayer(layerName) 
+    { 
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="visible"'); 
+    } 
+  
+    function hideLayer(layerName) 
+    { 
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="hidden"'); 
+    } 
+  
+
+</SCRIPT> 
+
+<STYLE TYPE="text/css"> 
+        #header { 
+                z-index: 5; 
+                visibility: visible; 
+        } 
+        #pulldownMenu { 
+                position: absolute; 
+                z-index: 10; 
+                visibility: hidden; 
+                left: 22px; 
+                top: 55px; 
+        } 
+</STYLE> 
+
+<DIV BGCOLOR="#000000" id="pulldownMenu"> 
+
+<SCRIPT> 
+        function onMouseOut() 
+        { 
+                visibility="hide"; 
+        } 
+</SCRIPT> 
+
+<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0> <TR> <TD BGCOLOR="#9999CC"> 
+
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1> 
+
+<A HREF="contents.htm"> <FONT COLOR="white"> Complete Contents</FONT></A><BR> 
+
+<A HREF="preface.htm"> <FONT COLOR="white"> Preface</FONT></A><BR> 
+
+<A HREF="ldap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 1</FONT> Understanding LDAP</FONT></A><BR> 
+
+<A HREF="api.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 2</FONT> Using the Netscape Directory SDK for Java</FONT> 
+</A><BR> 
+
+<A HREF="qckstart.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 3</FONT> Quick Start</FONT> 
+</A><BR> 
+
+<A HREF="writing.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 4</FONT> Writing an LDAP Client</FONT></A><BR> 
+
+<A HREF="using.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 5</FONT>  Using the LDAP Java Classes</FONT></A><BR> 
+
+<A HREF="search.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 6</FONT> Searching the Directory</FONT></A><BR> 
+
+<A HREF="filter.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 7</FONT> Using Filter Configuration Files</FONT></A><BR>
+
+<A HREF="addmod.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 8</FONT> Adding, Updating, and Deleting Entries</FONT></A><BR>
+
+<A HREF="compare.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 9</FONT> Comparing Values in Entries</FONT></A><BR>
+
+<A HREF="url.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 10</FONT> Working with LDAP URLs</FONT></A><BR>
+
+<A HREF="servinfo.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 11</FONT> Getting Server Information</FONT></A><BR>
+
+<A HREF="ssl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 12</FONT> Connecting Over SSL</FONT></A><BR>
+
+<A HREF="controls.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 13</FONT> Working with LDAP Controls</FONT></A><BR>
+
+<A HREF="sasl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 14</FONT> Using SASL Authentication</FONT></A><BR>
+
+<A HREF="JNDIchap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 15</FONT> Using Netscape's JNDI Service Provider</FONT></A><BR>
+
+<A HREF="extendop.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 16</FONT> Working with Extended Operations</FONT></A><BR>
+
+<A HREF="asynch.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 17</FONT> Using the Asynchronous Interface</FONT></A><BR>
+
+<A HREF="glossary.htm"> <FONT COLOR="white"> Glossary</A><BR>  
+
+</TD> </TR> </TABLE> </DIV> 
+
+</SCRIPT> 
+
+</HEAD> 
+
+<BODY LINK="#666699" VLINK="#666699" ALINK="#333366" BGCOLOR="#FFFFFF"> 
+
+<TABLE CELLPADDING=10 CELLSPACING=2 border=0 WIDTH=100% BGCOLOR="#CCCCCC"> 
+<TR> 
+  <TD><TABLE CELLPADDING=5 CELLSPACING=2 border=0> 
+  <TR> 
+    <TD BGCOLOR="#9999CC"> <A HREF="javascript:showHideLayerSwitch('pulldownMenu');"><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 
+
+COLOR="white">Contents</FONT></A> 
+    </TD> 
+
+    <TD BGCOLOR="white"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><A
+HREF="index.htm">Index</A></FONT> 
+    </TD>
+  </TR> 
+  </TABLE> 
+  </TD> 
+</TR> 
+</TABLE> 
+  
+
+<BR>
+
+ <BR> 
+<CENTER> 
+<TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0 WIDTH="85%"> 
+<tr>
+<td colspan=2>
+<FONT FACE="Palatino, Serif" SIZE=+2> 
+<B>Netscape Directory SDK 4.0 for Java Programmer's Guide
+ 
+</B> 
+</FONT>
+</td></tr>
+<tr><td>&nbsp</td><td>&nbsp</td></tr><tr><td colspan=2>
+<A NAME="651">
+The <em>Netscape Directory SDK 4.0 for Java Programmer's Guide</em><I> </I>documents the Netscape Directory SDK for Java, a development kit for writing LDAP (Lightweight Directory Access Protocol) applications.
+</P>
+</A>
+<BR><TR> 
+  <TD> 
+  </TD> 
+  <TD><FONT FACE="Palatino, Serif" SIZE=+2 COLOR="#999999"><B>Contents</B></FONT></A> 
+  </TD> 
+</TR> 
+<TR> 
+  <TD> 
+  </TD> 
+  <TD><IMG SRC="trans.gif" BORDER=0> 
+  </TD> 
+</TR> <TR><TD>&nbsp;</TD><TD></TD></TR>
+<TR><TD VALIGN=top><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+<B>
+ </B> </A> </FONT>
+</TD><TD VALIGN=top>
+<FONT FACE="Palatino, Serif" SIZE=+1> 
+<B><a href="preface.htm#2837604">Preface 
+</B> </A> </FONT>
+</TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><I>
+The <em>Netscape Directory SDK 4.0 for Java Programmer's Guide</em> documents
+the Netscape Directory SDK 4.0 for Java, a development kit for 
+writing LDAP (Lightweight Directory Access Protocol) applications.
+
+</I></FONT><BR><BR>
+</TD>
+</TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="preface.htm#2837972">
+ Who Should Read This Guide 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="preface.htm#2834996">
+ Where to Find LDAP Information 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="preface.htm#2834277">
+ What's New in This Release 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="preface.htm#2837564">
+ What's in This Guide 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="preface.htm#2828183">
+ Where to Find Reference Information 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="preface.htm#2836554">
+ Documentation Conventions 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="preface.htm#2829847">
+ About the Sample Code 
+</a></FONT></TD></TR><TR>
+  <TD>&nbsp;</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+      <B><a href="intrpart.htm#997850"> Part 1   </B></FONT></A> 
+  </TD>
+  <TD><FONT FACE="Palatino, Serif" SIZE=+1> 
+      <B><a href="intrpart.htm#997850">Introduction to LDAP and the Netscape Directory SDK for Java
+ </B></A></FONT><P>
+  </TD>
+</TR><TR><TD>&nbsp;</TD><TD></TD></TR>
+<TR><TD VALIGN=top><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+<B>
+Chapter 1 </B> </A> </FONT>
+</TD><TD VALIGN=top>
+<FONT FACE="Palatino, Serif" SIZE=+1> 
+<B><a href="ldap.htm#996824"> Understanding LDAP 
+</B> </A> </FONT>
+</TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><I>
+This chapter explains the LDAP protocol and the concepts behind 
+LDAP.
+
+</I></FONT><BR><BR>
+</TD>
+</TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="ldap.htm#1018882">
+ How Directory Services Work 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="ldap.htm#1018901">
+ How LDAP Servers Organize Directories 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="ldap.htm#1018933">
+ How LDAP Clients and Servers Work 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="ldap.htm#997436">
+ Understanding the LDAP v3 Protocol 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="ldap.htm#1021921">
+ For More Information 
+</a></FONT></TD></TR><TR><TD>&nbsp;</TD><TD></TD></TR>
+<TR><TD VALIGN=top><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+<B>
+Chapter 2 </B> </A> </FONT>
+</TD><TD VALIGN=top>
+<FONT FACE="Palatino, Serif" SIZE=+1> 
+<B><a href="api.htm#2831653"> Using the Netscape Directory SDK for Java 
+</B> </A> </FONT>
+</TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><I>
+This chapter describes the Lightweight Directory Access Protocol 
+(LDAP) Java classes and the Netscape Directory SDK for Java.
+
+</I></FONT><BR><BR>
+</TD>
+</TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="api.htm#2831543">
+ Understanding the LDAP Java Classes 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="api.htm#2828180">
+ Getting Started with the Netscape Directory SDK for Java 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="api.htm#2835023">
+ Getting and Installing the SDK 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="api.htm#2834933">
+ Exploring the SDK 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="api.htm#2834937">
+ Preparing to Use the SDK 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="api.htm#2834286">
+ Writing Applets with the SDK 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="api.htm#2834766">
+ Checking the Version of Classes from an Applet 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="api.htm#2836235">
+ Working with the LDAP JavaBeans 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="api.htm#2835441">
+ Using the Classes in JavaScript 
+</a></FONT></TD></TR><TR><TD>&nbsp;</TD><TD></TD></TR>
+<TR><TD VALIGN=top><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+<B>
+Chapter 3 </B> </A> </FONT>
+</TD><TD VALIGN=top>
+<FONT FACE="Palatino, Serif" SIZE=+1> 
+<B><a href="qckstart.htm#1915315"> Quick Start 
+</B> </A> </FONT>
+</TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><I>
+This chapter provides a simple example of an LDAP client written with 
+the Netscape Directory SDK for Java.
+
+</I></FONT><BR><BR>
+</TD>
+</TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="qckstart.htm#2843687">
+ Understanding the Sample Client 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="qckstart.htm#2844185">
+ Sample Code 
+</a></FONT></TD></TR><TR>
+  <TD>&nbsp;</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+      <B><a href="usngpart.htm#996796"> Part 2   </B></FONT></A> 
+  </TD>
+  <TD><FONT FACE="Palatino, Serif" SIZE=+1> 
+      <B><a href="usngpart.htm#996796">Writing Clients with the Netscape Directory SDK for Java
+ </B></A></FONT><P>
+  </TD>
+</TR><TR><TD>&nbsp;</TD><TD></TD></TR>
+<TR><TD VALIGN=top><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+<B>
+Chapter 4 </B> </A> </FONT>
+</TD><TD VALIGN=top>
+<FONT FACE="Palatino, Serif" SIZE=+1> 
+<B><a href="writing.htm#1915315"> Writing an LDAP Client 
+</B> </A> </FONT>
+</TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><I>
+This chapter describes the general process of writing an LDAP client. 
+The chapter covers the procedures for connecting to an LDAP server, 
+authenticating, requesting operations, and disconnecting from the 
+server.
+
+</I></FONT><BR><BR>
+</TD>
+</TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="writing.htm#2843498">
+ Overview: Designing an LDAP Client 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="writing.htm#2853017">
+ Creating a Connection and Setting Preferences 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="writing.htm#2850563">
+ Connecting to the LDAP Server 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="writing.htm#2828582">
+ Binding and Authenticating to an LDAP Server 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="writing.htm#2852231">
+ Understanding Authentication Methods 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>&nbsp;&nbsp;&nbsp;&nbsp;
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="writing.htm#2854112">
+ Simple Authentication <P>
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>&nbsp;&nbsp;&nbsp;&nbsp;
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="writing.htm#2851998">
+ Certificate-Based Client Authentication (over SSL) <P>
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>&nbsp;&nbsp;&nbsp;&nbsp;
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="writing.htm#2854153">
+ Simple Authentication and Security Layer (SASL) <P>
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="writing.htm#2848379">
+ Using Simple Authentication 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="writing.htm#2852226">
+ Binding Anonymously 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="writing.htm#2852180">
+ Specifying the LDAP Version 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="writing.htm#2852311">
+ Authenticating with the connect Method 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="writing.htm#2852302">
+ Performing LDAP Operations 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="writing.htm#2828650">
+ Closing the Connection to the Server 
+</a></FONT></TD></TR><TR><TD>&nbsp;</TD><TD></TD></TR>
+<TR><TD VALIGN=top><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+<B>
+Chapter 5 </B> </A> </FONT>
+</TD><TD VALIGN=top>
+<FONT FACE="Palatino, Serif" SIZE=+1> 
+<B><a href="using.htm#1915315"> Using the LDAP Java Classes 
+</B> </A> </FONT>
+</TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><I>
+This chapter covers some of the general LDAP Java classes that are 
+commonly used when writing LDAP clients.
+
+</I></FONT><BR><BR>
+</TD>
+</TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="using.htm#2843655">
+ Getting Information About the SDK 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="using.htm#2833003">
+ Handling Exceptions 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="using.htm#2846775">
+ Getting Information About the Error 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="using.htm#2846776">
+ Getting the Error Message 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="using.htm#2844087">
+ Handling Referrals 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="using.htm#2847472">
+ Understanding Referrals 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="using.htm#2847481">
+ Enabling or Disabling Referral Handling 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="using.htm#2844097">
+ Limiting Referral Hops 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="using.htm#2844121">
+ Binding When Following Referrals 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="using.htm#2848762">
+ Using an In-Memory Cache 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="using.htm#2849997">
+ How the Cache Operates 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="using.htm#2850250">
+ Setting Up an In-Memory Cache 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="using.htm#2850025">
+ Caching Requests by Base DN 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="using.htm#2850076">
+ Sharing a Cache Between Connections 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="using.htm#2850490">
+ Flushing the Cache 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="using.htm#2850078">
+ Getting Cache Statistics 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="using.htm#2849095">
+ Cloning a Connection 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="using.htm#2850089">
+ Manipulating Distinguished Names 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="using.htm#2848650">
+ Getting the Components of a Distinguished Name 
+</a></FONT></TD></TR><TR><TD>&nbsp;</TD><TD></TD></TR>
+<TR><TD VALIGN=top><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+<B>
+Chapter 6 </B> </A> </FONT>
+</TD><TD VALIGN=top>
+<FONT FACE="Palatino, Serif" SIZE=+1> 
+<B><a href="search.htm#1915315"> Searching the Directory 
+</B> </A> </FONT>
+</TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><I>
+This chapter explains how to use the LDAP Java classes to search the 
+directory and retrieve entries. The chapter also describes how to get attributes
+and attribute values from an entry.
+
+</I></FONT><BR><BR>
+</TD>
+</TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2829709">
+ Overview: Searching with the LDAP Java Classes 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2841199">
+ Sending a Search Request 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2842334">
+ Specifying the Base DN and Scope 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2832737">
+ Specifying a Search Filter 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2846484">
+ Specifying the Attributes to Retrieve 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2841574">
+ Setting Search Preferences 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>&nbsp;&nbsp;&nbsp;&nbsp;
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2842352">
+ Setting Preferences for All Searches <P>
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>&nbsp;&nbsp;&nbsp;&nbsp;
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2841615">
+ Overriding Preferences on Individual Searches <P>
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>&nbsp;&nbsp;&nbsp;&nbsp;
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2845699">
+ Configuring the Search to Wait for All Results <P>
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>&nbsp;&nbsp;&nbsp;&nbsp;
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2845509">
+ Setting Size and Time Limits <P>
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2841080">
+ Example of Sending a Search Request 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2828841">
+ Getting the Search Results 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2830933">
+ Getting Entries from the Results 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2830940">
+ Getting Distinguished Names from the Results 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2843662">
+ Getting Attributes from an Entry 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2831717">
+ Getting the Name and Values of an Attribute 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2845086">
+ Sorting the Search Results 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2830942">
+ Abandoning a Search 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2845478">
+ Example: Searching the Directory 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2846186">
+ Reading an Entry 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="search.htm#2846221">
+ Listing Subentries 
+</a></FONT></TD></TR><TR><TD>&nbsp;</TD><TD></TD></TR>
+<TR><TD VALIGN=top><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+<B>
+Chapter 7 </B> </A> </FONT>
+</TD><TD VALIGN=top>
+<FONT FACE="Palatino, Serif" SIZE=+1> 
+<B><a href="filter.htm#2832076"> Using Filter Configuration Files 
+</B> </A> </FONT>
+</TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><I>
+This chapter explains how to use API function to work with filter configuration
+files. Filter configuration files can help simplify the process 
+of selecting the appropriate search filter for a search request.
+
+</I></FONT><BR><BR>
+</TD>
+</TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="filter.htm#2837632">
+ Understanding Filter Configuration Files 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="filter.htm#2833925">
+ Understanding the Configuration File Syntax 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="filter.htm#2833064">
+ Understanding Filter Parameters 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="filter.htm#2829616">
+ Loading a Filter Configuration File 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="filter.htm#2828848">
+ Retrieving Filters 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="filter.htm#2838779">
+ Adding Filter Prefixes and Suffixes 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="filter.htm#2836418">
+ Adding Affixes for All Filters 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="filter.htm#2836749">
+ Adding Affixes By Using setFilterAffixes 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="filter.htm#2836703">
+ Adding Affixes By Using getFilter 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="filter.htm#2837259">
+ Adding Affixes By Using setupFilter 
+</a></FONT></TD></TR><TR><TD>&nbsp;</TD><TD></TD></TR>
+<TR><TD VALIGN=top><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+<B>
+Chapter 8 </B> </A> </FONT>
+</TD><TD VALIGN=top>
+<FONT FACE="Palatino, Serif" SIZE=+1> 
+<B><a href="addmod.htm#2832217"> Adding, Updating, and Deleting Entries 
+</B> </A> </FONT>
+</TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><I>
+This chapter explains how to use the LDAP Java classes to add, modify, 
+delete, and rename entries in the directory.
+
+</I></FONT><BR><BR>
+</TD>
+</TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="addmod.htm#2828841">
+ Adding a New Entry 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="addmod.htm#2836378">
+ Creating a New Attribute 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="addmod.htm#2833806">
+ Creating a New Attribute Set 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="addmod.htm#2832661">
+ Creating a New Entry 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="addmod.htm#2840751">
+ Adding the Entry to the Directory 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="addmod.htm#2841383">
+ Example of Adding an Entry 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="addmod.htm#2829050">
+ Modifying an Entry 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="addmod.htm#2832879">
+ Specifying the Changes 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>&nbsp;&nbsp;&nbsp;&nbsp;
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="addmod.htm#2842761">
+ Adding New Values to an Attribute <P>
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>&nbsp;&nbsp;&nbsp;&nbsp;
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="addmod.htm#2842850">
+ Removing Values to an Attribute <P>
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>&nbsp;&nbsp;&nbsp;&nbsp;
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="addmod.htm#2842939">
+ Replacing the Values of an Attribute <P>
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>&nbsp;&nbsp;&nbsp;&nbsp;
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="addmod.htm#2842844">
+ Adding a New Attribute <P>
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>&nbsp;&nbsp;&nbsp;&nbsp;
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="addmod.htm#2842478">
+ Removing an Attribute <P>
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="addmod.htm#2832864">
+ Modifying the Entry in the Directory 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="addmod.htm#2843471">
+ Example of Modifying an Entry 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="addmod.htm#2838220">
+ Deleting an Entry 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="addmod.htm#2845277">
+ Example of Deleting an Entry 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="addmod.htm#2834429">
+ Changing the Name of an Entry 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="addmod.htm#2845267">
+ Removing the Attribute for the Old RDN 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="addmod.htm#2845251">
+ Example of Renaming an Entry 
+</a></FONT></TD></TR><TR><TD>&nbsp;</TD><TD></TD></TR>
+<TR><TD VALIGN=top><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+<B>
+Chapter 9 </B> </A> </FONT>
+</TD><TD VALIGN=top>
+<FONT FACE="Palatino, Serif" SIZE=+1> 
+<B><a href="compare.htm#2832217"> Comparing Values in Entries 
+</B> </A> </FONT>
+</TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><I>
+This chapter explains how to compare the value of an attribute in an 
+entry against a specified value.
+
+</I></FONT><BR><BR>
+</TD>
+</TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="compare.htm#2839987">
+ Comparing the Value of an Attribute 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="compare.htm#2840194">
+ Specifying the Attribute and Value 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="compare.htm#2840197">
+ Performing the Comparison 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="compare.htm#2840149">
+ Example of Comparing a Value Against an Attribute 
+</a></FONT></TD></TR><TR><TD>&nbsp;</TD><TD></TD></TR>
+<TR><TD VALIGN=top><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+<B>
+Chapter 10 </B> </A> </FONT>
+</TD><TD VALIGN=top>
+<FONT FACE="Palatino, Serif" SIZE=+1> 
+<B><a href="url.htm#2830333"> Working with LDAP URLs 
+</B> </A> </FONT>
+</TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><I>
+This chapter describes what LDAP URLs are and explains how to use 
+LDAP URLs to search and retrieve data from the directory.
+
+</I></FONT><BR><BR>
+</TD>
+</TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="url.htm#2831945">
+ Understanding LDAP URLs 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="url.htm#2831915">
+ Examples of LDAP URLs 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="url.htm#2831628">
+ Getting the Components of an LDAP URL 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="url.htm#2831621">
+ Processing an LDAP URL 
+</a></FONT></TD></TR><TR>
+  <TD>&nbsp;</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+      <B><a href="advpart.htm#996796"> Part 3   </B></FONT></A> 
+  </TD>
+  <TD><FONT FACE="Palatino, Serif" SIZE=+1> 
+      <B><a href="advpart.htm#996796">Advanced Topics
+ </B></A></FONT><P>
+  </TD>
+</TR><TR><TD>&nbsp;</TD><TD></TD></TR>
+<TR><TD VALIGN=top><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+<B>
+Chapter 11 </B> </A> </FONT>
+</TD><TD VALIGN=top>
+<FONT FACE="Palatino, Serif" SIZE=+1> 
+<B><a href="servinfo.htm#1915315"> Getting Server Information 
+</B> </A> </FONT>
+</TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><I>
+This chapter explains how to access and modify information about 
+your LDAP server over the LDAP protocol.
+
+</I></FONT><BR><BR>
+</TD>
+</TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="servinfo.htm#2850331">
+ Understanding DSEs 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="servinfo.htm#2850362">
+ Getting the Root DSE 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="servinfo.htm#2850513">
+ Determining If the Server Supports LDAP v3 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="servinfo.htm#2850607">
+ Getting Schema Information 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="servinfo.htm#2852124">
+ Overview: Schema Over LDAP 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="servinfo.htm#2852250">
+ Getting the Schema for an LDAP Server 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="servinfo.htm#2852274">
+ Working with Object Class Descriptions 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="servinfo.htm#2852588">
+ Working with Attribute Type Descriptions 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="servinfo.htm#2852677">
+ Working with Matching Rule Descriptions 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="servinfo.htm#2852453">
+ Example of Working with the Schema 
+</a></FONT></TD></TR><TR><TD>&nbsp;</TD><TD></TD></TR>
+<TR><TD VALIGN=top><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+<B>
+Chapter 12 </B> </A> </FONT>
+</TD><TD VALIGN=top>
+<FONT FACE="Palatino, Serif" SIZE=+1> 
+<B><a href="ssl.htm#1915315"> Connecting Over SSL 
+</B> </A> </FONT>
+</TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><I>
+This chapter describes the process of enabling an LDAP client to connect
+to an LDAP server over the Secure Sockets Layer (SSL) protocol. 
+The chapter covers the procedures for connecting to an LDAP server 
+and authenticating.
+
+</I></FONT><BR><BR>
+</TD>
+</TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="ssl.htm#2841416">
+ How SSL Works with the Netscape Directory SDK for Java 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="ssl.htm#2848344">
+ Understanding SSL 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="ssl.htm#2848358">
+ SSL Over LDAP 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="ssl.htm#2848438">
+ Interfaces and Classes for SSL 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="ssl.htm#2846951">
+ Prerequisites for Connecting Over SSL 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="ssl.htm#2841981">
+ Connecting to the Server Over SSL 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="ssl.htm#2847694">
+ Using Certificate-Based Client Authentication 
+</a></FONT></TD></TR><TR><TD>&nbsp;</TD><TD></TD></TR>
+<TR><TD VALIGN=top><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+<B>
+Chapter 13 </B> </A> </FONT>
+</TD><TD VALIGN=top>
+<FONT FACE="Palatino, Serif" SIZE=+1> 
+<B><a href="controls.htm#1915315"> Working with LDAP Controls 
+</B> </A> </FONT>
+</TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><I>
+This chapter explains how LDAP controls work and how to use the 
+LDAP controls that are supported by the Netscape Directory Server.
+
+</I></FONT><BR><BR>
+</TD>
+</TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2848450">
+ How LDAP Controls Work 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2848454">
+ Using Controls in the LDAP Java Classes 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2849035">
+ Determining the Controls Supported By the Server 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2848857">
+ Using the Server-Side Sorting Control 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2852298">
+ Specifying the Sort Order 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2852494">
+ Creating the Control 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2852506">
+ Performing the Search 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2853575">
+ Interpreting the Results 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2861521">
+ Known Problems with Server Sorting 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2855363">
+ Example of Using the Server-Sorting Control 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2851860">
+ Using the Persistent Search Control 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2857105">
+ Creating the Control 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2857972">
+ Performing the Search 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2858132">
+ Example of Using the Persistent Search Control 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2849610">
+ Using the Entry Change Notification Control 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2860217">
+ Getting the Control 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2860226">
+ Working with Change Log Numbers 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2848467">
+ Using the Virtual List View Control 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2848484">
+ Using the Manage DSA IT Control 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2848498">
+ Using Password Policy Controls 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="controls.htm#2869883">
+ Using the Proxied Authorization Control 
+</a></FONT></TD></TR><TR><TD>&nbsp;</TD><TD></TD></TR>
+<TR><TD VALIGN=top><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+<B>
+Chapter 14 </B> </A> </FONT>
+</TD><TD VALIGN=top>
+<FONT FACE="Palatino, Serif" SIZE=+1> 
+<B><a href="sasl.htm#1915315"> Using SASL Authentication 
+</B> </A> </FONT>
+</TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><I>
+This chapter describes the process of using a SASL mechanism to authenticate
+an LDAP client to an LDAP server.
+
+</I></FONT><BR><BR>
+</TD>
+</TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="sasl.htm#2833774">
+ Understanding SASL 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="sasl.htm#2852899">
+ Preparing to Use SASL Authentication 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="sasl.htm#2851716">
+ Supporting SASL on the Server 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="sasl.htm#2853536">
+ Supporting SASL on the Client 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="sasl.htm#2851758">
+ Implementing javax.security.auth.callback 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="sasl.htm#2850814">
+ Using SASL in the Client 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="sasl.htm#2853042">
+ Using the External Mechanism 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="sasl.htm#2854340">
+ Additional SASL Mechanisms 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="sasl.htm#2854366">
+ For More Information 
+</a></FONT></TD></TR><TR><TD>&nbsp;</TD><TD></TD></TR>
+<TR><TD VALIGN=top><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+<B>
+Chapter 15 </B> </A> </FONT>
+</TD><TD VALIGN=top>
+<FONT FACE="Palatino, Serif" SIZE=+1> 
+<B><a href="jndichap.htm#1005439"> Using the JNDI Service Provider 
+</B> </A> </FONT>
+</TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><I>
+This chapter explains JNDI and shows you how to use Netscape's LDAP 
+Service Provider for JNDI.
+
+</I></FONT><BR><BR>
+</TD>
+</TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="jndichap.htm#1012345">
+ How JNDI Works 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="jndichap.htm#1017317">
+ Netscape's LDAP Service Provider 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="jndichap.htm#1012703">
+ Installing the Service Provider 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="jndichap.htm#1012753">
+ Add the Provider to the Classpath 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="jndichap.htm#1013476">
+ Specify the Service Provider when Creating the Initial Context 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="jndichap.htm#1013524">
+ Add the JNDI object schema to the Directory (Optional) 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>&nbsp;&nbsp;&nbsp;&nbsp;
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="jndichap.htm#1020689">
+ Updating Netscape Directory Server 4.1 <P>
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>&nbsp;&nbsp;&nbsp;&nbsp;
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="jndichap.htm#1020877">
+ Updating Pre-4.1 Netscape Directory Servers <P>
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="jndichap.htm#1013584">
+ JNDI Environment Properties 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="jndichap.htm#1015298">
+ Working with Controls 
+</a></FONT></TD></TR><TR><TD>&nbsp;</TD><TD></TD></TR>
+<TR><TD VALIGN=top><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+<B>
+Chapter 16 </B> </A> </FONT>
+</TD><TD VALIGN=top>
+<FONT FACE="Palatino, Serif" SIZE=+1> 
+<B><a href="extendop.htm#1915315"> Working with Extended Operations 
+</B> </A> </FONT>
+</TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><I>
+This chapter explains how LDAP v3 extended operations work and 
+how to use the extended operations that are supported by your LDAP 
+server.
+
+</I></FONT><BR><BR>
+</TD>
+</TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="extendop.htm#2850150">
+ How Extended Operations Work 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="extendop.htm#2850318">
+ Implementing Support for Extended Operations on the Server 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="extendop.htm#2850162">
+ Determining the Extended Operations Supported 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="extendop.htm#2850169">
+ Performing an Extended Operation 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="extendop.htm#2850181">
+ Example: Extended Operation 
+</a></FONT></TD></TR><TR><TD>&nbsp;</TD><TD></TD></TR>
+<TR><TD VALIGN=top><FONT FACE="Palatino, Serif" SIZE=+1 COLOR="#999999"> 
+<B>
+Chapter 17 </B> </A> </FONT>
+</TD><TD VALIGN=top>
+<FONT FACE="Palatino, Serif" SIZE=+1> 
+<B><a href="asynch.htm#1005439"> Using the Asynchronous Interface 
+</B> </A> </FONT>
+</TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><I>
+This chapter shows you how to use the Asynchronous Interface to 
+LDAP in Java applications.
+
+</I></FONT><BR><BR>
+</TD>
+</TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="asynch.htm#1012297">
+ Synchronous vs. Asynchronous Connections 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="asynch.htm#1021352">
+ Common Uses for the Asynchronous Interface 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="asynch.htm#1012340">
+ New Classes in the Asynchronous Interface 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="asynch.htm#1013087">
+ Performing Asynchronous Searches 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="asynch.htm#1013172">
+ Searching Multiple Servers 
+</a></FONT></TD></TR><TR><TD></TD><TD><DD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="asynch.htm#1023286">
+ Multiple Search Statements 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<a href="asynch.htm#1023982">
+ Where to Go for More Information 
+</a></FONT></TD></TR><TR><TD></TD><TD>
+<FONT FACE="Palatino, Serif" SIZE=+1>
+&nbsp;<BR>
+<B><a href="glossary.htm#999926">
+Glossary 
+</a>
+</B> </A> </FONT> </TD></TR><TR><TD></TD><TD>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><I>
+This glossary defines terms commonly used when working with LDAP.
+
+</I></FONT><BR><BR>
+</TD>
+</TR><TR><TD></TD><TD>
+&nbsp;<BR>
+<FONT FACE="Palatino, Serif" SIZE=+1>
+<B><a href="java%20lda.htm#4359">
+Index 
+</a>
+</B> 
+</A> 
+</FONT> </TD></TR> 
+<TR> 
+  <TD COLSPAN="2">&nbsp; 
+  </TD> 
+</TR> 
+<TR> 
+  <TD COLSPAN="2" BGCOLOR="#9999CC"><A HREF="#top"><IMG SRC="up.gif" BORDER=0></A> 
+  </TD> 
+</TR> 
+</TABLE> 
+
+<BR> 
+
+<CENTER> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-2 COLOR="#999999"> 
+&copy; Copyright 1999 Netscape Communications Corporation.  All rights reserved.
+</FONT> </CENTER> 
+
+<BR> 
+
+</BODY>
+</HTML>

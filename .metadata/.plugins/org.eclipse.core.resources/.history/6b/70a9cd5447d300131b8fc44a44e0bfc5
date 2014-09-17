@@ -1,0 +1,105 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+
+public class EntranceAdminFunction extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	public String BASE = "o=airius.com";
+	public String FILTER;
+
+	public EntranceAdminFunction() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession(false);
+
+		String btnVal = request.getParameter("rdown");
+        
+		Class.forName ("com.mysql.jdbc.jdbc2.optional.MysqlDataSource").newInstance();
+		
+		Class.forName("com.mysql.jdbc.Driver").newInstance(); 
+		Connection con = DriverManager.getConnection("jdbc:mysql://bigyellowcat.cs.binghamton.edu/more", "more", "more7755");
+		
+	    // Create statement
+	    Statement stmt = con.createStatement();
+		if ("AccessControl".equals(btnVal)) {
+			     String r1 = request.getParameter("r1");
+			     String r11 = request.getParameter("r11");
+			     String r12 = request.getParameter("r12");
+			        
+			    if ("Add".equals(r1)) {
+			  		
+
+				    String query1 = "INSERT INTO matable COLUMNS(uid,access) VALUES("+request.getParameter("r11")+","+request.getParameter("r12")+")";
+				    // Execute the query
+				    int rs1 = stmt.executeUpdate(query1);
+				    if(rs1 == 1){
+				    	out.print("Added User");
+				    	RequestDispatcher rd = request
+								.getRequestDispatcher("./entranceAdminFunction.jsp");
+						rd.include(request, response);
+				    }else{
+				    	out.print("Cannot add User");
+				    	RequestDispatcher rd = request
+								.getRequestDispatcher("./entranceAdminFunction.jsp");
+						rd.include(request, response);
+				    }
+		        }else if("Delete".equals(r1)){
+		        	 String query1 = "DELETE FROM matable WHERE uid='"+request.getParameter("r11")+"' AND access='"+request.getParameter("r12")+"'";
+					    // Execute the query
+					    int rs1 = stmt.executeUpdate(query1);
+					    if(rs1 == 1){
+					    	out.print("Deleted User");
+					    	RequestDispatcher rd = request
+									.getRequestDispatcher("./entranceAdminFunction.jsp");
+							rd.include(request, response);
+					    }else{
+					    	out.print("Cannot Delete User");
+					    	RequestDispatcher rd = request
+									.getRequestDispatcher("./entranceAdminFunction.jsp");
+							rd.include(request, response);
+					    }
+		        }
+		} else if ("AwardData".equals(btnVal)) {
+			award = request.getParameter("name2");
+		} else if ("TQMCertificate".equals(btnVal)) {
+			award = request.getParameter("name3");
+		}else if ("News".equals(btnVal)) {
+			award = request.getParameter("name2");
+		} else if ("ChangeMax".equals(btnVal)) {
+			award = request.getParameter("name3");
+		}else if ("Searchdrop".equals(btnVal)) {
+			award = request.getParameter("name2");
+		} else if ("DeleteOld".equals(btnVal)) {
+			award = request.getParameter("name3");
+		}
+
+		session.setAttribute("ruidaward", award);		
+			
+				RequestDispatcher rd = request
+						.getRequestDispatcher("./changeAwardWinners.jsp");
+				rd.include(request, response);
+			}
+}

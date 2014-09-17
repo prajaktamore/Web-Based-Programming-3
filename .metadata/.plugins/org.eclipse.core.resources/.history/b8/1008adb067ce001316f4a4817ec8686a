@@ -1,0 +1,16 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Welcome Admin</title>
+</head>
+<body>
+<br><a href="/yeaGuidelines.jsp">YEA Guidelines!</a>
+<br><a href="/submittal.jsp">Submittal Form!</a>
+<br><a href="/viewAwards.jsp">View Awards!</a>
+<br><a href="/Reports.jsp">Reports!</a>
+<br><a href="/Login.jsp">Logout!</a>
+</body>
+</html>

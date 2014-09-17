@@ -1,0 +1,251 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+public class EntranceAdminFunction extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	public String BASE = "o=airius.com";
+	public String FILTER;
+
+	public EntranceAdminFunction() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession(false);
+
+		String btnVal = request.getParameter("rdown");
+		try {
+			Class.forName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource")
+					.newInstance();
+
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Connection con = DriverManager.getConnection(
+					"jdbc:mysql://bigyellowcat.cs.binghamton.edu/more", "more",
+					"more7755");
+
+			// Create statement
+			Statement stmt = con.createStatement();
+			if ("AccessControl".equals(btnVal)) {
+				String r1 = request.getParameter("r1");
+
+				if ("Add".equals(r1)) {
+
+					String query1 = "INSERT INTO matable COLUMNS(uid,access) VALUES('"
+							+ request.getParameter("r11")
+							+ "','"
+							+ request.getParameter("r12") + "')";
+					// Execute the query
+					int rs1 = stmt.executeUpdate(query1);
+					if (rs1 == 1) {
+						out.print("Added User");
+						RequestDispatcher rd = request
+								.getRequestDispatcher("./entranceAdminFunction.jsp");
+						rd.include(request, response);
+					} else {
+						out.print("Cannot add User");
+						RequestDispatcher rd = request
+								.getRequestDispatcher("./entranceAdminFunction.jsp");
+						rd.include(request, response);
+					}
+				} else if ("Delete".equals(r1)) {
+					String query1 = "DELETE FROM matable WHERE uid='"
+							+ request.getParameter("r11") + "' AND access='"
+							+ request.getParameter("r12") + "'";
+					// Execute the query
+					int rs1 = stmt.executeUpdate(query1);
+					if (rs1 == 1) {
+						out.print("Deleted User");
+						RequestDispatcher rd = request
+								.getRequestDispatcher("./entranceAdminFunction.jsp");
+						rd.include(request, response);
+					} else {
+						out.print("Cannot Delete User");
+						RequestDispatcher rd = request
+								.getRequestDispatcher("./entranceAdminFunction.jsp");
+						rd.include(request, response);
+					}
+				}
+			} else if ("AwardData".equals(btnVal)) {
+				String r1 = request.getParameter("r2");
+
+				if ("Add".equals(r1)) {
+
+					String query1 = "INSERT INTO AwardList COLUMNS(AwardName,AwardCount,status) VALUES('"
+							+ request.getParameter("r31")
+							+ "','"
+							+ request.getParameter("r32")
+							+ "','"
+							+ request.getParameter("r33") + "')";
+					// Execute the query
+					int rs1 = stmt.executeUpdate(query1);
+					if (rs1 == 1) {
+						out.print("Updated Award");
+						RequestDispatcher rd = request
+								.getRequestDispatcher("./entranceAdminFunction.jsp");
+						rd.include(request, response);
+					} else {
+						out.print("Cannot Update Award");
+						RequestDispatcher rd = request
+								.getRequestDispatcher("./entranceAdminFunction.jsp");
+						rd.include(request, response);
+					}
+				} else if ("Delete".equals(r1)) {
+					String query1 = "DELETE FROM AwardList WHERE AwardName='"
+							+ request.getParameter("r3") + "' AND access='"
+							+ request.getParameter("r33")
+							+ "' AND AwardCount='"
+							+ request.getParameter("r32") + "'";
+					// Execute the query
+					int rs1 = stmt.executeUpdate(query1);
+					if (rs1 == 1) {
+						out.print("Updated Award");
+						RequestDispatcher rd = request
+								.getRequestDispatcher("./entranceAdminFunction.jsp");
+						rd.include(request, response);
+					} else {
+						out.print("Cannot Update Award");
+						RequestDispatcher rd = request
+								.getRequestDispatcher("./entranceAdminFunction.jsp");
+						rd.include(request, response);
+					}
+				} else if ("Change".equals(r1)) {
+					String query1 = "UPDATE matable SET access='"
+							+ request.getParameter("r33") + "', AwardCount='"
+							+ request.getParameter("r32")
+							+ "', WHERE AwardName='"
+							+ request.getParameter("r3") + "'";
+					// Execute the query
+					int rs1 = stmt.executeUpdate(query1);
+					if (rs1 == 1) {
+						out.print("Updated Award");
+						RequestDispatcher rd = request
+								.getRequestDispatcher("./entranceAdminFunction.jsp");
+						rd.include(request, response);
+					} else {
+						out.print("Cannot Update Award");
+						RequestDispatcher rd = request
+								.getRequestDispatcher("./entranceAdminFunction.jsp");
+						rd.include(request, response);
+					}
+				}
+			} else if ("TQMCertificate".equals(btnVal)) {
+
+			} else if ("News".equals(btnVal)) {
+				String dateread = request.getParameter("r5");
+
+				String month = dateread.substring(0, 2);
+				String date = dateread.substring(3, 5);
+				String year = dateread.substring(6, 10);
+
+				String dateread1 = request.getParameter("r6");
+
+				String month1 = dateread1.substring(0, 2);
+				String date1 = dateread1.substring(3, 5);
+				String year1 = dateread1.substring(6, 10);
+
+				String query1 = "INSERT INTO news COLUMNS(news,enterdate,enddate) VALUES('"
+						+ request.getParameter("r4")
+						+ "','"
+						+ year
+						+ "-"
+						+ month
+						+ "-"
+						+ date
+						+ "','"
+						+ year1
+						+ "-"
+						+ month1
+						+ "-" + date1 + "')";
+				// Execute the query
+				int rs1 = stmt.executeUpdate(query1);
+				if (rs1 == 1) {
+					out.print("Added News");
+					RequestDispatcher rd = request
+							.getRequestDispatcher("./entranceAdminFunction.jsp");
+					rd.include(request, response);
+				} else {
+					out.print("Added News");
+					RequestDispatcher rd = request
+							.getRequestDispatcher("./entranceAdminFunction.jsp");
+					rd.include(request, response);
+				}
+			} else if ("ChangeMax".equals(btnVal)) {
+				String query1 = "DELETE FROM MaxSubmission";
+				int rs2 = stmt.executeUpdate(query1);
+				if (rs2 == 1) {
+					String query2 = "INSERT INTO news COLUMNS(maxcount) VALUES('"
+							+ request.getParameter("r7") + "')";
+					// Execute the query
+					int rs1 = stmt.executeUpdate(query2);
+					if (rs1 == 1) {
+						out.print("Changed Max Count");
+						RequestDispatcher rd = request
+								.getRequestDispatcher("./entranceAdminFunction.jsp");
+						rd.include(request, response);
+					} else {
+						out.print("Cannot Update Max Count");
+						RequestDispatcher rd = request
+								.getRequestDispatcher("./entranceAdminFunction.jsp");
+						rd.include(request, response);
+					}
+				} else {
+					out.print("Cannot Update Max Count");
+					RequestDispatcher rd = request
+							.getRequestDispatcher("./entranceAdminFunction.jsp");
+					rd.include(request, response);
+				}
+			} else if ("Searchdrop".equals(btnVal)) {
+				RequestDispatcher rd = request
+						.getRequestDispatcher("./Reports.jsp");
+				rd.include(request, response);
+			} else if ("DeleteOld".equals(btnVal)) {
+				RequestDispatcher rd = request
+						.getRequestDispatcher("./Retention.jsp");
+				rd.include(request, response);
+			}
+
+		} catch (SQLException e) {
+			out.print("Error on authentication: " + e.toString());
+			RequestDispatcher rd = request
+					.getRequestDispatcher("./entranceAdminFunction.jsp");
+			rd.include(request, response);
+		} catch (InstantiationException e) {
+			out.print("Error on authentication: " + e.toString());
+			RequestDispatcher rd = request
+					.getRequestDispatcher("./entranceAdminFunction.jsp");
+			rd.include(request, response);
+		} catch (IllegalAccessException e) {
+			out.print("Error on authentication: " + e.toString());
+			RequestDispatcher rd = request
+					.getRequestDispatcher("./entranceAdminFunction.jsp");
+			rd.include(request, response);
+		} catch (ClassNotFoundException e) {
+			out.print("Error on authentication: " + e.toString());
+			RequestDispatcher rd = request
+					.getRequestDispatcher("./entranceAdminFunction.jsp");
+			rd.include(request, response);
+		}
+		out.close();
+	}
+}

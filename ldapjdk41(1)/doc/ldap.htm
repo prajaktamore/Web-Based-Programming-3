@@ -1,0 +1,487 @@
+<html><head>
+<title>"Directory SDK for Java 4.0 Programmer's Guide": Understanding LDAP
+ </title>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+
+        // for older browsers, will just replace the document
+
+        function showHideLayerSwitch(ignored)
+        {
+                document.location = 'contents.htm';
+        }
+
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript1.2">
+
+
+        var visibleVar="null";
+
+    if (navigator.appName == "Netscape") {
+        layerStyleRef="layer.";
+        layerRef="document.layers";
+        styleSwitch="";
+        visibleVar="show";
+    } else {
+        layerStyleRef="layer.style.";
+        layerRef="document.all";
+        styleSwitch=".style";
+        visibleVar="visible";
+    }
+        
+    function showHideLayerSwitch(layerName)
+    {
+        if (eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility == visibleVar')) {
+                hideLayer(layerName);
+        } else {
+            showLayer(layerName);
+        }
+    }
+
+    function showLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="visible"');
+    }
+        
+    function hideLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="hidden"');
+    }
+
+
+</SCRIPT>
+
+<STYLE TYPE="text/css">
+        #header {
+                z-index: 5;
+                visibility: visible;
+        }
+        #pulldownMenu {
+                position: absolute; 
+                z-index: 10; 
+                visibility: hidden; 
+                left: 182px; 
+                top: 55px;
+        }
+</STYLE>
+
+<DIV BGCOLOR="#000000" id="pulldownMenu" >
+
+<SCRIPT>
+        function onMouseOut()
+        {
+                visibility="hide";
+        }
+</SCRIPT>
+
+<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0> <TR> <TD BGCOLOR="#9999CC">
+
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+<A HREF="contents.htm"> <FONT COLOR="white"> Complete Contents</FONT></A><BR> 
+
+<A HREF="preface.htm"> <FONT COLOR="white"> Preface</FONT></A><BR> 
+
+<A HREF="ldap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 1</FONT> Understanding LDAP</FONT></A><BR> 
+
+<A HREF="api.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 2</FONT> Using the Netscape Directory SDK for Java</FONT> 
+</A><BR> 
+
+<A HREF="qckstart.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 3</FONT> Quick Start</FONT> 
+</A><BR> 
+
+<A HREF="writing.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 4</FONT> Writing an LDAP Client</FONT></A><BR> 
+
+<A HREF="using.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 5</FONT>  Using the LDAP Java Classes</FONT></A><BR> 
+
+<A HREF="search.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 6</FONT> Searching the Directory</FONT></A><BR> 
+
+<A HREF="filter.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 7</FONT> Using Filter Configuration Files</FONT></A><BR>
+
+<A HREF="addmod.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 8</FONT> Adding, Updating, and Deleting Entries</FONT></A><BR>
+
+<A HREF="compare.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 9</FONT> Comparing Values in Entries</FONT></A><BR>
+
+<A HREF="url.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 10</FONT> Working with LDAP URLs</FONT></A><BR>
+
+<A HREF="servinfo.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 11</FONT> Getting Server Information</FONT></A><BR>
+
+<A HREF="ssl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 12</FONT> Connecting Over SSL</FONT></A><BR>
+
+<A HREF="controls.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 13</FONT> Working with LDAP Controls</FONT></A><BR>
+
+<A HREF="sasl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 14</FONT> Using SASL Authentication</FONT></A><BR>
+
+<A HREF="JNDIchap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 15</FONT> Using Netscape's JNDI Service Provider</FONT></A><BR>
+
+<A HREF="extendop.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 16</FONT> Working with Extended Operations</FONT></A><BR>
+
+<A HREF="asynch.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 17</FONT> Using the Asynchronous Interface</FONT></A><BR>
+
+<A HREF="glossary.htm"> <FONT COLOR="white"> Glossary</A><BR> 
+
+</TD> </TR> </TABLE> </DIV>
+
+</SCRIPT>
+
+</HEAD>
+
+<BODY LINK="#666699" VLINK="#666699" ALINK="#333366" BGCOLOR="#FFFFFF"><FONT FACE="PrimaSans BT, Verdana, 
+
+Sans-Serif" Size=-1>
+<a name="TOP">
+<TABLE CELLPADDING=10 CELLSPACING=2 border=0 WIDTH=100% BGCOLOR="#CCCCCC"> 
+
+<TR><TD><TABLE CELLPADDING=5 CELLSPACING=2 border=0>
+<TR>
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="intrpart.htm"><IMG SRC="prev.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0>Previous</a></FONT>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="api.htm">Next<IMG SRC="next.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0></a></FONT>
+  </TD>   
+
+  <TD></TD>
+
+  <TD BGCOLOR="#9999CC"> <A HREF="javascript:showHideLayerSwitch('pulldownMenu');"><FONT FACE="PrimaSans BT, 
+
+Verdana, Sans-Serif" SIZE=-1 
+  COLOR="white">Contents</FONT></A>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><A HREF="index.htm">Index</A></FONT>
+  </TD>
+
+</TR>
+</TABLE>
+</TD></TR> 
+</TABLE>
+
+<BR> <BR>
+
+</a>
+</DIV>
+
+</P>
+
+<CENTER>
+<TABLE CELLPADDING=2 CELLSPACING=2 WIDTH="85%" BORDER=0>
+<TR>
+  <TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="
+">
+</A>
+<A NAME="1001595">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+
+
+</FONT></B><P><A NAME="
+">
+</A>
+<A NAME="1001596">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="#999999">
+<B>
+Chapter 1
+</B></FONT></A><A NAME="Understanding LDAP
+">
+</A>
+<A NAME="996824">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+Understanding LDAP
+
+</FONT></B><P><A NAME="1019894">
+This chapter explains the LDAP protocol and the concepts behind LDAP.</P></A>
+<A NAME="1020587">
+LDAP (Lightweight Directory Access Protocol) is the Internet directory protocol. Developed at the University of Michigan at Ann Arbor in conjunction with the Internet Engineering Task Force, LDAP is a protocol for accessing and managing directory services. 
+</P>
+</A>
+<A NAME="1020573">
+The chapter is organized in the following sections: 
+</P>
+</A>
+<ul><P>
+<A NAME="1019918">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="ldap.htm#1018882">"How Directory Services Work"</a></FONT></LI></A><P>
+<A NAME="1019933">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="ldap.htm#1018901">"How LDAP Servers Organize Directories"</a></FONT></LI></A><P>
+<A NAME="1019945">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="ldap.htm#1018933">"How LDAP Clients and Servers Work"</a></FONT></LI></A><P>
+<A NAME="1021289">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="ldap.htm#997436">"Understanding the LDAP v3 Protocol"</a></FONT></LI></A><P>
+<A NAME="1020819">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="ldap.htm#1021921">"For More Information"</a></FONT></LI></A></ul><A NAME="1019899">
+If you are already familiar with LDAP, you can skip ahead to <a href="api.htm#2831653">Chapter 2, "Using the Netscape Directory SDK for Java."</a> 
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="How Directory Services Work"></A>
+<A NAME="1018882">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>How Directory Services Work</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="1018884">
+A directory consists of entries containing descriptive information. For example, a directory might contain entries describing people or network resources, such as printers or fax machines. 
+</P>
+</A>
+<A NAME="1018886">
+The descriptive information is stored in the attributes of the entry. Each attribute describes a specific type of information. For example, attributes describing a person might include the person's name (common name, or cn), telephone number, and email address. 
+</P>
+</A>
+<A NAME="1018888">
+The entry for <FONT FACE="courier, courier new, monospace">Barbara Jensen</FONT> might have the following attributes: 
+</P>
+</A>
+<PRE><A NAME="1018889"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>cn: Barbara Jensen<br>
+mail: babs@ace.com<br>
+telephoneNumber: 555-1212<br>
+roomNumber: 3995
+</FONT></A></PRE>
+
+
+<A NAME="1018890">
+An attribute can have more than one value. For example, a person might have two common names (a formal name and a nickname) or two telephone numbers:
+</P>
+</A>
+<PRE><A NAME="1018891"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>cn: Jennifer Jensen<br>
+cn: Jenny Jensen<br>
+mail: jen@ace.com<br>
+telephoneNumber: 555-1213<br>
+telephoneNumber: 555-2059<br>
+roomNumber: 3996
+</FONT></A></PRE>
+
+
+<A NAME="1018892">
+Attributes can also contain binary data. For example, attributes of a person might include the JPEG photo of the person or the voice of the person recorded in an audio file format.
+</P>
+</A>
+<A NAME="1018894">
+A directory service is a distributed database application designed to manage the entries and attributes in a directory. A directory service also makes the entries and attributes available to users and other applications. The Netscape Directory Server is an example of a directory service. 
+</P>
+</A>
+<A NAME="1018895">
+For example, a user might use the directory service to look up someone's telephone number. Another application might use the directory service to retrieve a list of email addresses. 
+</P>
+</A>
+<A NAME="1018897">
+LDAP is a protocol defining a directory service and access to that service. LDAP is based on a client-server model. LDAP servers provide the directory service, and LDAP clients use the directory service to access entries and attributes. 
+</P>
+</A>
+<A NAME="1018899">
+An example of an LDAP server is the Netscape Directory Server, which manages and provides information about users and organizational structures of users, such as groups and departments. Examples of LDAP clients might include the HTTP gateway to the Netscape Directory Server, Netscape Navigator, and Netscape Communicator. The gateway uses the directory service to find, update, and add information about users. 
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="How LDAP Servers Organize Directories"></A>
+<A NAME="1018901">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>How LDAP Servers Organize Directories</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="1018902">
+Because LDAP is intended to be a global directory service, data is organized hierarchically, starting at a root and branching down into individual entries.
+</P>
+</A>
+<A NAME="1018903">
+At the top level of the hierarchy, entries represent larger organizations. Under these larger organizations in the hierarchy might be entries for smaller organizations. The hierarchy might end with entries for individual people or resources. 
+</P>
+</A>
+<A NAME="1018904">
+<a href="ldap.htm#1018908">Figure 1.1</a> illustrates an example of a hierarchy of entries in an LDAP directory service. 
+</P>
+</A>
+<A NAME="1018908">
+<P>
+<B>
+Figure 1.1	  &nbsp&nbsp A hierarchy of entries in the directory <p><img src="hierarch.gif">
+
+</B>
+</P>
+</A><A NAME="1018910">
+Each entry is uniquely identified by a distinguished name. A distinguished name consists of a name that uniquely identifies the entry at that hierarchical level (for example,<FONT FACE="courier, courier new, monospace"> bjensen </FONT>and<FONT FACE="courier, courier new, monospace"> kjensen </FONT>are different user IDs that identify different entries at the same level) and a path of names that trace the entry back to the root of the tree. 
+</P>
+</A>
+<A NAME="1018912">
+For example, this might be the distinguished name for the<FONT FACE="courier, courier new, monospace"> bjensen </FONT>entry:
+</P>
+</A>
+<PRE><A NAME="1018913"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>uid=bjensen, ou=People, o=Airius.com
+</FONT></A></PRE>
+
+
+<A NAME="1018914">
+Here,<FONT FACE="courier, courier new, monospace"> uid </FONT>represents the user ID of the entry,<FONT FACE="courier, courier new, monospace"> ou </FONT>represents the organizational unit in which the entry belongs, and<FONT FACE="courier, courier new, monospace"> o </FONT>represents the larger organization in which the entry belongs. 
+</P>
+</A>
+<A NAME="1018922">
+The following diagram shows how distinguished names are used to identify entries uniquely in the directory hierarchy. 
+</P>
+</A>
+<A NAME="1018926">
+<P>
+<B>
+Figure 1.2	  &nbsp&nbsp An example of a distinguished name in the directory <p><img src="hierdnam.gif">
+
+</B>
+</P>
+</A><A NAME="1018929">
+The data stored in a directory can be distributed among several LDAP servers. For example, one LDAP server at Airius.com might contain entries representing North American organizational units and employees, while another LDAP server might contain entries representing European organizational units and employees. 
+</P>
+</A>
+<A NAME="1018931">
+Some LDAP servers are set up to refer requests to other LDAP servers. For example, if the LDAP server at Airius.com receives a request for information about an employee in a Pacific Rim branch, that server can refer the request to the LDAP server at the Pacific Rim branch. In this way, LDAP servers can appear to be a single source of directory information. Even if an LDAP server does not contain the information you request, the server can refer you to another server that does contain the information.
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="How LDAP Clients and Servers Work"></A>
+<A NAME="1018933">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>How LDAP Clients and Servers Work</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="1018934">
+In the LDAP client-server model, LDAP servers (such as the Netscape Directory Server) make information about people, organizations, and resources accessible to LDAP clients. The LDAP protocol defines operations that clients use to search and update the directory. An LDAP client can perform these operations, among others: 
+</P>
+</A>
+<ul><P>
+<A NAME="1018935">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+searching for and retrieving entries from the directory </FONT></LI></A><P>
+<A NAME="1018936">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+adding new entries to the directory </FONT></LI></A><P>
+<A NAME="1018937">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+updating entries in the directory </FONT></LI></A><P>
+<A NAME="1018938">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+deleting entries from the directory </FONT></LI></A><P>
+<A NAME="1018939">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+renaming entries in the directory </FONT></LI></A></ul><A NAME="1018940">
+For example, to update an entry in the directory, an LDAP client submits the distinguished name of the entry with updated attribute information to the LDAP server. The LDAP server uses the distinguished name to find the entry and performs a modify operation to update the entry in the directory.
+</P>
+</A>
+<A NAME="1018942">
+To perform any of these LDAP operations, an LDAP client needs to establish a connection with an LDAP server. The LDAP protocol specifies the use of TCP/IP port number 389, although servers may run on other ports. 
+</P>
+</A>
+<A NAME="1018944">
+The LDAP protocol also defines a simple method for authentication. LDAP servers can be set up to restrict permissions to the directory. Before an LDAP client can perform an operation on an LDAP server, the client must authenticate itself to the server by supplying a distinguished name and password. If the user identified by the distinguished name does not have permission to perform the operation, the server does not execute the operation. 
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Understanding the LDAP v3 Protocol"></A>
+<A NAME="997436">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Understanding the LDAP v3 Protocol</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="1021320">
+Many LDAP servers support version 2 of the LDAP protocol. This version of the protocol is specified in RFC 1777 (you can find a copy of this RFC at <A HREF="http://www.ietf.org/rfc/rfc1777.txt" TARGET="_blank"><FONT FACE="courier, courier new, monospace">http://www.ietf.org/rfc/rfc1777.txt</a></FONT>). 
+</P>
+</A>
+<A NAME="1021323">
+The most recent proposed standard is version 3 of the LDAP protocol, which is specified in RFC 2251 (you can find a copy of this RFC at <FONT FACE="courier, courier new, monospace"><A HREF="http:/www.ietf.org/rfc/rfc2251.txt" TARGET="_blank">http://www.ietf.org/rfc/rfc2251.txt</FONT></a>). Some LDAP servers, such as the Netscape Directory Server 3.0 and later, support this newer version of the protocol.
+</P>
+</A>
+<A NAME="1021332">
+The Netscape Directory SDK for Java 4.0 supports both of these versions of the protocol. Clients built with this SDK can interact with LDAP v2 servers and LDAP v3 servers.
+</P>
+</A>
+<A NAME="1021333">
+The LDAP v3 protocol includes these new features:
+</P>
+</A>
+<ul><P>
+<A NAME="1021334">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+You can specify controls (both on the server and on the client) that extend the functionality of an LDAP operation.</FONT></LI></A><P>
+<A NAME="1021335">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+You can request the server to perform extended operations (beyond the standard LDAP operations).</FONT></LI></A><P>
+<A NAME="1021336">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+You can use Simple Authentication and Security Layer (SASL) mechanisms to authenticate to the directory.</FONT></LI></A><P>
+<A NAME="1021337">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Servers have DSEs (DSA-specific entries, where a DSA is a directory server) that provide information including the versions of the LDAP protocol supported, a list of the controls, extended operations, and SASL mechanisms supported by the server, and the naming contexts of the server (specifying the portion of the directory tree managed by this server).</FONT></LI></A><P>
+<A NAME="1021338">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Servers make their schemas available to clients. (You can get a directory server's schema from the root DSE.)</FONT></LI></A><P>
+<A NAME="1021339">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Both client and severs can support data in UTF-8 format. Clients can now request and receive data that is tagged with language information.</FONT></LI></A></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="For More Information"></A>
+<A NAME="1021921">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>For More Information</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="1021928">
+<A HREF="http://home.netscape.com/eng/server/directory/4.1/deploy/intro.htm" TARGET="_blank">Chapter 1, "Welcome to the Directory Server</a>," in the <A HREF="http://home.netscape.com/eng/server/directory/4.1/deploy/contents.htm" TARGET="_blank"><em>Netscape Directory Deployment Guide</a></em>. provides a more detailed introduction to the LDAP protocol and directory services.
+</P>
+</A>
+<A NAME="1021316">
+
+</P>
+</A>
+</FONT>
+  </TD>
+</TR>
+<TR>
+  <TD>&nbsp;
+  </TD>
+</TR>
+<TR>
+  <TD BGCOLOR="#9999CC"><A HREF="#top"><IMG SRC="up.gif" BORDER=0></A>
+  </TD>
+</TR>
+</TABLE>
+<BR>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-2 COLOR="#999999">
+&copy; Copyright 1999 Netscape Communications Corporation.  All rights reserved.
+</FONT> </CENTER>
+
+<BR>
+
+</BODY>
+
+</HTML>

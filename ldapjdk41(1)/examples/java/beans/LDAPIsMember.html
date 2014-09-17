@@ -1,0 +1,131 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.0b4 [en] (WinNT; I) [Netscape]">
+   <TITLE>LDAP IsMember</TITLE>
+</HEAD>
+<BODY>
+
+<SCRIPT LANGUAGE="JavaScript">
+var check;
+function checkMembership() {
+    if ( document.input.group.value.length < 1 ) {
+        alert( "Must enter a value for Group name" );
+        return;
+    }
+    if ( document.input.member.value.length < 1 ) {
+        alert( "Must enter a value for Member" );
+        return;
+    }
+    check = new netscape.ldap.beans.LDAPIsMember();
+    check.setHost( document.input.host.value );
+    check.setPort( parseInt(document.input.port.value) );
+    check.setGroup( document.input.group.value );
+    check.setMember( document.input.member.value );
+	check.setDebug( true );
+    if ( check.isMember() )
+        alert( document.input.member.value + " is a member of " +
+                document.input.group.value );
+    else
+        showError();
+}
+
+function showError() {
+    var err = check.getErrorCode();
+    var pkg = netscape.ldap.beans.LDAPIsMember;
+    if ( err == pkg.INVALID_PARAMETER )
+        errString = "Invalid parameter";
+    else if ( err == pkg.CONNECT_ERROR )
+        errString = "Unable to connect to server";
+    else if ( err == pkg.AUTHENTICATION_ERROR )
+        errString = "Unable to authenticate to server";
+    else if ( err == pkg.NO_SUCH_OBJECT )
+        errString = "Group not found";
+    else if ( err == pkg.PROPERTY_NOT_FOUND )
+        errString = "Member not found";
+    else if ( err == pkg.AMBIGUOUS_RESULTS )
+        errString = "More than one matching entry";
+
+    alert( "Cannot find member in group: " + errString );
+}
+
+</SCRIPT>
+
+<H4>
+A simple example of checking if a user is a member of a group with LDAP.
+There is a small invisible JavaBean - LDAPIsMember. JavaScript fetches
+user-entered values and looks for the user as a member of the named
+group, in the specified directory,
+by setting properties on LDAPIsMember and calling its isMember()
+method.</H4>
+An example of an entry to test is:
+<H5>
+Group name: cn=Directory Administrators, ou=Groups, o=Airius.com
+<BR>
+Member name: uid=hmiller, ou=People, o=Airius.com
+</H5>
+
+<FORM NAME=input>
+<TABLE WIDTH="300">
+<TR>
+<TD>Host:</TD>
+<TD><INPUT TYPE=text NAME="host" VALUE="localhost" SIZE=40></TD>
+</TR>
+
+<TR>
+<TD>Port:</TD>
+<TD><INPUT TYPE=text NAME="port" VALUE=389 SIZE=40></TD>
+</TR>
+
+<TR>
+<TD>Group name:</TD>
+<TD><INPUT TYPE=text NAME="group" SIZE=60
+VALUE="cn=Directory Administrators, ou=Groups, o=Airius.com"></TD>
+</TR>
+
+<TR>
+<TD>Member name:</TD>
+<TD><INPUT TYPE=text NAME="member" SIZE=60
+VALUE="uid=hmiller, ou=People, o=Airius.com"></TD>
+</TR>
+</TABLE>
+
+<BR><INPUT TYPE=button VALUE="Check" 
+ onClick="checkMembership()">
+</FORM>
+<P>
+The JavaScript code to do this is as follows:
+<PRE>
+    check = new netscape.ldap.beans.LDAPIsMember();
+    check.setHost( document.input.host.value );
+    check.setPort( parseInt(document.input.port.value) );
+    check.setGroup( document.input.group.value );
+    check.setMember( document.input.member.value );
+    if ( check.isMember() )
+        alert( document.input.member.value " is a member of " +
+                document.input.group.value );
+    else
+        showError();
+
+or you can pass all parameters in the call itself:
+
+    check = new netscape.ldap.beans.LDAPIsMember();
+    if ( check.isMember( document.input.host.value,
+                         parseInt(document.input.port.value),
+                         "", "",
+                         document.input.group.value,
+                         document.input.member.value ) )
+        ...
+</PRE>
+
+<SCRIPT LANGUAGE="JavaScript">
+function doWire() {
+	document.input.host.value =
+		java.net.InetAddress.getLocalHost().getHostName();
+}
+
+window.onload=doWire()
+</SCRIPT>
+
+</BODY>
+</HTML>

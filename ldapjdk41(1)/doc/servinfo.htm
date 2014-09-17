@@ -1,0 +1,1044 @@
+<html><head>
+<title>"Directory SDK for Java 4.0 Programmer's Guide": Getting Server Information
+ </title>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+
+        // for older browsers, will just replace the document
+
+        function showHideLayerSwitch(ignored)
+        {
+                document.location = 'contents.htm';
+        }
+
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript1.2">
+
+
+        var visibleVar="null";
+
+    if (navigator.appName == "Netscape") {
+        layerStyleRef="layer.";
+        layerRef="document.layers";
+        styleSwitch="";
+        visibleVar="show";
+    } else {
+        layerStyleRef="layer.style.";
+        layerRef="document.all";
+        styleSwitch=".style";
+        visibleVar="visible";
+    }
+        
+    function showHideLayerSwitch(layerName)
+    {
+        if (eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility == visibleVar')) {
+                hideLayer(layerName);
+        } else {
+            showLayer(layerName);
+        }
+    }
+
+    function showLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="visible"');
+    }
+        
+    function hideLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="hidden"');
+    }
+
+
+</SCRIPT>
+
+<STYLE TYPE="text/css">
+        #header {
+                z-index: 5;
+                visibility: visible;
+        }
+        #pulldownMenu {
+                position: absolute; 
+                z-index: 10; 
+                visibility: hidden; 
+                left: 182px; 
+                top: 55px;
+        }
+</STYLE>
+
+<DIV BGCOLOR="#000000" id="pulldownMenu" >
+
+<SCRIPT>
+        function onMouseOut()
+        {
+                visibility="hide";
+        }
+</SCRIPT>
+
+<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0> <TR> <TD BGCOLOR="#9999CC">
+
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+<A HREF="contents.htm"> <FONT COLOR="white"> Complete Contents</FONT></A><BR> 
+
+<A HREF="preface.htm"> <FONT COLOR="white"> Preface</FONT></A><BR> 
+
+<A HREF="ldap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 1</FONT> Understanding LDAP</FONT></A><BR> 
+
+<A HREF="api.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 2</FONT> Using the Netscape Directory SDK for Java</FONT> 
+</A><BR> 
+
+<A HREF="qckstart.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 3</FONT> Quick Start</FONT> 
+</A><BR> 
+
+<A HREF="writing.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 4</FONT> Writing an LDAP Client</FONT></A><BR> 
+
+<A HREF="using.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 5</FONT>  Using the LDAP Java Classes</FONT></A><BR> 
+
+<A HREF="search.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 6</FONT> Searching the Directory</FONT></A><BR> 
+
+<A HREF="filter.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 7</FONT> Using Filter Configuration Files</FONT></A><BR>
+
+<A HREF="addmod.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 8</FONT> Adding, Updating, and Deleting Entries</FONT></A><BR>
+
+<A HREF="compare.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 9</FONT> Comparing Values in Entries</FONT></A><BR>
+
+<A HREF="url.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 10</FONT> Working with LDAP URLs</FONT></A><BR>
+
+<A HREF="servinfo.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 11</FONT> Getting Server Information</FONT></A><BR>
+
+<A HREF="ssl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 12</FONT> Connecting Over SSL</FONT></A><BR>
+
+<A HREF="controls.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 13</FONT> Working with LDAP Controls</FONT></A><BR>
+
+<A HREF="sasl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 14</FONT> Using SASL Authentication</FONT></A><BR>
+
+<A HREF="JNDIchap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 15</FONT> Using Netscape's JNDI Service Provider</FONT></A><BR>
+
+<A HREF="extendop.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 16</FONT> Working with Extended Operations</FONT></A><BR>
+
+<A HREF="asynch.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 17</FONT> Using the Asynchronous Interface</FONT></A><BR>
+
+<A HREF="glossary.htm"> <FONT COLOR="white"> Glossary</A><BR> 
+
+</TD> </TR> </TABLE> </DIV>
+
+</SCRIPT>
+
+</HEAD>
+
+<BODY LINK="#666699" VLINK="#666699" ALINK="#333366" BGCOLOR="#FFFFFF"><FONT FACE="PrimaSans BT, Verdana, 
+
+Sans-Serif" Size=-1>
+<a name="TOP">
+<TABLE CELLPADDING=10 CELLSPACING=2 border=0 WIDTH=100% BGCOLOR="#CCCCCC"> 
+
+<TR><TD><TABLE CELLPADDING=5 CELLSPACING=2 border=0>
+<TR>
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="advpart.htm"><IMG SRC="prev.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0>Previous</a></FONT>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="ssl.htm">Next<IMG SRC="next.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0></a></FONT>
+  </TD>   
+
+  <TD></TD>
+
+  <TD BGCOLOR="#9999CC"> <A HREF="javascript:showHideLayerSwitch('pulldownMenu');"><FONT FACE="PrimaSans BT, 
+
+Verdana, Sans-Serif" SIZE=-1 
+  COLOR="white">Contents</FONT></A>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><A HREF="index.htm">Index</A></FONT>
+  </TD>
+
+</TR>
+</TABLE>
+</TD></TR> 
+</TABLE>
+
+<BR> <BR>
+
+</a>
+</DIV>
+
+</P>
+
+<CENTER>
+<TABLE CELLPADDING=2 CELLSPACING=2 WIDTH="85%" BORDER=0>
+<TR>
+  <TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="
+">
+</A>
+<A NAME="1915312">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+
+
+</FONT></B><P><A NAME="
+">
+</A>
+<A NAME="1915314">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="#999999">
+<B>
+Chapter 11
+</B></FONT></A><A NAME="Getting Server Information
+">
+</A>
+<A NAME="1915315">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+Getting Server Information
+
+</FONT></B><P><A NAME="1708500">
+This chapter explains how to access and modify information about your LDAP server over the LDAP protocol. </P></A>
+<A NAME="2843560">
+The chapter includes the following sections:
+</P>
+</A>
+<ul><P>
+<A NAME="2850671">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="servinfo.htm#2850331">"Understanding DSEs"</a></FONT></LI></A><P>
+<A NAME="2850676">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="servinfo.htm#2850362">"Getting the Root DSE"</a></FONT></LI></A><P>
+<A NAME="2850681">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="servinfo.htm#2850513">"Determining If the Server Supports LDAP v3"</a></FONT></LI></A><P>
+<A NAME="2848499">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="servinfo.htm#2850607">"Getting Schema Information"</a></FONT></LI></A></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Understanding DSEs"></A>
+<A NAME="2850331">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Understanding DSEs</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2850338">
+A <a href="glossary.htm#1014773">DSE</a> is a <a href="glossary.htm#1006891">DSA</a>-specific entry in the directory. (A DSA is a directory system agent, which is an X.500 term for a directory server.) A DSE contains information specific to the server.
+</P>
+</A>
+<A NAME="2850342">
+In a directory tree, the root of the tree is the <a href="glossary.htm#1014998">root DSE</a>. It is not part of any naming context (for example, it is above "o=Airius.com" in the directory tree). 
+</P>
+</A>
+<A NAME="2850343">
+(Note that the root DSE is specified as part of the LDAP v3 protocol. LDAP v2 servers do not necessarily have a root DSE.) 
+</P>
+</A>
+<A NAME="2850344">
+The root DSE can contain the following information:
+</P>
+</A>
+<ul><P>
+<A NAME="2850345">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the naming contexts of this server (for example, "o=Airius.com") </FONT></LI></A><P>
+<A NAME="2850346">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+URLs of alternate servers to contact if this server is unavailable</FONT></LI></A><P>
+<A NAME="2850349">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the LDAP v3 extended operations supported by this server (see <a href="extendop.htm#1915315">Chapter 16, "Working with Extended Operations"</a>for details) </FONT></LI></A><P>
+<A NAME="2850353">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the LDAP v3 controls supported by this server (see <a href="controls.htm#1915315">Chapter 13, "Working with LDAP Controls"</a> for details) </FONT></LI></A><P>
+<A NAME="2850357">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the SASL mechanisms supported by this server (see <a href="sasl.htm#1915315">Chapter 14, "Using SASL Authentication"</a> for details) </FONT></LI></A><P>
+<A NAME="2850359">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the versions of the LDAP protocol supported by this server (for example, 2 and 3) </FONT></LI></A><P>
+<A NAME="2850360">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+additional server-specific information</FONT></LI></A></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Getting the Root DSE"></A>
+<A NAME="2850362">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Getting the Root DSE</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2850366">
+The <a href="glossary.htm#1014998">root DSE</a> for an LDAP server specifies information about the server. The following table lists the types of information available in different attributes of the root DSE.
+</P>
+</A>
+<A NAME="2857147">
+<TABLE BORDER=1 cellpadding=4 cellspacing=3>
+<CAPTION></caption>
+<A NAME="Information available in the root DSE 
+">
+</A>
+<A NAME="2857163">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<B>
+Table 11.1   Information available in the root DSE 
+
+</B>
+</font><br></a></caption><tr><th valign=baseline align=left><b><A NAME="Attribute Name">
+</A>
+<A NAME="2857167">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Attribute Name
+</FONT>
+</B>
+</A>
+<BR><B></th><th valign=baseline align=left><b><A NAME="Description of Values">
+</A>
+<A NAME="2857169">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Description of Values
+</FONT>
+</B>
+</A>
+<BR><B></th></tr>
+<tr><td valign=top><A NAME="2857171">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+namingContexts
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2857173">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The values of this attribute are the naming contexts supported by this server (for example, "o=Airius.com"). 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2857175">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+altServer
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2857177">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The values of this attribute are LDAP URLs that identify other servers that can be contacted if this server is unavailable. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2857179">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+supportedExtension
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2857181">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The values of this attribute are the object identifiers (OIDs) of the LDAP v3 extended operations supported by this server. 
+</FONT>
+</A>
+<BR><A NAME="2857182">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+If this attribute is not in the root DSE, the server does not support any extended operations. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2857184">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+supportedControl
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2857186">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The values of this attribute are the object identifiers (OIDs) of the LDAP v3 controls supported by this server. 
+</FONT>
+</A>
+<BR><A NAME="2857187">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+If this attribute is not in the root DSE, the server does not support any LDAP v3 controls. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2857189">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+supportedSASLMechanisms
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2857191">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The values of this attribute are the names of the SASL mechanisms supported by the server. 
+</FONT>
+</A>
+<BR><A NAME="2857192">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+If this attribute is not in the root DSE, the server does not support any SASL mechanisms. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2857194">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+supportedLDAPVersion
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2857196">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The values of this attribute are the versions of the LDAP protocol supported by this server (for example, 2 and 3). 
+</FONT>
+</A>
+<BR></td></tr>
+</TABLE></P></A>
+<A NAME="2850403">
+To get the root DSE for an LDAP server, do the following: 
+</P>
+</A>
+<ol>
+<P><a name="2850407">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Turn off automatic referral handling and connect to the LDAP server (see <a href="writing.htm#2853017">"Creating a Connection and Setting Preferences"</a>, <a href="writing.htm#2850563">"Connecting to the LDAP Server"</a>, and <a href="using.htm#2847481">"Enabling or Disabling Referral Handling"</a> for details). </LI></a><P><a name="2850412">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Search the directory using the following criteria:</LI></a><ul>
+<P>
+<A NAME="2850413">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Set the search scope to a base search.
+</FONT></LI></A><P>
+<A NAME="2850414">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Specify an empty string for the base DN.
+</FONT></LI></A><P>
+<A NAME="2850415">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Use the search filter <FONT FACE="courier, courier new, monospace">(objectclass=*)</FONT>.
+</FONT></LI></A></ul>
+<P><A NAME="2850416">
+For details on how to use Java classes to search the directory, see 
+<a href="search.htm#1915315">Chapter 6, "Searching the Directory"</a>.
+
+</A></P>
+<P><A NAME="2850421">
+If an <FONT FACE="courier, courier new, monospace">LDAPException</FONT> is thrown with a result code such as 
+<FONT FACE="courier, courier new, monospace">OPERATION_ERROR</FONT>, <FONT FACE="courier, courier new, monospace">PROTOCOL_ERROR</FONT>, <FONT FACE="courier, courier new, monospace">REFERRAL</FONT>, or <FONT FACE="courier, courier new, monospace">NO_SUCH_OBJECT</FONT>, the 
+LDAP server probably does not support LDAP v3. 
+
+</A></P>
+</ol>
+<A NAME="2850422">
+The following section of code gets the root DSE for a server and prints out its attributes. 
+</P>
+</A>
+<PRE><A NAME="2850432"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+import <FONT FACE="courier, courier new, monospace">netscape.ldap</FONT>.*;<br>
+import java.util.*;<br>
+...<br>
+/* Create a new connection. */<br>
+<FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> ld = new <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT>();<br>
+String hostname = "localhost";<br>
+int portnumber = <FONT FACE="courier, courier new, monospace">LDAPv2</FONT>.<FONT FACE="courier, courier new, monospace">DEFAULT_PORT</FONT>;<br>
+<br>
+try {<br>
+&nbsp;&nbsp;&nbsp;/* Connect to the LDAP server. */<br>
+&nbsp;&nbsp;&nbsp;ld.connect( 3, hostname, portnumber );<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Get the root DSE by doing a search where:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- The scope is SCOPE_BASE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- The base is ""<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- The search filter is "(objectclass=*)"<br>
+&nbsp;&nbsp;&nbsp;*/<br>
+&nbsp;&nbsp;&nbsp;int MY_SCOPE = LDAPv2.SCOPE_BASE;<br>
+&nbsp;&nbsp;&nbsp;String MY_FILTER = "(objectclass=*)";<br>
+&nbsp;&nbsp;&nbsp;String MY_SEARCHBASE = "";<br>
+&nbsp;&nbsp;&nbsp;LDAPSearchResults res = ld.search( MY_SEARCHBASE,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MY_SCOPE, MY_FILTER, null, false );<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* There should be only one entry in the results (the root DSE). */<br>
+&nbsp;&nbsp;&nbsp;while ( res.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPEntry findEntry = (LDAPEntry)res.nextElement();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the attributes of the root DSE. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttributeSet findAttrs = findEntry.getAttributeSet();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enumeration enumAttrs = findAttrs.getAttributes();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Iterate through each attribute. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ( enumAttrs.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttribute anAttr = (LDAPAttribute)enumAttrs.nextElement();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get and print the attribute name. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String attrName = anAttr.getName();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( attrName );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the values of the attribute. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enumeration enumVals = anAttr.getStringValues();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get and print each value. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( enumVals == null ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\tNo values found." );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ( enumVals.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String aVal = ( String )enumVals.nextElement();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\t" + aVal );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+catch( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+}<br>
+...
+</FONT></A></PRE>
+
+
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Determining If the Server Supports LDAP v3"></A>
+<A NAME="2850513">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Determining If the Server Supports LDAP v3</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2850514">
+You can determine what version an LDAP server supports by getting the <FONT FACE="courier, courier new, monospace">supportedLDAPVersion</FONT> attribute from the <a href="glossary.htm#1014998">root DSE</a>. This attribute should contain the value 3. (It may also contain other values, such as 2, so you may want to check through the values of this attribute.)
+</P>
+</A>
+<A NAME="2850520">
+Note that you do not need to authenticate or bind (see <a href="writing.htm#2828582">"Binding and Authenticating to an LDAP Server"</a> for details) before searching the directory. Unlike the LDAP v2 protocol, the LDAP v3 protocol states that clients do not need to bind to the server before performing LDAP operations. 
+</P>
+</A>
+<A NAME="2850522">
+The following section of code connects to an LDAP server and determines whether or not that server supports the LDAP v3 protocol. 
+</P>
+</A>
+<PRE><A NAME="2850523"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+import <FONT FACE="courier, courier new, monospace">netscape.ldap</FONT>.*;<br>
+import java.util.*;<br>
+...<br>
+/* Create a new connection. */<br>
+LDAPConnection ld = new LDAPConnection();<br>
+String hostname = "localhost";<br>
+int portnumber = <FONT FACE="courier, courier new, monospace">LDAPv2</FONT>.<FONT FACE="courier, courier new, monospace">DEFAULT_PORT</FONT>;<br>
+boolean supportsV3 = false;<br>
+<br>
+try {<br>
+&nbsp;&nbsp;&nbsp;/* Connect to the LDAP server. */<br>
+&nbsp;&nbsp;&nbsp;ld.connect( 3, hostname, portnumber );<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Get the root DSE by doing a search where:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- The scope is SCOPE_BASE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- The base is ""<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- The search filter is "(objectclass=*)"<br>
+&nbsp;&nbsp;&nbsp;*/<br>
+&nbsp;&nbsp;&nbsp;int MY_SCOPE = LDAPv2.SCOPE_BASE;<br>
+&nbsp;&nbsp;&nbsp;String MY_FILTER = "(objectclass=*)";<br>
+&nbsp;&nbsp;&nbsp;String MY_SEARCHBASE = "";<br>
+&nbsp;&nbsp;&nbsp;LDAPSearchResults res = ld.search( MY_SEARCHBASE,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MY_SCOPE, MY_FILTER, null, false );<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* There should be only one entry in the results (the root DSE). */<br>
+&nbsp;&nbsp;&nbsp;while ( res.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPEntry findEntry = (LDAPEntry)res.nextElement();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the supportedLDAPVersion attribute. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttribute versionAttr = <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;findEntry.getAttribute( "supportedLDAPVersion" );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Check if "3" is one of the supported LDAP versions. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enumeration enumVals = versionAttr.getStringValues();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( enumVals == null ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\tNo values found." );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ( enumVals.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String aVal = ( String )enumVals.nextElement();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( aVal.equalsIgnoreCase( "3" ) ) { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;supportsV3 = true; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+catch( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+}<br>
+if ( supportsV3 ) {<br>
+&nbsp;&nbsp;&nbsp;System.out.println( "This server supports LDAP v3." );<br>
+} else {<br>
+&nbsp;&nbsp;&nbsp;System.out.println( "This server does not support LDAP v3." );<br>
+}<br>
+...
+</FONT></A></PRE>
+
+
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Getting Schema Information"></A>
+<A NAME="2850607">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Getting Schema Information</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2850608">
+In the LDAP v3 protocol, you can get and modify the schema for an LDAP server over the LDAP protocol. This section discusses the classes and methods that you can use to do this. 
+</P>
+</A>
+<ul><P>
+<A NAME="2852893">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="servinfo.htm#2852124">"Overview: Schema Over LDAP"</a></FONT></LI></A><P>
+<A NAME="2852898">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="servinfo.htm#2852250">"Getting the Schema for an LDAP Server"</a></FONT></LI></A><P>
+<A NAME="2852903">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="servinfo.htm#2852274">"Working with Object Class Descriptions"</a></FONT></LI></A><P>
+<A NAME="2852908">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="servinfo.htm#2852588">"Working with Attribute Type Descriptions"</a></FONT></LI></A><P>
+<A NAME="2852917">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="servinfo.htm#2852677">"Working with Matching Rule Descriptions"</a></FONT></LI></A><P>
+<A NAME="2852123">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="servinfo.htm#2852453">"Example of Working with the Schema"</a></FONT></LI></A></ul><A NAME="Overview: Schema Over LDAP">
+</A><A NAME="2852124">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Overview: Schema Over LDAP</B>
+</FONT></A><br>
+<A NAME="2852122">
+An entry can specify the schema that defines the object classes, attributes, and matching rules used by the directory. This entry is called the <a href="glossary.htm#1015127">subschema entry</a>.
+</P>
+</A>
+<A NAME="2850612">
+To find the DN of the subschema entry, get the <FONT FACE="courier, courier new, monospace">subschemaSubentry</FONT> operational attribute from the root DSE or from any entry. (See <a href="search.htm#2846484">"Specifying the Attributes to Retrieve"</a> for details.) For example, in the root DSE for the Netscape Directory Server 4.1, the <FONT FACE="courier, courier new, monospace">subschemaSubentry</FONT> attribute specifies the location of the subschema entry. 
+</P>
+</A>
+<A NAME="2850616">
+The subschema entry itself can have the following attributes:
+</P>
+</A>
+<ul><P>
+<A NAME="2850617">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">objectClasses</FONT> specifies the object class definitions in the schema. Each value of this attribute is an object class that is known to the server. </FONT></LI></A><P>
+<A NAME="2850618">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">attributeTypes</FONT> specifies the attribute type definitions in the schema. Each value of this attribute is an attribute type that is known to the server. </FONT></LI></A><P>
+<A NAME="2850619">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">matchingRules </FONT>specifies the matching rule definitions in the schema. Each value of this attribute is a matching rule that is known to the server. </FONT></LI></A><P>
+<A NAME="2850620">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">matchingRuleUse </FONT>specifies the use of a matching rule in the schema. Each value of this attribute is a matching rule use description. A matching rule use description specifies the OIDs of the attributes that can be used with this extensible matching rule. </FONT></LI></A></ul><A NAME="2850621">
+In the Netscape Directory SDK for Java, the schema and elements in the schema (object classes, attribute types, matching rules, and the use of matching rules) are represented by classes in the <FONT FACE="courier, courier new, monospace">netscape.ldap</FONT> package. The following table lists these classes.
+</P>
+</A>
+<A NAME="2857030">
+<TABLE BORDER=1 cellpadding=4 cellspacing=3>
+<CAPTION></caption>
+<A NAME="Classes that represent the schema and schema elements
+">
+</A>
+<A NAME="2857039">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<B>
+Table 11.2   Classes that represent the schema and schema elements
+
+</B>
+</font><br></a></caption><tr><th valign=baseline align=left><b><A NAME="Class Name">
+</A>
+<A NAME="2857043">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Class Name
+</FONT>
+</B>
+</A>
+<BR><B></th><th valign=baseline align=left><b><A NAME="Description">
+</A>
+<A NAME="2857045">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Description
+</FONT>
+</B>
+</A>
+<BR><B></th></tr>
+<tr><td valign=top><A NAME="2857047">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">LDAPSchema</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2857049">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The schema used by an LDAP server. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2857051">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">LDAPSchemaElement</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2857053">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Base class that represents a generic element in the schema. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2857055">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">LDAPObjectClassSchema</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2857057">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+An object class description in the schema. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2857059">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">LDAPAttributeSchema</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2857061">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+An attribute type description in the schema. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2857063">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">LDAPMatchingRuleSchema</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2857065">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+A matching rule or matching rule use description in the schema. 
+</FONT>
+</A>
+<BR></td></tr>
+</TABLE></P></A>
+<A NAME="2852257">
+Internally, these classes and their methods get and manipulate the subschema entry using standard LDAP operations, such as search and modify. 
+</P>
+</A>
+<A NAME="Getting the Schema for an LDAP Server">
+</A><A NAME="2852250">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Getting the Schema for an LDAP Server</B>
+</FONT></A><br>
+<A NAME="2852134">
+To get the schema for an LDAP v3 server, construct a new <FONT FACE="courier, courier new, monospace">LDAPSchema</FONT> object. Then, invoke the <FONT FACE="courier, courier new, monospace">fetchSchema</FONT> method passing in an <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object. 
+</P>
+</A>
+<A NAME="2852272">
+For example: 
+</P>
+</A>
+<PRE><A NAME="2852273"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+import netscape.ldap.*;<br>
+...<br>
+LDAPConnection ld = new LDAPConnection();<br>
+<br>
+/* Construct a new LDAPSchema object to hold<br>
+&nbsp;&nbsp;&nbsp;the schema that you want to retrieve. */<br>
+LDAPSchema dirSchema = new LDAPSchema();<br>
+try {<br>
+&nbsp;&nbsp;&nbsp;ld.connect( hostname, portnumber, bindDN, bindPW );<br>
+&nbsp;&nbsp;&nbsp;/* Get the schema from the Directory. Anonymous access okay. */<br>
+&nbsp;&nbsp;&nbsp;dirSchema.fetchSchema( ld );<br>
+&nbsp;&nbsp;&nbsp;...<br>
+} catch ( Exception e ) {<br>
+&nbsp;&nbsp;&nbsp;System.err.println( e.toString() );<br>
+}<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="Working with Object Class Descriptions">
+</A><A NAME="2852274">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Working with Object Class Descriptions</B>
+</FONT></A><br>
+<A NAME="2852407">
+In the LDAP Java classes, the object class descriptions in a schema are represented by objects of the <FONT FACE="courier, courier new, monospace">LDAPObjectClassSchema</FONT> class. 
+</P>
+</A>
+<A NAME="2852416">
+To get the object class descriptions from the schema, you can invoke one of the following methods:
+</P>
+</A>
+<ul><P>
+<A NAME="2852421">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get an enumeration of <FONT FACE="courier, courier new, monospace">LDAPObjectClassSchema</FONT> objects representing the object classes in the schema, invoke the <FONT FACE="courier, courier new, monospace">getObjectClasses</FONT> method. </FONT></LI></A><P>
+<A NAME="2852423">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get a specific object class description, invoke the <FONT FACE="courier, courier new, monospace">getObjectClass</FONT> methodand pass in the name of the object class. </FONT></LI></A><P>
+<A NAME="2852424">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get an enumeration of the names of object classes in the schema, invoke the <FONT FACE="courier, courier new, monospace">getObjectClassNames</FONT> method. </FONT></LI></A></ul><A NAME="2852422">
+An object class description consists of the following information, which you can retrieve by invoking methods of the <FONT FACE="courier, courier new, monospace">LDAPObjectClassSchema</FONT> object: 
+</P>
+</A>
+<ul><P>
+<A NAME="2852447">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+an OID identifying the object class (get this by invoking the <FONT FACE="courier, courier new, monospace">getOID</FONT> method, which is inherited from the <FONT FACE="courier, courier new, monospace">LDAPSchemaElement</FONT> base class) </FONT></LI></A><P>
+<A NAME="2852448">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+a name identifying the object class (get this by invoking the <FONT FACE="courier, courier new, monospace">getName</FONT> method, which is inherited from the <FONT FACE="courier, courier new, monospace">LDAPSchemaElement</FONT> base class) </FONT></LI></A><P>
+<A NAME="2852449">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+a description of the object class (get this by invoking the <FONT FACE="courier, courier new, monospace">getDescription</FONT> method, which is inherited from the <FONT FACE="courier, courier new, monospace">LDAPSchemaElement</FONT> base class) </FONT></LI></A><P>
+<A NAME="2852450">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the name of the parent object class (get this by invoking the <FONT FACE="courier, courier new, monospace">getSuperior</FONT> method) </FONT></LI></A><P>
+<A NAME="2852451">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the list of attribute types that are required in this object class (get this by invoking the <FONT FACE="courier, courier new, monospace">getRequiredAttributes</FONT> method) </FONT></LI></A><P>
+<A NAME="2852452">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the list of attribute types that are allowed (optional) in this object class (get this by invoking the <FONT FACE="courier, courier new, monospace">getOptionalAttributes</FONT> method) </FONT></LI></A></ul><A NAME="2852417">
+To add an object class description to the schema, construct a new <FONT FACE="courier, courier new, monospace">LDAPObjectClassSchema</FONT> object. You can specify the pieces of information in the object as individual arguments or in a description formatted according to RFC 2252, Lightweight Directory Access Protocol (v3): Attribute Syntax Definitions (<FONT FACE="courier, courier new, monospace">http://www.ietf.org/rfc/rfc2252.txt</a></FONT>). 
+</P>
+</A>
+<A NAME="2852575">
+Then, you can either invoke the <FONT FACE="courier, courier new, monospace">add</FONT> methodof this object (inherited from the <FONT FACE="courier, courier new, monospace">LDAPSchemaElement</FONT> base class) or the <FONT FACE="courier, courier new, monospace">addObjectClass</FONT> methodof the <FONT FACE="courier, courier new, monospace">LDAPSchema</FONT> object. 
+</P>
+</A>
+<A NAME="2852807">
+To remove an object class description, you can invoke the <FONT FACE="courier, courier new, monospace">remove</FONT> methodof this object (inherited from the <FONT FACE="courier, courier new, monospace">LDAPSchemaElement</FONT> base class). 
+</P>
+</A>
+<A NAME="Working with Attribute Type Descriptions">
+</A><A NAME="2852588">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Working with Attribute Type Descriptions</B>
+</FONT></A><br>
+<A NAME="2852589">
+In the LDAP Java classes, the attribute type descriptions in a schema are represented by objects of the <FONT FACE="courier, courier new, monospace">LDAPAttributeSchema</FONT> class. 
+</P>
+</A>
+<A NAME="2852593">
+To get the attribute type descriptions from the schema, you can invoke one of the following methods:
+</P>
+</A>
+<ul><P>
+<A NAME="2852597">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get an enumeration of <FONT FACE="courier, courier new, monospace">LDAPAttributeSchema</FONT> objects representing the attribute types in the schema, invoke the <FONT FACE="courier, courier new, monospace">getAttributes</FONT> method. </FONT></LI></A><P>
+<A NAME="2852604">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get a specific attribute type description, invoke the <FONT FACE="courier, courier new, monospace">getAttribute</FONT> methodand pass in the name of the attribute type. </FONT></LI></A><P>
+<A NAME="2852605">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get an enumeration of the names of attribute types in the schema, invoke the <FONT FACE="courier, courier new, monospace">getAttributeNames</FONT> method. </FONT></LI></A></ul><A NAME="2852609">
+An attribute type description consists of the following information, which you can retrieve by invoking methods of the <FONT FACE="courier, courier new, monospace">LDAPAttributeSchema</FONT> object: 
+</P>
+</A>
+<ul><P>
+<A NAME="2852616">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+an OID identifying the attribute type (get this by invoking the <FONT FACE="courier, courier new, monospace">getOID</FONT> method, which is inherited from the <FONT FACE="courier, courier new, monospace">LDAPSchemaElement</FONT> base class) </FONT></LI></A><P>
+<A NAME="2852623">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+a name identifying the attribute type (get this by invoking the <FONT FACE="courier, courier new, monospace">getName</FONT> method, which is inherited from the <FONT FACE="courier, courier new, monospace">LDAPSchemaElement</FONT> base class) </FONT></LI></A><P>
+<A NAME="2852630">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+a description of the attribute type (get this by invoking the <FONT FACE="courier, courier new, monospace">getDescription</FONT> method, which is inherited from the <FONT FACE="courier, courier new, monospace">LDAPSchemaElement</FONT> base class) </FONT></LI></A><P>
+<A NAME="2852638">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the syntax used by the attribute type (get this by invoking the <FONT FACE="courier, courier new, monospace">getSyntax</FONT> method) </FONT></LI></A><P>
+<A NAME="2852642">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+an indicator of whether the attribute type is single-valued or multi-valued (get this by invoking the <FONT FACE="courier, courier new, monospace">isSingleValued</FONT> method) </FONT></LI></A></ul><A NAME="2852646">
+To add an attribute type description to the schema, construct a new <FONT FACE="courier, courier new, monospace">LDAPAttributeSchema</FONT> object. You can specify the pieces of information in the object as individual arguments or in a description formatted according to RFC 2252, Lightweight Directory Access Protocol (v3): Attribute Syntax Definitions (<FONT FACE="courier, courier new, monospace">http://www.ietf.org/rfc/rfc2252.txt</a></FONT>). 
+</P>
+</A>
+<A NAME="2852658">
+Then, you can either invoke the <FONT FACE="courier, courier new, monospace">add</FONT> method of this object (inherited from the <FONT FACE="courier, courier new, monospace">LDAPSchemaElement</FONT> base class) or the <FONT FACE="courier, courier new, monospace">addAttribute</FONT> methodof the <FONT FACE="courier, courier new, monospace">LDAPSchema</FONT> object. 
+</P>
+</A>
+<A NAME="2852821">
+To remove an attribute type description, you can invoke the <FONT FACE="courier, courier new, monospace">remove</FONT> methodof this object (inherited from the <FONT FACE="courier, courier new, monospace">LDAPSchemaElement</FONT> base class). 
+</P>
+</A>
+<A NAME="Working with Matching Rule Descriptions">
+</A><A NAME="2852677">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Working with Matching Rule Descriptions</B>
+</FONT></A><br>
+<A NAME="2852678">
+In the LDAP Java classes, the matching rule descriptions and matching rule "use" descriptions in a schema are represented by objects of the <FONT FACE="courier, courier new, monospace">LDAPMatchingRuleSchema</FONT> class. 
+</P>
+</A>
+<A NAME="2852682">
+To get the matching rule descriptions from the schema, you can invoke one of the following methods:
+</P>
+</A>
+<ul><P>
+<A NAME="2852686">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get an enumeration of <FONT FACE="courier, courier new, monospace">LDAPMatchingRuleSchema</FONT> objects representing the matching rules in the schema, invoke the <FONT FACE="courier, courier new, monospace">getMatchingRules</FONT> method. </FONT></LI></A><P>
+<A NAME="2852693">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get a specific matching rule description, invoke the <FONT FACE="courier, courier new, monospace">getMatchingRule</FONT> methodand pass in the name of the matching rule. </FONT></LI></A><P>
+<A NAME="2852694">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get an enumeration of the names of matching rules in the schema, invoke the <FONT FACE="courier, courier new, monospace">getMatchingRuleNames</FONT> method. </FONT></LI></A></ul><A NAME="2852698">
+A matching rule description consists of the following information, which you can retrieve by invoking methods of the <FONT FACE="courier, courier new, monospace">LDAPMatchingRuleSchema</FONT> object: 
+</P>
+</A>
+<ul><P>
+<A NAME="2852705">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+an OID identifying the matching rule (get this by invoking the <FONT FACE="courier, courier new, monospace">getOID</FONT> method, which is inherited from the <FONT FACE="courier, courier new, monospace">LDAPSchemaElement</FONT> base class) </FONT></LI></A><P>
+<A NAME="2852712">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+a name identifying the matching rule (get this by invoking the <FONT FACE="courier, courier new, monospace">getName</FONT> method, which is inherited from the <FONT FACE="courier, courier new, monospace">LDAPSchemaElement</FONT> base class) </FONT></LI></A><P>
+<A NAME="2852719">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+a description of the matching rule (get this by invoking the <FONT FACE="courier, courier new, monospace">getDescription</FONT> method, which is inherited from the <FONT FACE="courier, courier new, monospace">LDAPSchemaElement</FONT> base class) </FONT></LI></A><P>
+<A NAME="2852726">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the syntax of the matching rule (get this by invoking the <FONT FACE="courier, courier new, monospace">getSyntax</FONT> method, which is inherited from the <FONT FACE="courier, courier new, monospace">LDAPAttributeSchema</FONT> class) </FONT></LI></A></ul><A NAME="2852879">
+To add a matching rule description to the schema, construct a new <FONT FACE="courier, courier new, monospace">LDAPMatchingRuleSchema</FONT> object. You can specify the pieces of information in the object as individual arguments or in a description formatted according to RFC 2252, Lightweight Directory Access Protocol (v3): Attribute Syntax Definitions (<FONT FACE="courier, courier new, monospace">http://www.ietf.org/rfc/rfc2252.txt</a></FONT>). 
+</P>
+</A>
+<A NAME="2852747">
+Then, you can either invoke the <FONT FACE="courier, courier new, monospace">add</FONT> methodof this object (inherited from the <FONT FACE="courier, courier new, monospace">LDAPSchemaElement</FONT> base class) or the <FONT FACE="courier, courier new, monospace">addMatchingRule</FONT> methodof the <FONT FACE="courier, courier new, monospace">LDAPSchema</FONT> object. 
+</P>
+</A>
+<A NAME="2852833">
+To remove a matching rule description, you can invoke the <FONT FACE="courier, courier new, monospace">remove</FONT> methodof this object (inherited from the <FONT FACE="courier, courier new, monospace">LDAPSchemaElement</FONT> base class). 
+</P>
+</A>
+<A NAME="Example of Working with the Schema">
+</A><A NAME="2852453">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Example of Working with the Schema</B>
+</FONT></A><br>
+<A NAME="2852884">
+The following section of code illustrates how to get the schema and how to add object classes and attribute types. 
+</P>
+</A>
+<PRE><A NAME="2852919"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+import netscape.ldap.*;<br>
+import java.util.*;<br>
+...<br>
+public class GetSchema {<br>
+&nbsp;&nbsp;&nbsp;public static void main( String[] args ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPConnection ld = new LDAPConnection();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String hostname = "localhost";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int portnumber = LDAPv2.DEFAULT_PORT;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String bindDN = "cn=Directory Manager";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String bindPW = "23skidoo";<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Construct a new LDAPSchema object to hold<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the schema that you want to retrieve. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPSchema dirSchema = new LDAPSchema();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.connect( hostname, portnumber, bindDN, bindPW );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the schema from the Directory. Anonymous access okay. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dirSchema.fetchSchema( ld );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get and print the def. of the inetOrgPerson object class. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPObjectClassSchema objClass = <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dirSchema.getObjectClass( "inetOrgPerson" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( objClass != null ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "inetOrgPerson := " + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;objClass.toString() );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get and print the def. of the userPassword attribute. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttributeSchema attrType = <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dirSchema.getAttribute( "userpassword" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( attrType != null ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "userPassword := " + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attrType.toString() );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Add a new object class. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] requiredAttrs = {"cn", "mail"};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] optionalAttrs = {"sn", "phoneNumber"};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPObjectClassSchema newObjClass = new LDAPObjectClassSchema(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"newInetOrgPerson", "1.2.3.4.5.6.7", "top", "Experiment",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;requiredAttrs, optionalAttrs );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Add the new object class to the schema. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newObjClass.add( ld );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Create a new attribute type "hairColor". */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttributeSchema newAttrType = new LDAPAttributeSchema(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"hairColor", "1.2.3.4.5.4.3.2.1", "Blonde, red, etc",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttributeSchema.cis, false );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Add the new attribute type to the schema. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newAttrType.add( ld );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Fetch schema again from the server to verify that the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;changes were made. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dirSchema.fetchSchema( ld );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get and print the new attribute type. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newAttrType = dirSchema.getAttribute( "hairColor" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( newAttrType != null )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "hairColor := " + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newAttrType.toString() );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get and print the new object class. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newObjClass = dirSchema.getObjectClass( "newInetOrgPerson" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( newObjClass != null )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "newInetOrgPerson := " + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newObjClass.toString() );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.disconnect();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( Exception e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.err.println( e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit( 1 );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit( 0 );<br>
+&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2852920">
+
+</P>
+</A>
+</FONT>
+  </TD>
+</TR>
+<TR>
+  <TD>&nbsp;
+  </TD>
+</TR>
+<TR>
+  <TD BGCOLOR="#9999CC"><A HREF="#top"><IMG SRC="up.gif" BORDER=0></A>
+  </TD>
+</TR>
+</TABLE>
+<BR>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-2 COLOR="#999999">
+&copy; Copyright 1999 Netscape Communications Corporation.  All rights reserved.
+</FONT> </CENTER>
+
+<BR>
+
+</BODY>
+
+</HTML>

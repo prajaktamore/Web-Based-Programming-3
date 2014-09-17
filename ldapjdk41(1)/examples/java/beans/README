@@ -1,0 +1,16 @@
+                           LDAP Java bean examples
+                           -----------------------
+
+This directory contains some sample html pages which use the LDAP
+Java beans included with the LDAP classes. These examples are designed
+to work against the sample data contained in the Netscape Directory
+Server distribution.  If you want to run these samples,
+you will need to have a working LDAP server running, and the sample
+"o=Airius.com" data from airius.ldif loaded.
+
+Note that network security restrictions prevent these examples
+from working correctly if they are accessed from a browser as local
+files (i.e. "Open Page" and select the html file). To exercise them,
+copy the contents of this directory to a directory published by a
+Web server, and copy the subdirectories under "classes" under that
+same published directory.

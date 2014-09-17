@@ -1,0 +1,112 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import netscape.ldap.LDAPConnection;
+import netscape.ldap.LDAPException;
+
+
+public class entranceAwardWinners extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	public String BASE = "o=airius.com";
+	public String FILTER;
+	public entranceAwardWinners() {
+		super(); 
+		// TODO Auto-generated constructor stub
+	}
+
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html");  
+		PrintWriter out = response.getWriter();  
+		HttpSession session = request.getSession(false);
+		
+	    String btnVal=request.getParameter("sub");  
+	    String award=null;
+	    if("Select1".equals(btnVal)){  
+	    	award = request.getParameter("name1"); 
+	    } else if("Select2".equals(btnVal)){  
+	    	award = request.getParameter("name2"); 
+	    }  else if("Select3".equals(btnVal)){
+	    	award = request.getParameter("name3"); 
+	    }
+		
+		String query ="DELETE FROM Award where ruid='"+session.getAttribute("ruidwinner")+"' AND award='"+award.trim()+"'"; 
+		
+		out.print(query);
+        // default data source name 
+        String url   = "jdbc:mysql://bigyellowcat.cs.binghamton.edu/more";
+
+        try {
+			Class.forName ("com.mysql.jdbc.jdbc2.optional.MysqlDataSource").newInstance();
+		
+			Class.forName("com.mysql.jdbc.Driver").newInstance(); 
+			Connection con = DriverManager.getConnection("jdbc:mysql://bigyellowcat.cs.binghamton.edu/more", "more", "more7755");
+			
+        // Create statement
+        Statement stmt = con.createStatement();
+        
+        
+        // Execute the query
+        int rs = stmt.executeUpdate(query );
+        
+        
+        String query1 = "SELECT * FROM Award WHERE ruid='"+session.getAttribute("ruidwinner")+"'";
+        // Execute the query
+        ResultSet rs1 = stmt.executeQuery(query1);
+          
+		
+        	ArrayList<String>  award1 =  new ArrayList<String>();
+        	ArrayList<String>  details =  new ArrayList<String>();
+          while(rs1.next())
+          {
+	          String strprodvalue = rs1.getString("award");
+	          award1.add(strprodvalue);
+	          String strdet = rs1.getString("diff");
+	          details.add(strdet);
+	      }
+          session.setAttribute("ruidwinner", session.getAttribute("ruidwinner"));
+          session.setAttribute("award", award1);
+          session.setAttribute("details", details);
+	        if(rs1 != null){
+	        	out.print( "Authentication successful" );
+				session.setAttribute("username", session.getAttribute("ruidwinner"));
+	    		 response.sendRedirect("./entranceAwardWinners.jsp");
+	        }	
+        } catch (InstantiationException e) {
+        	RequestDispatcher rd=request.getRequestDispatcher("./entranceAwardWinners.jsp");  
+		    rd.include(request,response);
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			RequestDispatcher rd=request.getRequestDispatcher("./entranceAwardWinners.jsp");  
+		    rd.include(request,response);
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			RequestDispatcher rd=request.getRequestDispatcher("./entranceAwardWinners.jsp");  
+		    rd.include(request,response);
+			e.printStackTrace();
+		} catch (SQLException e) {
+			RequestDispatcher rd=request.getRequestDispatcher("./entranceAwardWinners.jsp");  
+		    rd.include(request,response);
+			e.printStackTrace();
+		}
+	}
+}

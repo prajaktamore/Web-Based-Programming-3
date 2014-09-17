@@ -1,0 +1,39 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Author" CONTENT="Rob Weltman">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.0 [en] (WinNT; U) [Netscape]">
+   <TITLE>LDAP JavaBeans</TITLE>
+</HEAD>
+<BODY>
+<B><FONT SIZE=+2>LDAP JavaBeans</FONT></B>
+
+<P>These are examples of LDAP JavaBeans, included with the
+java LDAP classes. To run the samples, place the ldap class hierarchy
+under the html directory. They assume a Directory Server running on
+the same machine as the Web server, at port 389, and with the airius.ldif
+sample database distributed with the Netscape Directory Server.
+<BR><BR>
+Compile the source in this directory with "javac *.java".
+<BR>&nbsp;
+<UL>
+
+<LI>
+<A HREF="LDAPGetProperty.html">LDAPGetProperty</A> - an invisible bean
+to simplify getting a single property's values (from a single entry)</LI>
+
+<LI>
+<A HREF="LDAPGetEntries.html">LDAPGetEntries</A> - an invisible bean to
+get all DNs matching a given search filter, for example all "groups"</LI>
+
+<LI>
+<A HREF="LDAPSimpleAuthenticate.html">LDAPSimpleAuthenticate</A> - an invisible
+bean that reports if a user can be authenticated</LI>
+
+<LI>
+<A HREF="LDAPIsMember.html">LDAPIsMember</A> - an invisible
+bean that reports if a user is a member of a particular group</LI>
+&nbsp;
+<P>
+</BODY>
+</HTML>

@@ -1,0 +1,97 @@
+======================================================================
+
+                 NETSCAPE DIRECTORY SDK 4.0 FOR JAVA
+                              EXAMPLES
+
+======================================================================
+
+This directory contains some sample code to help you understand
+how to use the Directory SDK for Java.  
+
+Most of these examples are designed to work against the sample data 
+contained in the Netscape Directory Server distribution.  
+If you want to run these samples, you will need to have a 
+working LDAP server running, and the sample "Airius.com" data
+loaded.
+
+The PersistentSearch.java example is designed to work with LDAP
+servers that support LDAP v3 controls (such as the Netscape Directory
+Server).  The search criteria specified in the example assumes
+that you have the "Airius.com" data loaded in your server.
+
+Before compiling each example, make sure to do the following:
+
+* If necessary, change the host name and port number specified in
+  each example to the LDAP server that you want to connect to.
+
+* Change the password specified in the examples. (Some of the 
+  examples attempt to authenticate as cn=Directory Manager.
+  Make sure to change the password to the password for your
+  Directory Manager.)  If the password is not correct, an
+  LDAPException (with result code 49, INVALID_CREDENTIALS)
+  is thrown.
+
+* If necessary, update any DNs or search criteria (such as
+  base DNs or search filters) to match the data in your 
+  directory.
+
+
+Search.java
+-----------
+Shows how to use the LDAPConnection.search method to search for all 
+entries which have an attribute value which exactly matches what 
+you're searching for.  In this example, all entries with the 
+surname (last name) "Jensen" are retrieved and displayed.
+
+RdEntry.java
+------------
+Shows how to use the LDAPConnection.read method to retrieve a 
+particular entry from the directory.  In this example, the entry
+"uid=bjensen, ou=People, o=Airius.com" is retrieved and displayed.
+
+GetAttrs.java
+-------------
+Just like RdEntry.java, but retrieves specific attributes from an entry.
+
+Compare.java
+------------
+Show how to use the LDAPConnection.compare method, which allows you 
+to test if a particular value is contained in an attribute of an entry.
+
+ModAttrs.java
+-------------
+Shows how to use the LDAPConnection.modify method to replace and 
+add to values in an attribute.
+
+ModRdn.java
+-----------
+Shows how to use the LDAPConnection.rename method to change the 
+relative distinguished name (rdn) of an entry.
+
+Add.java
+--------
+Adds an entry to the directory.
+
+Del.java
+--------
+Deletes an entry from the directory.
+
+PersistentSearch.java
+---------------------
+Waits for changes in the directory and returns results when 
+entries are added to the directory.  For example, if you are
+adding entries that match the specified search criteria to 
+the directory while running PersistentSearch, the newly
+added entries are printed out.
+
+
+-------------------
+Additional examples
+-------------------
+The js directory contains an example of calling LDAP from javascript
+on a Web page.
+
+The beans directory contains examples of using the LDAP Java beans.
+
+The ldapfilt directory contains an example of using the LDAP filter
+classes.

@@ -1,0 +1,48 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+
+public class Waiting  extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	public String BASE = "o=airius.com";
+	public String FILTER;
+
+	public Waiting() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession(false);
+
+		String btnVal = request.getParameter("sub");
+		String approve = null;
+		if ("Select1".equals(btnVal)) {
+			approve = request.getParameter("approve1");
+		} else if ("Select2".equals(btnVal)) {
+			approve = request.getParameter("approve2");
+		} else if ("Select3".equals(btnVal)) {
+			approve = request.getParameter("approve3");
+		}
+
+				RequestDispatcher rd = request
+						.getRequestDispatcher("./changeAwardWinners.jsp");
+				rd.include(request, response);
+			}
+}

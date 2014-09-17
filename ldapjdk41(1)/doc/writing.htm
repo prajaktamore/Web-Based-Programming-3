@@ -1,0 +1,710 @@
+<html><head>
+<title>"Directory SDK for Java 4.0 Programmer's Guide": Writing an LDAP Client
+ </title>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+
+        // for older browsers, will just replace the document
+
+        function showHideLayerSwitch(ignored)
+        {
+                document.location = 'contents.htm';
+        }
+
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript1.2">
+
+
+        var visibleVar="null";
+
+    if (navigator.appName == "Netscape") {
+        layerStyleRef="layer.";
+        layerRef="document.layers";
+        styleSwitch="";
+        visibleVar="show";
+    } else {
+        layerStyleRef="layer.style.";
+        layerRef="document.all";
+        styleSwitch=".style";
+        visibleVar="visible";
+    }
+        
+    function showHideLayerSwitch(layerName)
+    {
+        if (eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility == visibleVar')) {
+                hideLayer(layerName);
+        } else {
+            showLayer(layerName);
+        }
+    }
+
+    function showLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="visible"');
+    }
+        
+    function hideLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="hidden"');
+    }
+
+
+</SCRIPT>
+
+<STYLE TYPE="text/css">
+        #header {
+                z-index: 5;
+                visibility: visible;
+        }
+        #pulldownMenu {
+                position: absolute; 
+                z-index: 10; 
+                visibility: hidden; 
+                left: 182px; 
+                top: 55px;
+        }
+</STYLE>
+
+<DIV BGCOLOR="#000000" id="pulldownMenu" >
+
+<SCRIPT>
+        function onMouseOut()
+        {
+                visibility="hide";
+        }
+</SCRIPT>
+
+<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0> <TR> <TD BGCOLOR="#9999CC">
+
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+<A HREF="contents.htm"> <FONT COLOR="white"> Complete Contents</FONT></A><BR> 
+
+<A HREF="preface.htm"> <FONT COLOR="white"> Preface</FONT></A><BR> 
+
+<A HREF="ldap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 1</FONT> Understanding LDAP</FONT></A><BR> 
+
+<A HREF="api.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 2</FONT> Using the Netscape Directory SDK for Java</FONT> 
+</A><BR> 
+
+<A HREF="qckstart.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 3</FONT> Quick Start</FONT> 
+</A><BR> 
+
+<A HREF="writing.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 4</FONT> Writing an LDAP Client</FONT></A><BR> 
+
+<A HREF="using.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 5</FONT>  Using the LDAP Java Classes</FONT></A><BR> 
+
+<A HREF="search.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 6</FONT> Searching the Directory</FONT></A><BR> 
+
+<A HREF="filter.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 7</FONT> Using Filter Configuration Files</FONT></A><BR>
+
+<A HREF="addmod.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 8</FONT> Adding, Updating, and Deleting Entries</FONT></A><BR>
+
+<A HREF="compare.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 9</FONT> Comparing Values in Entries</FONT></A><BR>
+
+<A HREF="url.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 10</FONT> Working with LDAP URLs</FONT></A><BR>
+
+<A HREF="servinfo.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 11</FONT> Getting Server Information</FONT></A><BR>
+
+<A HREF="ssl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 12</FONT> Connecting Over SSL</FONT></A><BR>
+
+<A HREF="controls.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 13</FONT> Working with LDAP Controls</FONT></A><BR>
+
+<A HREF="sasl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 14</FONT> Using SASL Authentication</FONT></A><BR>
+
+<A HREF="JNDIchap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 15</FONT> Using Netscape's JNDI Service Provider</FONT></A><BR>
+
+<A HREF="extendop.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 16</FONT> Working with Extended Operations</FONT></A><BR>
+
+<A HREF="asynch.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 17</FONT> Using the Asynchronous Interface</FONT></A><BR>
+
+<A HREF="glossary.htm"> <FONT COLOR="white"> Glossary</A><BR> 
+
+</TD> </TR> </TABLE> </DIV>
+
+</SCRIPT>
+
+</HEAD>
+
+<BODY LINK="#666699" VLINK="#666699" ALINK="#333366" BGCOLOR="#FFFFFF"><FONT FACE="PrimaSans BT, Verdana, 
+
+Sans-Serif" Size=-1>
+<a name="TOP">
+<TABLE CELLPADDING=10 CELLSPACING=2 border=0 WIDTH=100% BGCOLOR="#CCCCCC"> 
+
+<TR><TD><TABLE CELLPADDING=5 CELLSPACING=2 border=0>
+<TR>
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="usngpart.htm"><IMG SRC="prev.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0>Previous</a></FONT>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="using.htm">Next<IMG SRC="next.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0></a></FONT>
+  </TD>   
+
+  <TD></TD>
+
+  <TD BGCOLOR="#9999CC"> <A HREF="javascript:showHideLayerSwitch('pulldownMenu');"><FONT FACE="PrimaSans BT, 
+
+Verdana, Sans-Serif" SIZE=-1 
+  COLOR="white">Contents</FONT></A>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><A HREF="index.htm">Index</A></FONT>
+  </TD>
+
+</TR>
+</TABLE>
+</TD></TR> 
+</TABLE>
+
+<BR> <BR>
+
+</a>
+</DIV>
+
+</P>
+
+<CENTER>
+<TABLE CELLPADDING=2 CELLSPACING=2 WIDTH="85%" BORDER=0>
+<TR>
+  <TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="
+">
+</A>
+<A NAME="1915312">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+
+
+</FONT></B><P><A NAME="
+">
+</A>
+<A NAME="1915314">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="#999999">
+<B>
+Chapter 4
+</B></FONT></A><A NAME="Writing an LDAP Client
+">
+</A>
+<A NAME="1915315">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+Writing an LDAP Client
+
+</FONT></B><P><A NAME="1708500">
+This chapter describes the general process of writing an LDAP client. The chapter covers the procedures for connecting to an LDAP server, authenticating, requesting operations, and disconnecting from the server. </P></A>
+<A NAME="2843560">
+The chapter includes the following sections:
+</P>
+</A>
+<ul><P>
+<A NAME="2852702">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="writing.htm#2843498">"Overview: Designing an LDAP Client"</a></FONT></LI></A><P>
+<A NAME="2852707">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="writing.htm#2853017">"Creating a Connection and Setting Preferences"</a></FONT></LI></A><P>
+<A NAME="2852717">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="writing.htm#2850563">"Connecting to the LDAP Server"</a></FONT></LI></A><P>
+<A NAME="2852726">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="writing.htm#2828582">"Binding and Authenticating to an LDAP Server"</a></FONT></LI></A><P>
+<A NAME="2852751">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="writing.htm#2852302">"Performing LDAP Operations"</a></FONT></LI></A><P>
+<A NAME="2843607">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="writing.htm#2828650">"Closing the Connection to the Server"</a></FONT></LI></A></ul><A NAME="2849250">
+The next chapter<a href="using.htm#1915315">, "Using the LDAP Java Classes,"</a> also includes important information on using the LDAP Java classes to write an LDAP client.
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Overview: Designing an LDAP Client"></A>
+<A NAME="2843498">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Overview: Designing an LDAP Client</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2854858">
+With the Netscape Directory SDK for Java, you can write an application or applet that can interact with an LDAP server. The following procedure outlines the typical process of communicating with an LDAP server. Follow these steps when writing your LDAP client:
+</P>
+</A>
+<ol>
+<P><a name="2854859">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Create a new <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object, and set any preferences that you want applied to all LDAP operations. (See <a href="writing.htm#2853017">"Creating a Connection and Setting Preferences"</a> for details.) </LI></a><P><a name="2850462">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Connect to an LDAP server. (See <a href="writing.htm#2850563">"Connecting to the LDAP Server"</a> for details.) </LI></a><P><a name="2850444">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>If necessary, bind to the LDAP server. If you intend to use any of the LDAP v3 features (such as controls or extended operations), specify the version of LDAP supported by your client. (See <a href="writing.htm#2828582">"Binding and Authenticating to an LDAP Server"</a> for details.) </LI></a><P><a name="2850453">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Perform the operations (for example, search the directory or modify entries in the directory). (See <a href="writing.htm#2852302">"Performing LDAP Operations"</a> for details.) </LI></a><P><a name="2850473">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>When you are done, disconnect from the LDAP server. (See <a href="writing.htm#2828650">"Closing the Connection to the Server"</a> for details.) </LI></a></ol>
+<A NAME="2851419">
+The following is a simple example of an LDAP client that follows the steps listed above to search a directory. The client connects to the LDAP server running on the local machine at port 389, authenticates as the DN "uid=bjensen,ou=People,o=Airius.com", searches the directory for entries with the last name "Jensen" ("sn=Jensen"), and prints out the DNs of any matching entries. 
+</P>
+</A>
+<PRE><A NAME="2854320"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>import netscape.ldap.*;<br>
+import java.util.*;<br>
+public class SimpleExample {<br>
+&nbsp;&nbsp;&nbsp;public static void main( String[] args )<br>
+&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Step 1: Create a new connection. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPConnection ld = new LDAPConnection();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Step 2: Connect to an LDAP server. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.connect( "localhost", LDAPv2.DEFAULT_PORT );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Step 3: Authenticate to the server. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you do not specify a version number, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this method authenticates your client <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as an LDAP v2 client (not LDAP v3). */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.authenticate( "uid=bjensen,ou=People,o=Airius.com",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"hifalutin" );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Step 4: Perform your LDAP operations. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Search for all entries with the last name "Jensen". */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPSearchResults results = ld.search( "o=Airius.com",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPv2.SCOPE_SUB, "(sn=Jensen)", null, false );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Print the DNs of the matching entries. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ( results.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPEntry entry = null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entry = results.next();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( entry.getDN() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( LDAPReferralException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Search references: " );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPUrl refUrls[] = e.getURLs();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for ( int i=0; i &lt; refUrls.length; i++ ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\t" + refUrls[i].getURL() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Step 5: Disconnect from the server when done. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.disconnect();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(0);<br>
+&nbsp;&nbsp;&nbsp;}<br>
+}
+</FONT></A></PRE>
+
+
+<A NAME="2853033">
+The rest of this chapter explains how to connect to the server, bind to the server, perform LDAP operations, and disconnect from the server. 
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Creating a Connection and Setting Preferences"></A>
+<A NAME="2853017">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Creating a Connection and Setting Preferences</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2843753">
+The first step in writing an LDAP client is creating an <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object. This object represents the connection to an LDAP server. 
+</P>
+</A>
+<A NAME="2850780">
+For example:
+</P>
+</A>
+<PRE><A NAME="2850794"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>LDAPConnection ld = new LDAPConnection();
+</FONT></A></PRE>
+
+
+<a name="2847930">
+<B>Note. </B></A><a name="2846654">If you plan to connect to the LDAP server over a Secure Sockets Layer (SSL), 
+you need to specify a class that implements SSL sockets. For details, see 
+<a href="ssl.htm#1915315">Chapter 12, "Connecting Over SSL"</a>. 
+</a><P><A NAME="2850880">
+In addition, the object also contains preferences for the LDAP session (for example, whether or not referrals are automatically followed). 
+</P>
+</A>
+<A NAME="2850885">
+To get or set the value of a preference, invoke the <FONT FACE="courier, courier new, monospace">getOption</FONT> method or the <FONT FACE="courier, courier new, monospace">setOption</FONT> method. In both of these methods, you can use the<FONT FACE="courier, courier new, monospace"> option </FONT>parameter to specify the preference that you want to work with. 
+</P>
+</A>
+<A NAME="2850970">
+For a complete list of the preferences that you can get and set, see the documentation on the <FONT FACE="courier, courier new, monospace">getOption</FONT> methodor the <FONT FACE="courier, courier new, monospace">setOption</FONT> method.
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Connecting to the LDAP Server"></A>
+<A NAME="2850563">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Connecting to the LDAP Server</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2851215">
+To connect to an LDAP server, use the <FONT FACE="courier, courier new, monospace">connect</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object. For example:
+</P>
+</A>
+<PRE><A NAME="2852775"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>LDAPConnection ld = new LDAPConnection();<br>
+ld.connect( "ldap.airius.com", LDAPv2.DEFAULT_PORT ); 
+</FONT></A></PRE>
+
+
+<A NAME="2850564">
+<FONT FACE="courier, courier new, monospace">DEFAULT_PORT</FONT> specifies the default LDAP port, port 389. 
+</P>
+</A>
+<A NAME="2851317">
+You can also specify a list of LDAP servers to attempt to connect to. If the first LDAP server in the list does not respond, the client will attempt to connect to the next server in the list.
+</P>
+</A>
+<A NAME="2850565">
+Use a space-delimited list of the host names as the first argument of the <FONT FACE="courier, courier new, monospace">connect</FONT> method. If the server is not using the default LDAP port (port 389), specify the port number in <I><FONT FACE="courier, courier new, monospace">hostname</FONT></I>:<I><FONT FACE="courier, courier new, monospace">portnumber</FONT></I> format. For example:
+</P>
+</A>
+<PRE><A NAME="2852787"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>LDAPConnection ld = new LDAPConnection();<br>
+ld.connect( "ldap1.airius.com ldap2.airus.com:3890 <br>
+&nbsp;&nbsp;&nbsp;ldap3.airius.com:39000", LDAPv2.DEFAULT_PORT );
+</FONT></A></PRE>
+
+
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Binding and Authenticating to an LDAP Server"></A>
+<A NAME="2828582">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Binding and Authenticating to an LDAP Server</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2852940">
+When connecting to the LDAP server, your client may need to send a bind operation request to the server. This is also called binding to the server. 
+</P>
+</A>
+<A NAME="2852941">
+An LDAP bind request contains the following information:
+</P>
+</A>
+<ul><P>
+<A NAME="2852942">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the LDAP version of the client</FONT></LI></A><P>
+<A NAME="2852943">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the DN that the client is attempting to authenticate as </FONT></LI></A><P>
+<A NAME="2852944">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the method of authentication that should be used </FONT></LI></A><P>
+<A NAME="2852945">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the credentials to be used for authentication </FONT></LI></A></ul><A NAME="2852946">
+Your client should send a bind request to the server in the following situations:
+</P>
+</A>
+<ul><P>
+<A NAME="2852947">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+You want to authenticate to the server. </FONT></LI></A><P><A NAME="2852948">
+For example, you may want to add or modify entries in the directory, which 
+requires you to authenticate as a user with access privileges. 
+
+</A></P>
+<P>
+<A NAME="2852949">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+You are connecting to an LDAP v2 server. </FONT></LI></A><P><A NAME="2852950">
+LDAP v2 servers typically require clients to bind before any operations can 
+be performed. (Note that the Netscape Directory Server 1.0x is an LDAP v2 
+server but does not require clients to bind.) 
+
+</A></P>
+</ul><A NAME="2848688">
+LDAP clients can also bind as an anonymous clients to the server (for example, the LDAP server may not require authentication if your client is just searching the directory). 
+</P>
+</A>
+<A NAME="2852241">
+This chapter explains how to set up your client to bind to an LDAP server. Topics covered here include: 
+</P>
+</A>
+<ul><P>
+<A NAME="2852256">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="writing.htm#2852231">"Understanding Authentication Methods"</a></FONT></LI></A><P>
+<A NAME="2852261">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="writing.htm#2848379">"Using Simple Authentication"</a></FONT></LI></A><P>
+<A NAME="2852266">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="writing.htm#2852226">"Binding Anonymously"</a></FONT></LI></A><P>
+<A NAME="2852321">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="writing.htm#2852180">"Specifying the LDAP Version"</a></FONT></LI></A><P>
+<A NAME="2852242">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="writing.htm#2852311">"Authenticating with the connect Method"</a></FONT></LI></A></ul><A NAME="Understanding Authentication Methods">
+</A><A NAME="2852231">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Understanding Authentication Methods</B>
+</FONT></A><br>
+<A NAME="2848642">
+When binding to an LDAP server, you can authenticate your client using one of three methods: Simple authentication, Certificate-based client authentication (over SSL), and the Simple Authentication and Security Layer (SASL). This section will discuss the differences between these methods.
+</P>
+</A>
+<A NAME="Simple Authentication"></A>
+<A NAME="2854112">
+<FONT FACE="Palatino, Serif" SIZE="+1" COLOR="black"> <B>
+Simple Authentication</B></FONT></A><br><A NAME="2854101">
+With simple authentication, your clients provides the distinguished name of the user and the user's password to the LDAP server. 
+</P>
+</A>
+<A NAME="2851994">
+For more information on simple authentication, see <a href="writing.htm#2848379">"Using Simple Authentication"</a>. 
+</P>
+</A>
+<A NAME="2853433">
+You can also use this method to bind as an anonymous client by providing<FONT FACE="courier, courier new, monospace"> null </FONT>values as the user's distinguished name and password (as described in <a href="writing.htm#2852226">"Binding Anonymously"</a>). 
+</P>
+</A>
+<A NAME="Certificate-Based Client Authentication (over SSL) "></A>
+<A NAME="2851998">
+<FONT FACE="Palatino, Serif" SIZE="+1" COLOR="black"> <B>
+Certificate-Based Client Authentication (over SSL) </B></FONT></A><br><A NAME="2854135">
+With certificate-based client authentication, your client sends its certificate to the LDAP server. The certificate identifies your LDAP client. 
+</P>
+</A>
+<A NAME="2848474">
+For more information on using certificate-based client authentication, see <a href="ssl.htm#1915315">Chapter 12, "Connecting Over SSL"</a>.
+</P>
+</A>
+<A NAME="Simple Authentication and Security Layer (SASL) "></A>
+<A NAME="2854153">
+<FONT FACE="Palatino, Serif" SIZE="+1" COLOR="black"> <B>
+Simple Authentication and Security Layer (SASL) </B></FONT></A><br><A NAME="2854159">
+SASL is described in RFC 2222</a>. Some LDAP v3 servers (including the Netscape Directory Server 3.0 and later) support authentication through SASL. 
+</P>
+</A>
+<A NAME="2848542">
+For more information on using SASL mechanisms for authentication, see <a href="sasl.htm#1915315">Chapter 14, "Using SASL Authentication"</a>. 
+</P>
+</A>
+<A NAME="Using Simple Authentication">
+</A><A NAME="2848379">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Using Simple Authentication</B>
+</FONT></A><br>
+<A NAME="2852224">
+If you plan to use simple authentication, use the <FONT FACE="courier, courier new, monospace">authenticate</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object. For example: 
+</P>
+</A>
+<PRE><A NAME="2854627"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>LDAPConnection ld = new LDAPConnection();<br>
+ld.connect( "ldap.airius.com", LDAPv2.DEFAULT_PORT ); <br>
+ld.<FONT FACE="courier, courier new, monospace">authenticate</FONT>( "uid=bjensen,ou=People,o=Airius.com", "hifalutin" );
+</FONT></A></PRE>
+
+
+<A NAME="2854631">
+If you are binding to the Netscape Directory Server 3.0 or later, the server may send back special controls to indicate that your password has expired or will expire in the near future. For more information on these controls, see <a href="controls.htm#2848498">"Using Password Policy Controls"</a>. 
+</P>
+</A>
+<A NAME="Binding Anonymously">
+</A><A NAME="2852226">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Binding Anonymously</B>
+</FONT></A><br>
+<A NAME="2842985">
+In some cases, you may not need to authenticate to the LDAP server. For example, if you are writing a client to search the directory (and if users don't need special access permissions to search), you might not need to authenticate before performing the search operation. 
+</P>
+</A>
+<A NAME="2849559">
+However, in the LDAP v2 protocol, the server still expects the client to send a bind request, even if the operation does not require the client to authenticate itself. (In the LDAP v3 protocol, the server no longer expects the client to send a bind request in this type of situation.) 
+</P>
+</A>
+<A NAME="2852204">
+In this kind of situation, use the <FONT FACE="courier, courier new, monospace">authenticate</FONT> method and specify<FONT FACE="courier, courier new, monospace"> null </FONT>for the DN and password. For example: 
+</P>
+</A>
+<PRE><A NAME="2852801"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>LDAPConnection ld = new LDAPConnection();<br>
+ld.connect( "ldap.airius.com", LDAPv2.DEFAULT_PORT ); <br>
+ld.<FONT FACE="courier, courier new, monospace">authenticate</FONT>( null, null );
+</FONT></A></PRE>
+
+
+<A NAME="Specifying the LDAP Version">
+</A><A NAME="2852180">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Specifying the LDAP Version</B>
+</FONT></A><br>
+<A NAME="2852230">
+As part of the bind request sent to the server, the client includes the version of the LDAP protocol that it supports. By default, clients built with the Netscape Directory SDK for Java identify themselves as LDAP v2 clients. 
+</P>
+</A>
+<A NAME="2852298">
+If you want to use any of the LDAP v3 features (such as controls or extended operations), you need to identify your client as an LDAP v3 client. 
+</P>
+</A>
+<A NAME="2852374">
+(Before you set up your client to use LDAP v3 or request any LDAP v3 features, you should first verify that the server supports LDAP v3.) 
+</P>
+</A>
+<A NAME="2852373">
+To identify your client as an LDAP v3 client, do one of the following:
+</P>
+</A>
+<ul><P>
+<A NAME="2852335">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Specify version 3 when invoking the <FONT FACE="courier, courier new, monospace">authenticate</FONT> method. For example: </FONT></LI></A><PRE><A NAME="2852807"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;LDAPConnection ld = new LDAPConnection();<br>
+&nbsp;&nbsp;&nbsp;ld.connect( "ldap.airius.com", LDAPv2.DEFAULT_PORT ); <br>
+&nbsp;&nbsp;&nbsp;ld.authenticate( 3, null, null );
+</FONT></A></PRE>
+
+
+<P>
+<A NAME="2852341">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Invoke the <FONT FACE="courier, courier new, monospace">setOption</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object to set the <FONT FACE="courier, courier new, monospace">LDAPv2</FONT>.<FONT FACE="courier, courier new, monospace">PROTOCOL_VERSION</FONT> preference to 3, then invoke the <FONT FACE="courier, courier new, monospace">authenticate</FONT> method. For example:</FONT></LI></A><PRE><A NAME="2852815"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;LDAPConnection ld = new LDAPConnection();<br>
+&nbsp;&nbsp;&nbsp;ld.connect( "ldap.airius.com", LDAPv2.DEFAULT_PORT ); <br>
+&nbsp;&nbsp;&nbsp;ld.setOption( LDAPv2.PROTOCOL_VERSION, 3 );<br>
+&nbsp;&nbsp;&nbsp;ld.authenticate( null, null );
+</FONT></A></PRE>
+
+
+</ul><A NAME="Authenticating with the connect Method">
+</A><A NAME="2852311">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Authenticating with the connect Method</B>
+</FONT></A><br>
+<A NAME="2852323">
+The <FONT FACE="courier, courier new, monospace">connect</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object has a signature that allows you to authenticate and specify the LDAP version supported by your client. 
+</P>
+</A>
+<A NAME="2852392">
+You can specify all of this information using one method, rather than invoking several methods. For example: 
+</P>
+</A>
+<PRE><A NAME="2852821"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>LDAPConnection ld = new LDAPConnection();<br>
+ld.connect( 3, "ldap.airius.com", DEFAULT_PORT, <br>
+&nbsp;&nbsp;&nbsp;"uid=bjensen,ou=People,o=Airius.com", "hifalutin" );
+</FONT></A></PRE>
+
+
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Performing LDAP Operations"></A>
+<A NAME="2852302">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Performing LDAP Operations</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2852303">
+Once you initialize a session with an LDAP server and complete the authentication process, you can perform LDAP operations (such as searching the directory, adding new entries, updating existing entries, and removing entries), provided that the server's access control allows you to request these operations. 
+</P>
+</A>
+<A NAME="2832503">
+To perform LDAP operations, invoke these methods of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object: 
+</P>
+</A>
+<ul><P>
+<A NAME="2832507">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To search for entries in the directory, use the <FONT FACE="courier, courier new, monospace">search</FONT> method (see <a href="search.htm#1915315">"Searching the Directory"</a> for details). </FONT></LI></A><P>
+<A NAME="2852470">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To retrieve a single entry in the directory, use the <FONT FACE="courier, courier new, monospace">read</FONT> method (see <a href="search.htm#1915315">"Searching the Directory"</a> for details). </FONT></LI></A><P>
+<A NAME="2835077">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To determine whether an attribute contains a certain value, use the <FONT FACE="courier, courier new, monospace">compare</FONT> method (see <a href="compare.htm#2839987">"Comparing the Value of an Attribute"</a> for details). </FONT></LI></A><P>
+<A NAME="2832488">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To add entries to the directory, use the <FONT FACE="courier, courier new, monospace">add</FONT> method (see <a href="addmod.htm#2828841">"Adding a New Entry"</a> for details). </FONT></LI></A><P>
+<A NAME="2832494">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To modify entries in the directory, use the <FONT FACE="courier, courier new, monospace">modify</FONT> method (see <a href="addmod.htm#2829050">"Modifying an Entry"</a> for details). </FONT></LI></A><P>
+<A NAME="2850318">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To delete entries from the directory, use the <FONT FACE="courier, courier new, monospace">delete</FONT> method (see <a href="addmod.htm#2838220">"Deleting an Entry"</a> for details). </FONT></LI></A><P>
+<A NAME="2850331">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To rename entries in the directory, use the <FONT FACE="courier, courier new, monospace">rename</FONT> method (see <a href="addmod.htm#2834429">"Changing the Name of an Entry"</a> for details). </FONT></LI></A></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Closing the Connection to the Server"></A>
+<A NAME="2828650">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Closing the Connection to the Server</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2832365">
+When you have finished performing all necessary LDAP operations, you need to close the connection to the LDAP server. 
+</P>
+</A>
+<A NAME="2833398">
+Use the <FONT FACE="courier, courier new, monospace">disconnect</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object to disconnect from the LDAP server. For example:
+</P>
+</A>
+<PRE><A NAME="2852828"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>LDAPConnection ld = new LDAPConnection();<br>
+ld.connect( "ldap.airius.com", LDAPv2.DEFAULT_PORT ); <br>
+...<br>
+/* Authenticate and perform LDAP operations on the server. */<br>
+...<br>
+ld.disconnect();<br>
+
+</FONT></A></PRE>
+
+
+</FONT>
+  </TD>
+</TR>
+<TR>
+  <TD>&nbsp;
+  </TD>
+</TR>
+<TR>
+  <TD BGCOLOR="#9999CC"><A HREF="#top"><IMG SRC="up.gif" BORDER=0></A>
+  </TD>
+</TR>
+</TABLE>
+<BR>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-2 COLOR="#999999">
+&copy; Copyright 1999 Netscape Communications Corporation.  All rights reserved.
+</FONT> </CENTER>
+
+<BR>
+
+</BODY>
+
+</HTML>

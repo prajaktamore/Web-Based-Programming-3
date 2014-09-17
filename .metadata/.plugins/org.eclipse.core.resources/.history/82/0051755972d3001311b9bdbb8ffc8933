@@ -1,0 +1,160 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+public class Waiting  extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	public String BASE = "o=airius.com";
+	public String FILTER;
+
+	public Waiting() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession(false);
+
+		String btnVal = request.getParameter("sub");
+		String approve = null;
+		String name=null;
+		String details=null;
+		String sdept=null;
+		String rdept=null;
+		String award=null;
+		String smail=null;
+		String rmail=null;
+		
+		if ("Select1".equals(btnVal)) {
+			approve = request.getParameter("approve1");
+			
+			  name= request.getParameter("name1");
+	          details = request.getParameter("detail1");
+	          sdept = request.getParameter("sdept1");
+			  rdept = request.getParameter("rdept1");
+			  award = request.getParameter("award1");
+	          smail = request.getParameter("smail1");
+	          rmail = request.getParameter("rmail1");
+		
+		} else if ("Select2".equals(btnVal)) {
+			approve = request.getParameter("approve2");
+					
+					name= request.getParameter("name2");
+	          details = request.getParameter("detail2");
+	          sdept = request.getParameter("sdept2");
+			  rdept = request.getParameter("rdept2");
+			  award = request.getParameter("award2");
+	          smail = request.getParameter("smail2");
+	          rmail = request.getParameter("rmail2");;
+		} else if ("Select3".equals(btnVal)) {
+			approve = request.getParameter("approve3");
+			name= request.getParameter("name3");
+	          details = request.getParameter("detail3");
+	          sdept = request.getParameter("sdept3");
+			  rdept = request.getParameter("rdept3");
+			  award = request.getParameter("award3");
+	          smail = request.getParameter("smail3");
+	          rmail = request.getParameter("rmail3");
+		}
+		try{
+		Class.forName ("com.mysql.jdbc.jdbc2.optional.MysqlDataSource").newInstance();
+		
+		Class.forName("com.mysql.jdbc.Driver").newInstance(); 
+		Connection con = DriverManager.getConnection("jdbc:mysql://bigyellowcat.cs.binghamton.edu/more", "more", "more7755");
+		
+	    // Create statement
+	    Statement stmt = con.createStatement();
+	
+		if(approve.equals("Approve")){
+			String query1 = "UPDATE Award SET Approval='APPROVED' WHERE suid='" 
+					+name + "' AND ruid='"
+					+ details + "' AND sdept='"
+					+ sdept + "' AND rdept='"
+					+ rdept + "' AND award='"
+					+ award + "' AND smail='"
+					+ smail+ "' AND rmail='"
+					+ rmail +"'";
+			// Execute the query
+			int rs1 = stmt.executeUpdate(query1);
+			if (rs1 == 1) {
+				out.print("Updated Award Status");
+				RequestDispatcher rd = request
+						.getRequestDispatcher("./entranceAdminFunction.jsp");
+				rd.include(request, response);
+			} else {
+				out.print("Cannot Update Award");
+				RequestDispatcher rd = request
+						.getRequestDispatcher("./entranceAdminFunction.jsp");
+				rd.include(request, response);
+			}
+		}else if(approve.equals("Delete")){
+			String query1 = "DELTE FROM Award WHERE WHERE suid='" 
+					+name + "' AND ruid='"
+					+ details + "' AND sdept='"
+					+ sdept + "' AND rdept='"
+					+ rdept + "' AND award='"
+					+ award + "' AND smail='"
+					+ smail+ "' AND rmail='"
+					+ rmail +"'";
+				 // Execute the query
+				int rs1 = stmt.executeUpdate(query1);
+				if (rs1 == 1) {
+					out.print("Deleted Specific Award");
+					RequestDispatcher rd = request
+							.getRequestDispatcher("./entranceAdminFunction.jsp");
+					rd.include(request, response);
+				} else {
+					out.print("Cannot Delete Award");
+					RequestDispatcher rd = request
+							.getRequestDispatcher("./entranceAdminFunction.jsp");
+					rd.include(request, response);
+				}
+		}
+		RequestDispatcher rd = request
+						.getRequestDispatcher("./entranceAdminFunction.jsp");
+				rd.include(request, response);
+		}catch (SQLException e) {
+			out.print("Error on authentication: " + e.toString());
+			RequestDispatcher rd = request
+					.getRequestDispatcher("./entranceAdminFunction.jsp");
+			rd.include(request, response);
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			RequestDispatcher rd = request
+					.getRequestDispatcher("./entranceAdminFunction.jsp");
+			rd.include(request, response);
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			RequestDispatcher rd = request
+					.getRequestDispatcher("./entranceAdminFunction.jsp");
+			rd.include(request, response);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			RequestDispatcher rd = request
+					.getRequestDispatcher("./entranceAdminFunction.jsp");
+			rd.include(request, response);
+		}
+		}
+}

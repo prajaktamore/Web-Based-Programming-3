@@ -1,0 +1,129 @@
+<HTML>
+<HEAD>
+<TITLE>Calling an LDAP Java Applet from JavaScript</TITLE>
+</HEAD>
+
+<BODY>
+
+<H2>Calling an LDAP Java Applet from JavaScript</H2>
+
+This page demonstrates how to call an LDAP Java applet from JavaScript.
+You should set this page up to be served by a machine running a web server
+and a directory server.  (The web server is needed to serve this page.)
+You also need to do the following:
+<P>
+ 
+<OL>
+<LI>Edit this page.  Change the value of the <CODE>host</CODE> parameter
+for the applet to the name of your host machine.
+<LI>In the JavaScript code embedded in this page, change any distinguished
+names and search bases to fit the data in your directory server.
+<LI>Copy this file and the <CODE>LDAPApplet.java</CODE> file to a directory
+served by your Web server.
+<LI>Compile the <CODE>LDAPApplet.java</CODE> source file into a class file.
+</OL>
+<P>
+
+Note that when you compile the Java applet, you will need the 
+<CODE>netscape.security</CODE> classes in your <CODE>CLASSPATH</CODE>
+environment variable.  These classes are in the <CODE>java40.jar</CODE>
+file provided with Netscape Communicator.
+<P>
+
+<!-- JavaScript functions for searching the directory through the applet -->
+<SCRIPT LANGUAGE="JavaScript">
+function doSearch()
+{
+	for (var i = 0; i < document.LDAPAppletForm.AttrChoice.length; i++ )
+	{
+		if ( document.LDAPAppletForm.AttrChoice[i].checked )
+			break;
+	}
+	if ( document.LDAPAppletForm.AttrChoice[i].value == "" )
+	{
+		document.LDAPAppletForm.searchresults.value =
+			document.LDAPApplet.search(
+				document.LDAPAppletForm.searchbase.value,
+				document.LDAPAppletForm.searchfilter.value )
+	}
+	else
+	{
+		document.LDAPAppletForm.searchresults.value =
+			document.LDAPApplet.searchOneAttr(
+				document.LDAPAppletForm.searchbase.value,
+				document.LDAPAppletForm.searchfilter.value,
+				document.LDAPAppletForm.AttrChoice[i].value )
+	}
+}
+</SCRIPT>
+
+<!-- LDAP Java applet -->
+<APPLET CODE=LDAPApplet.class NAME=LDAPApplet WIDTH=10 HEIGHT=10>
+<PARAM NAME=host VALUE=localhost>
+<PARAM NAME=port VALUE=389>
+</APPLET>
+
+
+<!-- Form for reading an entry in the directory -->
+<FORM NAME=LDAPAppletForm>
+<H3>Reading an entry</H3>
+<P>
+To read an entry and list all attributes, enter a distinguished name and 
+press "readDN". An example of an entry in the demo database is:
+<P>
+<PRE>
+uid=jvedder,ou=People,o=airius.com
+</PRE>
+<P>
+Distinguished name <INPUT TYPE=text NAME="textbox" SIZE=50
+ VALUE="uid=jvedder,ou=People,o=airius.com">
+<P>
+<INPUT TYPE=button VALUE="readDN" 
+ onClick="document.LDAPAppletForm.result.value=
+          document.LDAPApplet.read(document.LDAPAppletForm.textbox.value)">
+<P>
+<TEXTAREA NAME="result" WRAP="virtual" ROWS=15 COLS=65></TEXTAREA>
+<P>
+<HR WIDTH="80%">
+<P>
+
+
+<!-- Form for searching the directory through the applet -->
+<H3>Searching</H3>
+To search, enter a base, a filter and 
+press "search". The radio buttons determine whether "distinguished names"
+or "common names" are displayed in the results.
+Examples of directory bases in the demo database:
+<P>
+<PRE>
+ou=People,o=airius.com
+o=airius.com
+</PRE>
+<P>
+An example of a filter (to find all entries with a "Common Name" starting with 
+"r") is:
+<P>
+<PRE>
+cn=r*
+</PRE>
+<P>
+Search base <INPUT TYPE=text NAME="searchbase" SIZE=40
+VALUE="o=airius.com">
+<P>
+Search filter <INPUT TYPE=text NAME="searchfilter" SIZE=40
+VALUE="cn=a*">
+<P>
+<INPUT TYPE="radio" NAME="AttrChoice" VALUE="" CHECKED>Show Distinguished names
+<INPUT TYPE="radio" NAME="AttrChoice" VALUE="cn">Show Common names
+<P>
+<INPUT TYPE=button VALUE="search"
+ onClick="doSearch()">
+<P>
+<TEXTAREA NAME="searchresults" WRAP="virtual" ROWS=15 COLS=65></TEXTAREA>
+</FORM>
+
+<P>
+
+</BODY>
+</HTML>
+

@@ -1,0 +1,50 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.*" session="true"%>
+<%@ page errorPage="ShowError.jsp" %>
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Edit Award</title>
+<link href="more.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+</script>
+</head>
+<body>
+<form method="POST" action="finalAdminReport">
+<br><input type="text" readonly="readonly" name="username" id="username" value="${sessionScope.username}" style ="background: #33CC99; height:55px; width: 600px;text-align:right;font-size:35px; border-radius: 2em; border:6px solid #339999;border-radius:29px; color: #fff; padding-left: 1.5em; outline: none; box-shadow: 0 4px 6px -5px hsl(0, 0%, 40%), inset 0px 4px 6px -5px hsl(0, 0%, 2%)" >
+
+       <h1>Report Results</h1>
+        <table width="page" align="center" >
+            <!-- column headers -->
+            <tr>
+                <core:forEach var="columnName" items="${colNames}">
+                    <th><core:out value="${columnName}"/></th>
+                </core:forEach>
+            </tr>
+            <!-- column data -->
+            <core:forEach var="row" items="${resultReport}">
+                <tr>
+                    <core:forEach var="column" items="${row}">
+                         <td><core:out value="${column}"/></td>
+                    </core:forEach>
+                </tr>
+            </core:forEach>
+            
+            <tr>
+					 <td height="40" align="center"> <label id="lr9" style="color:#ffffff;font-size:24px;visibility:hidden;" >Enter the row Number</label> </td>
+             		 <td align="center"> <input id="r9" name="r9" onchange="validateform9()" type="text" style ="visibility:hidden;background: #33CC99; height:55px; width: 600px;text-align:right;font-size:35px; border-radius: 2em; border:6px solid #339999;border-radius:29px; color: #fff; padding-left: 1.5em; outline: none; box-shadow: 0 4px 6px -5px hsl(0, 0%, 40%), inset 0px 4px 6px -5px hsl(0, 0%, 2%)"/></td>
+ 			</tr>
+ 			
+            <tr>
+            <td align="center"><input type="submit" name="Search" id="Search" value="Search" style="visibility:hidden;background-color: #2e466e; color: #ffff; border-radius: 10px;border:6px solid #1f2f47;border-radius:29px;padding:16px 57px;text-shadow:0px 1px 0px #263666;font-size:20px;">
+			<td align="center"><input type="submit" name="Search" id="Search" value="Search" style="visibility:hidden;background-color: #2e466e; color: #ffff; border-radius: 10px;border:6px solid #1f2f47;border-radius:29px;padding:16px 57px;text-shadow:0px 1px 0px #263666;font-size:20px;">
+			<td align="center"><input type="submit" name="Search" id="Search" value="Search" style="visibility:hidden;background-color: #2e466e; color: #ffff; border-radius: 10px;border:6px solid #1f2f47;border-radius:29px;padding:16px 57px;text-shadow:0px 1px 0px #263666;font-size:20px;">
+			</tr>	 
+        </table>
+        </form>
+    </body>
+</html>

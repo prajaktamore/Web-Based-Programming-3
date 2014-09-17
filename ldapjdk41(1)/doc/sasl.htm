@@ -1,0 +1,876 @@
+<html><head>
+<title>"Directory SDK for Java 4.0 Programmer's Guide": Using SASL Authentication
+ </title>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+
+        // for older browsers, will just replace the document
+
+        function showHideLayerSwitch(ignored)
+        {
+                document.location = 'contents.htm';
+        }
+
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript1.2">
+
+
+        var visibleVar="null";
+
+    if (navigator.appName == "Netscape") {
+        layerStyleRef="layer.";
+        layerRef="document.layers";
+        styleSwitch="";
+        visibleVar="show";
+    } else {
+        layerStyleRef="layer.style.";
+        layerRef="document.all";
+        styleSwitch=".style";
+        visibleVar="visible";
+    }
+        
+    function showHideLayerSwitch(layerName)
+    {
+        if (eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility == visibleVar')) {
+                hideLayer(layerName);
+        } else {
+            showLayer(layerName);
+        }
+    }
+
+    function showLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="visible"');
+    }
+        
+    function hideLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="hidden"');
+    }
+
+
+</SCRIPT>
+
+<STYLE TYPE="text/css">
+        #header {
+                z-index: 5;
+                visibility: visible;
+        }
+        #pulldownMenu {
+                position: absolute; 
+                z-index: 10; 
+                visibility: hidden; 
+                left: 182px; 
+                top: 55px;
+        }
+</STYLE>
+
+<DIV BGCOLOR="#000000" id="pulldownMenu" >
+
+<SCRIPT>
+        function onMouseOut()
+        {
+                visibility="hide";
+        }
+</SCRIPT>
+
+<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0> <TR> <TD BGCOLOR="#9999CC">
+
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+<A HREF="contents.htm"> <FONT COLOR="white"> Complete Contents</FONT></A><BR> 
+
+<A HREF="preface.htm"> <FONT COLOR="white"> Preface</FONT></A><BR> 
+
+<A HREF="ldap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 1</FONT> Understanding LDAP</FONT></A><BR> 
+
+<A HREF="api.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 2</FONT> Using the Netscape Directory SDK for Java</FONT> 
+</A><BR> 
+
+<A HREF="qckstart.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 3</FONT> Quick Start</FONT> 
+</A><BR> 
+
+<A HREF="writing.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 4</FONT> Writing an LDAP Client</FONT></A><BR> 
+
+<A HREF="using.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 5</FONT>  Using the LDAP Java Classes</FONT></A><BR> 
+
+<A HREF="search.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 6</FONT> Searching the Directory</FONT></A><BR> 
+
+<A HREF="filter.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 7</FONT> Using Filter Configuration Files</FONT></A><BR>
+
+<A HREF="addmod.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 8</FONT> Adding, Updating, and Deleting Entries</FONT></A><BR>
+
+<A HREF="compare.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 9</FONT> Comparing Values in Entries</FONT></A><BR>
+
+<A HREF="url.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 10</FONT> Working with LDAP URLs</FONT></A><BR>
+
+<A HREF="servinfo.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 11</FONT> Getting Server Information</FONT></A><BR>
+
+<A HREF="ssl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 12</FONT> Connecting Over SSL</FONT></A><BR>
+
+<A HREF="controls.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 13</FONT> Working with LDAP Controls</FONT></A><BR>
+
+<A HREF="sasl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 14</FONT> Using SASL Authentication</FONT></A><BR>
+
+<A HREF="JNDIchap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 15</FONT> Using Netscape's JNDI Service Provider</FONT></A><BR>
+
+<A HREF="extendop.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 16</FONT> Working with Extended Operations</FONT></A><BR>
+
+<A HREF="asynch.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 17</FONT> Using the Asynchronous Interface</FONT></A><BR>
+
+<A HREF="glossary.htm"> <FONT COLOR="white"> Glossary</A><BR> 
+
+</TD> </TR> </TABLE> </DIV>
+
+</SCRIPT>
+
+</HEAD>
+
+<BODY LINK="#666699" VLINK="#666699" ALINK="#333366" BGCOLOR="#FFFFFF"><FONT FACE="PrimaSans BT, Verdana, 
+
+Sans-Serif" Size=-1>
+<a name="TOP">
+<TABLE CELLPADDING=10 CELLSPACING=2 border=0 WIDTH=100% BGCOLOR="#CCCCCC"> 
+
+<TR><TD><TABLE CELLPADDING=5 CELLSPACING=2 border=0>
+<TR>
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="controls.htm"><IMG SRC="prev.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0>Previous</a></FONT>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="jndichap.htm">Next<IMG SRC="next.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0></a></FONT>
+  </TD>   
+
+  <TD></TD>
+
+  <TD BGCOLOR="#9999CC"> <A HREF="javascript:showHideLayerSwitch('pulldownMenu');"><FONT FACE="PrimaSans BT, 
+
+Verdana, Sans-Serif" SIZE=-1 
+  COLOR="white">Contents</FONT></A>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><A HREF="index.htm">Index</A></FONT>
+  </TD>
+
+</TR>
+</TABLE>
+</TD></TR> 
+</TABLE>
+
+<BR> <BR>
+
+</a>
+</DIV>
+
+</P>
+
+<CENTER>
+<TABLE CELLPADDING=2 CELLSPACING=2 WIDTH="85%" BORDER=0>
+<TR>
+  <TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="
+">
+</A>
+<A NAME="1915312">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+
+
+</FONT></B><P><A NAME="
+">
+</A>
+<A NAME="1915314">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="#999999">
+<B>
+Chapter 14
+</B></FONT></A><A NAME="Using SASL Authentication
+">
+</A>
+<A NAME="1915315">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+Using SASL Authentication
+
+</FONT></B><P><A NAME="1708500">
+This chapter describes the process of using a SASL mechanism to authenticate an LDAP client to an LDAP server. </P></A>
+<A NAME="2843560">
+The chapter includes the following sections:
+</P>
+</A>
+<ul><P>
+<A NAME="2848380">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="sasl.htm#2833774">"Understanding SASL"</a></FONT></LI></A><P>
+<A NAME="2850874">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="sasl.htm#2852899">"Preparing to Use SASL Authentication"</a></FONT></LI></A><P>
+<A NAME="2851605">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="sasl.htm#2850814">"Using SASL in the Client"</a></FONT></LI></A><P>
+<A NAME="2849884">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="sasl.htm#2854366">"For More Information"</a></FONT></LI></A></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Understanding SASL"></A>
+<A NAME="2833774">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Understanding SASL</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2848221">
+The Simple Authentication and Security Layer (SASL) is an authentication method. It allows you to use mechanisms other than simple passwords and SSL for authenticating over connection-based protocols, such as LDAP.
+</P>
+</A>
+<A NAME="2850116">
+All SASL mechanisms are registered with the Internet Assigned Numbers Authority (IANA). Included among these mechanisms are KERBEROS_V4, GSSAPI, and several others. The client implements these mechanisms through the use of mechanism drivers. These drivers are classes that contain the code required for authenticating over a given mechanism.
+</P>
+</A>
+<A NAME="2850132">
+When a client attempts to authenticate to a Directory Server using the <FONT FACE="courier, courier new, monospace">LDAPConnection.authenticate</FONT> method, it can specify a list of SASL mechanisms to use. If the client does not specify any mechanisms, the SDK will query the server to find out which mechanisms it supports. If the SDK and the server have a common mechanism, authentication can occur. 
+</P>
+</A>
+<A NAME="2853489">
+If the server supports a requested mechanism, it responds with one or more challenges. In order to authenticate, the client must correctly respond to these challenges. This is handled transparently by the SDK using a mechanism driver.
+</P>
+</A>
+<A NAME="2850180">
+If the server does not support any of the requested mechanisms, the SDK throws an <FONT FACE="courier, courier new, monospace">AuthenticationNotSupportedException</FONT>. 
+</P>
+</A>
+<A NAME="2853506">
+If the mechanism driver requires additional authentication data from the client it sends a <FONT FACE="courier, courier new, monospace">Callback</FONT> object to the client. To prepare for this, the client implements a <FONT FACE="courier, courier new, monospace">CallbackHandler</FONT> and passes it to the SDK. If the SASL mechanism needs to obtain additional credentials or notify the client of errors during the SASL negotiations, it calls the <FONT FACE="courier, courier new, monospace">CallbackHandler</FONT> object with <FONT FACE="courier, courier new, monospace">Callback</FONT> objects for each item to be processed. The <FONT FACE="courier, courier new, monospace">CallbackHandler</FONT> then decides how to proceed.
+</P>
+</A>
+<A NAME="2852753">
+The Netscape Directory SDK for Java includes a package called <FONT FACE="courier, courier new, monospace">com.netscape.sasl</FONT> which contains the code necessary to perform all of the steps involved in SASL authentication.
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Preparing to Use SASL Authentication"></A>
+<A NAME="2852899">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Preparing to Use SASL Authentication</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2852921">
+Before performing SASL authentication
+</P>
+</A>
+<ul><P>
+<A NAME="2849927">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the LDAP server must support at least one SASL mechanism</FONT></LI></A><P>
+<A NAME="2849787">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+your client environment must support at least one of the SASL mechanisms supported by the server. </FONT></LI></A></ul><A NAME="2850278">
+The rest of this section describes how to do this using the Netscape Directory SDK for Java and the Netscape Directory Server.
+</P>
+</A>
+<A NAME="Supporting SASL on the Server">
+</A><A NAME="2851716">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Supporting SASL on the Server</B>
+</FONT></A><br>
+<A NAME="2851717">
+If you are running Netscape Directory Server 3.0 or later, you can write your own server plug-in to handle SASL authentication. 
+</P>
+</A>
+<A NAME="2851718">
+This pre-operation bind plug-in uses a registered SASL mechanism to
+</P>
+</A>
+<ul><P>
+<A NAME="2851719">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+get information from a SASL bind request </FONT></LI></A><P>
+<A NAME="2851720">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+create and send a SASL bind response back to the client. </FONT></LI></A><ul><P><A NAME="2851721">
+This response can take the form of a challenge requiring an answer from 
+the client, an error message, or a success message indicating that 
+authentication is complete.
+
+</A></P>
+</ul></ul><A NAME="2851723">
+For more information on how to write this plug-in, see "Defining Functions for Authentication" in the <A HREF="http://developer.netscape.com/docs/manuals/directory/plugin/index.htm" TARGET="_blank"><em>Netscape Directory Server Plug-In Programmer's Guide</a></em>. 
+</P>
+</A>
+<A NAME="2851727">
+For more information on SASL mechanisms, see <a href="sasl.htm#2854366">"For More Information"</a> at the end of this chapter.
+</P>
+</A>
+<A NAME="Supporting SASL on the Client">
+</A><A NAME="2853536">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Supporting SASL on the Client</B>
+</FONT></A><br>
+<A NAME="2853541">
+In order to authenticate over SASL, you will need to have a mechanism available in your SASL client package. If you have obtained a <FONT FACE="courier, courier new, monospace">ClientFactory</FONT> class that can produce a SASL mechanism which your server supports, you can name its package in your code.
+</P>
+</A>
+<A NAME="2854280">
+There are two ways to do this. You can either
+</P>
+</A>
+<ul><P>
+<A NAME="2854417">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+request a SASL client and specify the package in the <FONT FACE="courier, courier new, monospace">javax.security.sasl.client.pkgs</FONT> property of its Hashtable</FONT></LI></A></ul><A NAME="2854258">
+or
+</P>
+</A>
+<ul><P>
+<A NAME="2853561">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+set the package as the default factory for the session with <FONT FACE="courier, courier new, monospace">Sasl.setSaslClientFactory.</FONT></FONT></LI></A></ul><A NAME="2853562">
+For example, if you have a class called <FONT FACE="courier, courier new, monospace">mysecurity.sasl.ClientFactory</FONT> which is capable of producing a <FONT FACE="courier, courier new, monospace">SaslClient</FONT> object for one or more mechanisms, you could either write:
+</P>
+</A>
+<PRE><A NAME="2853563"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>Hashtable props = new Hashtable();<br>
+props.put ( "javax.security.sasl.client.pkgs", "mysecurity.sasl" );<br>
+ld.authenticate( dn, props, cbh );
+</FONT></A></PRE>
+
+
+<A NAME="2853566">
+or
+</P>
+</A>
+<PRE><A NAME="2853567"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>Sasl.setSaslClientFactory (new mysecurity.sasl.ClientFactory() );<br>
+ld.authenticate( dn, props, cbh );
+</FONT></A></PRE>
+
+
+<A NAME="2853580">
+The arguments are as follows:
+</P>
+</A>
+<A NAME="2855494">
+<TABLE BORDER=1 cellpadding=4 cellspacing=3>
+<CAPTION></caption>
+<A NAME="Arguments for LDAPConnection.authenticate (above)
+">
+</A>
+<A NAME="2853588">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<B>
+Table 14.1   Arguments for LDAPConnection.authenticate (above)
+
+</B>
+</font><br></a></caption><tr><th valign=baseline align=left><b><Center>
+<A NAME="Argument Name">
+</A>
+<A NAME="2853592">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Argument Name
+</FONT>
+</B>
+</A></Center><BR><B></th><th valign=baseline align=left><b><Center>
+<A NAME="Description">
+</A>
+<A NAME="2853594">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Description
+</FONT>
+</B>
+</A></Center><BR><B></th></tr>
+<tr><td valign=top><A NAME="2853596">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">dn</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2853598">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Authentication DN
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2853600">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">props</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2853602">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Any optional properties that the mechanism accepts. See <a href="sasl.htm#2852299">Table 14.3</a> for details.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2853604">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">cbh</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2853606">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+An instance of the CallbackHandler implemented in your application.
+</FONT>
+</A>
+<BR></td></tr>
+</TABLE></P></A>
+<A NAME="Implementing javax.security.auth.callback">
+</A><A NAME="2851758">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Implementing javax.security.auth.callback</B>
+</FONT></A><br>
+<A NAME="2855696">
+Some SASL mechanisms require additional credentials during the authentication process. In order to provide this additional information, your SASL client may need to implement <FONT FACE="courier, courier new, monospace">Callback</FONT> objects and a <FONT FACE="courier, courier new, monospace">CallbackHandler</FONT> to list them. <FONT FACE="courier, courier new, monospace">Callback</FONT> and <FONT FACE="courier, courier new, monospace">CallbackHandler</FONT> are part of the <FONT FACE="courier, courier new, monospace">javax.security.auth.callback </FONT>package. The package is part of the Java Authentication and Authorization Service (JAAS) and is contained in the <FONT FACE="courier, courier new, monospace">jaas.jar</FONT> file. 
+</P>
+</A>
+<A NAME="2851671">
+To install the <FONT FACE="courier, courier new, monospace">javax.security.auth.callback</FONT> classes:
+</P>
+</A>
+<ol>
+<P><a name="2851672">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Locate the <FONT FACE="courier, courier new, monospace">jaas.jar</FONT> file</LI></a><ul><P><A NAME="2851675">
+The file is included in the <FONT FACE="courier, courier new, monospace">directory/java-sdk/ldapjdk/lib </FONT>directory 
+of the Directory SDK for Java. You can also download the release version of 
+these classes and all subsequent updates at
+
+</A></P>
+<P><A NAME="2854631">
+<FONT FACE="courier, courier new, monospace"><A HREF="http://java.sun.com:8081/security/jaas/index.html" TARGET="_blank">http://java.sun.com:8081/security/jaas/index.html</a></FONT>.
+
+</A></P>
+</ul><P><a name="2851677">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Add the <FONT FACE="courier, courier new, monospace">jaas.jar</FONT> file to your <FONT FACE="courier, courier new, monospace">CLASSPATH</FONT></LI></a><P><a name="2853792">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Import <FONT FACE="courier, courier new, monospace">javax.security.auth.callback.*</FONT> in your code.</LI></a></ol>
+<A NAME="2853796">
+The following is an example of <FONT FACE="courier, courier new, monospace">Callback</FONT> and <FONT FACE="courier, courier new, monospace">CallbackHandler</FONT> implementations. 
+</P>
+</A>
+<PRE><A NAME="2853800"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>class SampleCallbackHandler implements CallbackHandler {<br>
+&nbsp;&nbsp;&nbsp;SampleCallbackHandler( String userName ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;userName = userName;<br>
+&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;/** Invoke the requested Callback */<br>
+&nbsp;&nbsp;&nbsp;public void invokeCallback(Callback[] callbacks)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throws java.io.IOException, UnsupportedCallbackException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; callbacks.length; i++) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (callbacks[i] instanceof TextOutputCallback) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// display the message according to the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// specified STYLE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextOutputCallback toc =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(TextOutputCallback)callbacks[i];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (toc.getStyle()) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case TextOutputCallback.ERROR:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("ERROR: " +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;toc.getMessage());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case TextOutputCallback.INFORMATION:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(toc.getMessage());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case TextOutputCallback.WARNING:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("WARNING: " +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;toc.getMessage());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if (callbacks[i] instanceof<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextInputCallback) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// prompt the user for information<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextInputCallback tic =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(TextInputCallback)callbacks[i];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// display the prompt like this:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//      prompt [default_reply]:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.err.print(tic.getPrompt() +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" [" +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tic.getDefaultText() +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]: ");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.err.flush();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BufferedReader reader =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new BufferedReader(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new InputStreamReader(System.in));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tic.setText(reader.readLine());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if (callbacks[i] instanceof NameCallback) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((NameCallback)callbacks[i]).setName( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_userName );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if (callbacks[i] instanceof<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PasswordCallback) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// prompt the user for sensitive information<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PasswordCallback pc =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(PasswordCallback)callbacks[i];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.err.print(pc.getPrompt() + " ");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.err.flush();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pc.setPassword(readPassword(System.in));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if (callbacks[i] instanceof<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LanguageCallback) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Get the language from the locale<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LanguageCallback lc =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(LanguageCallback)callbacks[i];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lc.setLocale( Locale.getDefault() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new UnsupportedCallbackException<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(callbacks[i], "Unrecognized Callback");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/** Reads user password from given input stream. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private char[] readPassword(InputStream in) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// insert code to read a user password from the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// input stream<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;private String _userName = null;<br>
+}
+</FONT></A></PRE>
+
+
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Using SASL in the Client"></A>
+<A NAME="2850814">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Using SASL in the Client</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2854087">
+You are ready to authenticate when you have
+</P>
+</A>
+<ul><P>
+<A NAME="2854074">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+determined that there is at least one SASL mechanism in common between the server and your client environment</FONT></LI></A><P>
+<A NAME="2854076">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+implemented <FONT FACE="courier, courier new, monospace">javax.security.auth.callback.CallbackHandler </FONT>(if you may need to supply additional credentials during authentication).</FONT></LI></A></ul><A NAME="2855427">
+The following example shows you how to use SASL in an application:
+</P>
+</A>
+<PRE><A NAME="2854114"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>Hashtable props = new Hashtable();<br>
+props.put( "javax.security.sasl.client.pkgs", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"mysecurity.sasl" );<br>
+ld.authenticate( dn, props, new SampleCallbackHandler() );
+</FONT></A></PRE>
+
+
+<A NAME="Using the External Mechanism">
+</A><A NAME="2853042">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Using the External Mechanism</B>
+</FONT></A><br>
+<A NAME="2852259">
+The Netscape Directory SDK for Java includes a mechanism called <FONT FACE="courier, courier new, monospace">EXTERNAL</FONT>. This mechanism verifies that SSL authentication has already completed before it allows a client to connect over LDAP. 
+</P>
+</A>
+<A NAME="2858743">
+To use the <FONT FACE="courier, courier new, monospace">EXTERNAL</FONT> mechanism:
+</P>
+</A>
+<ol>
+<P><a name="2853090">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Bind to the server and authenticate using SSL. </LI></a><ul><P><A NAME="2853113">
+For more information, see <a href="ssl.htm#2841981">"Connecting to the Server Over SSL"</a>.
+
+</A></P>
+</ul><P><a name="2853125">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Call the <FONT FACE="courier, courier new, monospace">LDAPConnection.authenticate</FONT> method as follows:</LI></a><PRE><A NAME="2853129"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>ld = new LDAPConnection();<br>
+ld.authenticate(null, new String[]{"EXTERNAL"}, null,  
+               (CallbackHandler)null);
+</FONT></A></PRE>
+
+
+</ol>
+<A NAME="2854178">
+<FONT FACE="courier, courier new, monospace">LDAPConnection.authenticate takes the following arguments</FONT>:
+</P>
+</A>
+<A NAME="2857720">
+<TABLE BORDER=1 cellpadding=4 cellspacing=3>
+<CAPTION></caption>
+<A NAME="Arguments taken by the LDAPConnection.authenticate method
+">
+</A>
+<A NAME="2854159">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<B>
+Table 14.2   Arguments taken by the LDAPConnection.authenticate method
+
+</B>
+</font><br></a></caption><tr><th valign=baseline align=left><b><Center>
+<A NAME="Argument Name">
+</A>
+<A NAME="2854163">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Argument Name
+</FONT>
+</B>
+</A></Center><BR><B></th><th valign=baseline align=left><b><Center>
+<A NAME="Description">
+</A>
+<A NAME="2854165">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Description
+</FONT>
+</B>
+</A></Center><BR><B></th></tr>
+<tr><td valign=top><A NAME="2854182">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+dn
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2854184">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Authentication DN
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2854167">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">mechanisms</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2854169">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The list of SASL mechanism to use for authentication. If null is specified, the SDK will query the server for all available mechanisms.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2854171">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">props</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2854173">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Any optional properties that the mechanism accepts. See <a href="sasl.htm#2852299">Table 14.3</a> for more details.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2854175">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">cbh</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2854177">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+An instance of the <FONT FACE="courier, courier new, monospace">CallbackHandler</FONT> implemented in your application.
+</FONT>
+</A>
+<BR></td></tr>
+</TABLE></P></A>
+<A NAME="2854337">
+<a href="sasl.htm#2852299">Table 14.3</a> lists the properties that you can specify for the <FONT FACE="courier, courier new, monospace">props</FONT> argument.
+</P>
+</A>
+<A NAME="2855713">
+<TABLE BORDER=1 cellpadding=4 cellspacing=3>
+<CAPTION></caption>
+<A NAME="Acceptable values for the props argument.
+">
+</A>
+<A NAME="2852299">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<B>
+Table 14.3   Acceptable values for the props argument.
+
+</B>
+</font><br></a></caption><tr><th valign=baseline align=left><b><Center>
+<A NAME="Property Name">
+</A>
+<A NAME="2852303">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Property Name
+</FONT>
+</B>
+</A></Center><BR><B></th><th valign=baseline align=left><b><Center>
+<A NAME="Description">
+</A>
+<A NAME="2852305">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Description
+</FONT>
+</B>
+</A></Center><BR><B></th></tr>
+<tr><td valign=top><A NAME="2852307">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">javax.security.sasl.</FONT>
+</FONT>
+</A>
+<BR><A NAME="2855455">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">encryption.minimum</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2852309">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The minimum key length to be used during the session. The default value is "0" (zero), no session protection. A value of "1" enables integrity protection only.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2852311">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">javax.security.sasl.</FONT>
+</FONT>
+</A>
+<BR><A NAME="2855456">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">encryption.maximum</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2852313">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The maximum key length to be used during the session. The default value is "256".
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2852315">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">javax.security.sasl.</FONT>
+</FONT>
+</A>
+<BR><A NAME="2855457">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">server.authentication</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2852317">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+A boolean value. "True" if a server must authenticate to the client. The default value is "false".
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2852319">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">javax.security.sasl.ip.local</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2852321">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+This is the client's IP address in dotted decimal format. This value is required for KERBEROS_V4 authentication. There is no default value.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2852323">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">javax.security.sasl.ip.remote</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2852325">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+This is the server's IP address in dotted decimal format. This value is required for KERBEROS_V4 authentication. There is no default value.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2852327">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">javax.security.sasl.</FONT>
+</FONT>
+</A>
+<BR><A NAME="2855458">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">maxbuffer</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2852329">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Specifies the maximum size of the security layer frames. The default is "0" (zero) meaning that the client will not use the security layer. See
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2852331">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">javax.security.sasl.</FONT>
+</FONT>
+</A>
+<BR><A NAME="2855459">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">client.pkgs</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2852333">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+A bar-separated list of package names that are to be used when locating a SaslClientFactory.
+</FONT>
+</A>
+<BR></td></tr>
+</TABLE></P></A>
+<A NAME="2854377">
+The javadocs for the Directory SDK for Java describe the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> interface and <FONT FACE="courier, courier new, monospace">authenticate</FONT> method more fully. For information on using the javadocs, see <a href="preface.htm#2828183">"Where to Find Reference Information"</a>.
+</P>
+</A>
+<A NAME="Additional SASL Mechanisms">
+</A><A NAME="2854340">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Additional SASL Mechanisms</B>
+</FONT></A><br>
+<A NAME="2854341">
+Authentication using a SASL mechanism other than <FONT FACE="courier, courier new, monospace">EXTERNAL</FONT> requires you to implement classes for the mechanism in the client and on the server. For information on obtaining classes for SASL mechanisms see <a href="sasl.htm#2854366">"For More Information"</a>.
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="For More Information"></A>
+<A NAME="2854366">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>For More Information</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2849903">
+SASL is described in RFC 2222, which you can find at
+</P>
+</A>
+<PRE><A NAME="2849906"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11><A HREF="http://www.ietf.org/rfc/rfc2222.txt" TARGET="_blank"><FONT FACE="courier, courier new, monospace">http://www.ietf.org/rfc/rfc2222.txt</a> 
+</FONT></FONT></A></PRE>
+
+
+<A NAME="2853285">
+A current listing of registered SASL mechanisms is available at
+</P>
+</A>
+<PRE><A NAME="2849889"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11><FONT FACE="courier, courier new, monospace"><A HREF="http://www.isi.edu/in-notes/iana/assignments/sasl-mechanisms" TARGET="_blank">http://www.isi.edu/in-notes/iana/assignments/sasl-mechanisms</a>
+</FONT></FONT></A></PRE>
+
+
+</FONT>
+  </TD>
+</TR>
+<TR>
+  <TD>&nbsp;
+  </TD>
+</TR>
+<TR>
+  <TD BGCOLOR="#9999CC"><A HREF="#top"><IMG SRC="up.gif" BORDER=0></A>
+  </TD>
+</TR>
+</TABLE>
+<BR>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-2 COLOR="#999999">
+&copy; Copyright 1999 Netscape Communications Corporation.  All rights reserved.
+</FONT> </CENTER>
+
+<BR>
+
+</BODY>
+
+</HTML>

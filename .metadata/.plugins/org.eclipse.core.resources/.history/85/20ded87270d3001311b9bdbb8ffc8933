@@ -1,0 +1,145 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+public class Waiting  extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	public String BASE = "o=airius.com";
+	public String FILTER;
+
+	public Waiting() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession(false);
+
+		String btnVal = request.getParameter("sub");
+		String approve = null;
+		String name=null;
+		String details=null;
+		String sdept=null;
+		String rdept=null;
+		String award=null;
+		String smail=null;
+		String rmail=null;
+		
+		if ("Select1".equals(btnVal)) {
+			approve = request.getParameter("approve1");
+			
+			  name= document.getElementById("name1").value;
+	          details = document.getElementById("detail1").valu;
+	          sdept = document.getElementById("sdept1").value;
+			  rdept = document.getElementById("rdept1").value;
+			  award = document.getElementById("award1").value;
+	          smail = document.getElementById("smail1").value;
+	          rmail = document.getElementById("rmail1").value;
+		
+		} else if ("Select2".equals(btnVal)) {
+			approve = request.getParameter("approve2");
+		} else if ("Select3".equals(btnVal)) {
+			approve = request.getParameter("approve3");
+		}
+		try{
+		Class.forName ("com.mysql.jdbc.jdbc2.optional.MysqlDataSource").newInstance();
+		
+		Class.forName("com.mysql.jdbc.Driver").newInstance(); 
+		Connection con = DriverManager.getConnection("jdbc:mysql://bigyellowcat.cs.binghamton.edu/more", "more", "more7755");
+		
+	    // Create statement
+	    Statement stmt = con.createStatement();
+	
+		if(approve.equals("Approve")){
+			String query1 = "UPDATE Award SET Approval='APPROVED' WHERE suid='" 
+					+ session.getAttribute("suidUnique") + "' AND ruid='"
+					+ request.getParameter("ruidUnique")  + "' AND sdept='"
+					+ request.getParameter("sdeptUnique") + "' AND rdept='"
+					+ request.getParameter("rdeptUnique") + "' AND award='"
+					+ request.getParameter("awardUnique") + "' AND smail='"
+					+ request.getParameter("smailUnique")+ "' AND rmail='"
+					+ request.getParameter("rmailUnique")+"'";
+			// Execute the query
+			int rs1 = stmt.executeUpdate(query1);
+			if (rs1 == 1) {
+				out.print("Updated Award Status");
+				RequestDispatcher rd = request
+						.getRequestDispatcher("./entranceAdminFunction.jsp");
+				rd.include(request, response);
+			} else {
+				out.print("Cannot Update Award");
+				RequestDispatcher rd = request
+						.getRequestDispatcher("./entranceAdminFunction.jsp");
+				rd.include(request, response);
+			}
+		}else if(approve.equals("Delete")){
+			String query1 = "DELTE FROM Award WHERE suid='" 
+					+ session.getAttribute("suidUnique") + "' AND ruid='"
+					+ request.getParameter("ruidUnique")  + "' AND sdept='"
+					+ request.getParameter("sdeptUnique") + "' AND rdept='"
+					+ request.getParameter("rdeptUnique") + "' AND award='"
+					+ request.getParameter("awardUnique") + "' AND smail='"
+					+ request.getParameter("smailUnique")+ "' AND rmail='"
+					+ request.getParameter("rmailUnique")+"'";
+				 // Execute the query
+				int rs1 = stmt.executeUpdate(query1);
+				if (rs1 == 1) {
+					out.print("Updated Award Status");
+					RequestDispatcher rd = request
+							.getRequestDispatcher("./entranceAdminFunction.jsp");
+					rd.include(request, response);
+				} else {
+					out.print("Cannot Update Award");
+					RequestDispatcher rd = request
+							.getRequestDispatcher("./entranceAdminFunction.jsp");
+					rd.include(request, response);
+				}
+		}
+		RequestDispatcher rd = request
+						.getRequestDispatcher("./changeAwardWinners.jsp");
+				rd.include(request, response);
+		}catch (SQLException e) {
+			out.print("Error on authentication: " + e.toString());
+			RequestDispatcher rd = request
+					.getRequestDispatcher("./entranceAdminFunction.jsp");
+			rd.include(request, response);
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			RequestDispatcher rd = request
+					.getRequestDispatcher("./entranceAdminFunction.jsp");
+			rd.include(request, response);
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			RequestDispatcher rd = request
+					.getRequestDispatcher("./entranceAdminFunction.jsp");
+			rd.include(request, response);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			RequestDispatcher rd = request
+					.getRequestDispatcher("./entranceAdminFunction.jsp");
+			rd.include(request, response);
+		}
+		}
+}

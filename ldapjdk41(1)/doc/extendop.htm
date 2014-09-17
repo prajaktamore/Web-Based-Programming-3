@@ -1,0 +1,462 @@
+<html><head>
+<title>"Directory SDK for Java 4.0 Programmer's Guide": Working with Extended Operations
+ </title>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+
+        // for older browsers, will just replace the document
+
+        function showHideLayerSwitch(ignored)
+        {
+                document.location = 'contents.htm';
+        }
+
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript1.2">
+
+
+        var visibleVar="null";
+
+    if (navigator.appName == "Netscape") {
+        layerStyleRef="layer.";
+        layerRef="document.layers";
+        styleSwitch="";
+        visibleVar="show";
+    } else {
+        layerStyleRef="layer.style.";
+        layerRef="document.all";
+        styleSwitch=".style";
+        visibleVar="visible";
+    }
+        
+    function showHideLayerSwitch(layerName)
+    {
+        if (eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility == visibleVar')) {
+                hideLayer(layerName);
+        } else {
+            showLayer(layerName);
+        }
+    }
+
+    function showLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="visible"');
+    }
+        
+    function hideLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="hidden"');
+    }
+
+
+</SCRIPT>
+
+<STYLE TYPE="text/css">
+        #header {
+                z-index: 5;
+                visibility: visible;
+        }
+        #pulldownMenu {
+                position: absolute; 
+                z-index: 10; 
+                visibility: hidden; 
+                left: 182px; 
+                top: 55px;
+        }
+</STYLE>
+
+<DIV BGCOLOR="#000000" id="pulldownMenu" >
+
+<SCRIPT>
+        function onMouseOut()
+        {
+                visibility="hide";
+        }
+</SCRIPT>
+
+<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0> <TR> <TD BGCOLOR="#9999CC">
+
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+<A HREF="contents.htm"> <FONT COLOR="white"> Complete Contents</FONT></A><BR> 
+
+<A HREF="preface.htm"> <FONT COLOR="white"> Preface</FONT></A><BR> 
+
+<A HREF="ldap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 1</FONT> Understanding LDAP</FONT></A><BR> 
+
+<A HREF="api.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 2</FONT> Using the Netscape Directory SDK for Java</FONT> 
+</A><BR> 
+
+<A HREF="qckstart.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 3</FONT> Quick Start</FONT> 
+</A><BR> 
+
+<A HREF="writing.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 4</FONT> Writing an LDAP Client</FONT></A><BR> 
+
+<A HREF="using.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 5</FONT>  Using the LDAP Java Classes</FONT></A><BR> 
+
+<A HREF="search.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 6</FONT> Searching the Directory</FONT></A><BR> 
+
+<A HREF="filter.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 7</FONT> Using Filter Configuration Files</FONT></A><BR>
+
+<A HREF="addmod.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 8</FONT> Adding, Updating, and Deleting Entries</FONT></A><BR>
+
+<A HREF="compare.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 9</FONT> Comparing Values in Entries</FONT></A><BR>
+
+<A HREF="url.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 10</FONT> Working with LDAP URLs</FONT></A><BR>
+
+<A HREF="servinfo.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 11</FONT> Getting Server Information</FONT></A><BR>
+
+<A HREF="ssl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 12</FONT> Connecting Over SSL</FONT></A><BR>
+
+<A HREF="controls.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 13</FONT> Working with LDAP Controls</FONT></A><BR>
+
+<A HREF="sasl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 14</FONT> Using SASL Authentication</FONT></A><BR>
+
+<A HREF="JNDIchap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 15</FONT> Using Netscape's JNDI Service Provider</FONT></A><BR>
+
+<A HREF="extendop.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 16</FONT> Working with Extended Operations</FONT></A><BR>
+
+<A HREF="asynch.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 17</FONT> Using the Asynchronous Interface</FONT></A><BR>
+
+<A HREF="glossary.htm"> <FONT COLOR="white"> Glossary</A><BR> 
+
+</TD> </TR> </TABLE> </DIV>
+
+</SCRIPT>
+
+</HEAD>
+
+<BODY LINK="#666699" VLINK="#666699" ALINK="#333366" BGCOLOR="#FFFFFF"><FONT FACE="PrimaSans BT, Verdana, 
+
+Sans-Serif" Size=-1>
+<a name="TOP">
+<TABLE CELLPADDING=10 CELLSPACING=2 border=0 WIDTH=100% BGCOLOR="#CCCCCC"> 
+
+<TR><TD><TABLE CELLPADDING=5 CELLSPACING=2 border=0>
+<TR>
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="jndichap.htm"><IMG SRC="prev.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0>Previous</a></FONT>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="asynch.htm">Next<IMG SRC="next.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0></a></FONT>
+  </TD>   
+
+  <TD></TD>
+
+  <TD BGCOLOR="#9999CC"> <A HREF="javascript:showHideLayerSwitch('pulldownMenu');"><FONT FACE="PrimaSans BT, 
+
+Verdana, Sans-Serif" SIZE=-1 
+  COLOR="white">Contents</FONT></A>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><A HREF="index.htm">Index</A></FONT>
+  </TD>
+
+</TR>
+</TABLE>
+</TD></TR> 
+</TABLE>
+
+<BR> <BR>
+
+</a>
+</DIV>
+
+</P>
+
+<CENTER>
+<TABLE CELLPADDING=2 CELLSPACING=2 WIDTH="85%" BORDER=0>
+<TR>
+  <TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="
+">
+</A>
+<A NAME="1915312">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+
+
+</FONT></B><P><A NAME="
+">
+</A>
+<A NAME="1915314">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="#999999">
+<B>
+Chapter 16
+</B></FONT></A><A NAME="Working with Extended Operations
+">
+</A>
+<A NAME="1915315">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+Working with Extended Operations
+
+</FONT></B><P><A NAME="1708500">
+This chapter explains how LDAP v3 extended operations work and how to use the extended operations that are supported by your LDAP server. </P></A>
+<A NAME="2843560">
+The chapter includes the following sections:
+</P>
+</A>
+<ul><P>
+<A NAME="2850392">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="extendop.htm#2850150">"How Extended Operations Work"</a></FONT></LI></A><P>
+<A NAME="2850401">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="extendop.htm#2850318">"Implementing Support for Extended Operations on the Server"</a></FONT></LI></A><P>
+<A NAME="2850410">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="extendop.htm#2850162">"Determining the Extended Operations Supported"</a></FONT></LI></A><P>
+<A NAME="2850418">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="extendop.htm#2850169">"Performing an Extended Operation"</a></FONT></LI></A><P>
+<A NAME="2850383">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="extendop.htm#2850181">"Example: Extended Operation"</a></FONT></LI></A></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="How Extended Operations Work"></A>
+<A NAME="2850150">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>How Extended Operations Work</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2850151">
+Extended operations are part of the LDAP v3 protocol. Each extended operation is identified by an OID. 
+</P>
+</A>
+<A NAME="2850152">
+LDAP clients can request the operation by sending an extended operation request. Within the request, the client specifies:
+</P>
+</A>
+<ul><P>
+<A NAME="2850154">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the OID of the extended operation that should be performed </FONT></LI></A><P>
+<A NAME="2850155">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+data specific to the extended operation </FONT></LI></A></ul><A NAME="2850156">
+The server receives the request, and performs the extended operation. The server can send back to the client a response containing:
+</P>
+</A>
+<ul><P>
+<A NAME="2850158">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+an OID </FONT></LI></A><P>
+<A NAME="2850159">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+any additional data </FONT></LI></A></ul><A NAME="2850160">
+In order to use extended operations, both the server and the client must understand the specific extended operation to be performed. 
+</P>
+</A>
+<ul><P>
+<A NAME="2850314">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+You need to write a client that can send requests for a specific extended operation and that can receive extended responses from the server. </FONT></LI></A><P>
+<A NAME="2850315">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Your LDAP server needs to be able to handle requests for specific extended operations and send responses back to the client. </FONT></LI></A></ul><A NAME="2850316">
+The rest of this chapter describes how to set these up.
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Implementing Support for Extended Operations on the Server"></A>
+<A NAME="2850318">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Implementing Support for Extended Operations on the Server</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2850319">
+If you are running your own Netscape Directory Server 3.0 or later, you can write your own server plug-in that handles extended operations. 
+</P>
+</A>
+<A NAME="2850320">
+You can write an extended operation plug-in that:
+</P>
+</A>
+<ul><P>
+<A NAME="2850321">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+registers the OID of an extended operation as supported (so that the OID appears as a value of the <FONT FACE="courier, courier new, monospace">supportedExtension</FONT> attribute; see <a href="extendop.htm#2850162">"Determining the Extended Operations Supported"</a> for more information) </FONT></LI></A><P>
+<A NAME="2850325">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+gets information from an extended operation reqeuest </FONT></LI></A><P>
+<A NAME="2850326">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+creates and sends an extended operation response back to the client </FONT></LI></A></ul><A NAME="2850328">
+For more information, see the <A HREF="http://developer.netscape.com/docs/manuals/directory/plugin/index.htm" TARGET="_blank"><em>Netscape Directory Server Plug-In Programmer's Guide</a></em>. 
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Determining the Extended Operations Supported"></A>
+<A NAME="2850162">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Determining the Extended Operations Supported</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2850163">
+To determine the extended operations supported by the server, get the <a href="glossary.htm#1014998">root DSE</a> of the server, and check the <FONT FACE="courier, courier new, monospace">supportedExtension</FONT> attribute. The values of this attribute are the object identifiers (OIDs) of the extended operations supported by this server. 
+</P>
+</A>
+<A NAME="2850166">
+If the root DSE does not have a supportedExtension attribute, the server does not support any extended operations.
+</P>
+</A>
+<A NAME="2850168">
+For information on getting the root DSE, see <a href="servinfo.htm#2850362">"Getting the Root DSE"</a>. 
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Performing an Extended Operation"></A>
+<A NAME="2850169">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Performing an Extended Operation</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2850170">
+To perform an extended operation, do the following: 
+</P>
+</A>
+<ol>
+<P><a name="2850578">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Construct a new <FONT FACE="courier, courier new, monospace">LDAPExtendedOperation</FONT> object, specifying the OID of the extended operation and the data that you want applied to the operation.</LI></a><P><a name="2850571">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Invoke the <FONT FACE="courier, courier new, monospace">extendedOperation</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object, passing it the newly constructed <FONT FACE="courier, courier new, monospace">LDAPExtendedOperation</FONT> object. </LI></a></ol>
+<A NAME="2850591">
+The <FONT FACE="courier, courier new, monospace">LDAPExtendedOperation</FONT> object that this method returns represents the server's response. You can invoke the <FONT FACE="courier, courier new, monospace">getID</FONT> and <FONT FACE="courier, courier new, monospace">getValue</FONT> methods of this object to get the OID and the data from the server's response. 
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Example: Extended Operation"></A>
+<A NAME="2850181">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Example: Extended Operation</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2850182">
+The following program is an example of an LDAP client that request an extended operation with the OID 1.2.3.4 from the server. 
+</P>
+</A>
+<PRE><A NAME="2848499"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+import netscape.ldap.*;<br>
+import java.util.*;<br>
+import java.io.*;<br>
+...<br>
+public class ReqExtOp {<br>
+&nbsp;&nbsp;&nbsp;public static void main( String[] args ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPConnection ld = null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int status = -1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld = new LDAPConnection();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Connect to server */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MY_HOST = "localhost";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int MY_PORT = LDAPv2.DEFAULT_PORT;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.connect( MY_HOST, MY_PORT );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Connected to server." );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Authenticate to the server as directory manager */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MGR_DN = "cn=Directory Manager";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MGR_PW = "23skidoo";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( ld.LDAP_VERSION &lt; 3 ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.authenticate( 3, MGR_DN, MGR_PW );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Specified LDAP server does not " + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"support v3 of the LDAP protocol." );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.disconnect();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Authenticated to directory." );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Create an extended operation object */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String myval = "My Value";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byte vals[] = myval.getBytes( "UTF8" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPExtendedOperation exop = <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new LDAPExtendedOperation("1.2.3.4", vals );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Created LDAPExtendedOperation object." );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Request the extended operation from the server. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPExtendedOperation exres = ld.extendedOperation( exop );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Performed extended operation." );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get data from the response sent by the server. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "OID: " + exres.getID() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String retValue = new String( exres.getValue(), "UTF8" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Value: " + retValue );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch( UnsupportedEncodingException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: UTF8 not supported" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Done, so disconnect */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( (ld != null) &amp;&amp; ld.isConnected() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.disconnect();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(status);<br>
+&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+...
+</FONT></A></PRE>
+
+
+<PRE><A NAME="2852400"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>
+</FONT></A></PRE>
+
+
+</FONT>
+  </TD>
+</TR>
+<TR>
+  <TD>&nbsp;
+  </TD>
+</TR>
+<TR>
+  <TD BGCOLOR="#9999CC"><A HREF="#top"><IMG SRC="up.gif" BORDER=0></A>
+  </TD>
+</TR>
+</TABLE>
+<BR>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-2 COLOR="#999999">
+&copy; Copyright 1999 Netscape Communications Corporation.  All rights reserved.
+</FONT> </CENTER>
+
+<BR>
+
+</BODY>
+
+</HTML>

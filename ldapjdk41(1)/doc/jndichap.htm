@@ -1,0 +1,1182 @@
+<html><head>
+<title>"Directory SDK for Java 4.0 Programmer's Guide": Using the JNDI Service Provider
+ </title>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+
+        // for older browsers, will just replace the document
+
+        function showHideLayerSwitch(ignored)
+        {
+                document.location = 'contents.htm';
+        }
+
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript1.2">
+
+
+        var visibleVar="null";
+
+    if (navigator.appName == "Netscape") {
+        layerStyleRef="layer.";
+        layerRef="document.layers";
+        styleSwitch="";
+        visibleVar="show";
+    } else {
+        layerStyleRef="layer.style.";
+        layerRef="document.all";
+        styleSwitch=".style";
+        visibleVar="visible";
+    }
+        
+    function showHideLayerSwitch(layerName)
+    {
+        if (eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility == visibleVar')) {
+                hideLayer(layerName);
+        } else {
+            showLayer(layerName);
+        }
+    }
+
+    function showLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="visible"');
+    }
+        
+    function hideLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="hidden"');
+    }
+
+
+</SCRIPT>
+
+<STYLE TYPE="text/css">
+        #header {
+                z-index: 5;
+                visibility: visible;
+        }
+        #pulldownMenu {
+                position: absolute; 
+                z-index: 10; 
+                visibility: hidden; 
+                left: 182px; 
+                top: 55px;
+        }
+</STYLE>
+
+<DIV BGCOLOR="#000000" id="pulldownMenu" >
+
+<SCRIPT>
+        function onMouseOut()
+        {
+                visibility="hide";
+        }
+</SCRIPT>
+
+<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0> <TR> <TD BGCOLOR="#9999CC">
+
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+<A HREF="contents.htm"> <FONT COLOR="white"> Complete Contents</FONT></A><BR> 
+
+<A HREF="preface.htm"> <FONT COLOR="white"> Preface</FONT></A><BR> 
+
+<A HREF="ldap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 1</FONT> Understanding LDAP</FONT></A><BR> 
+
+<A HREF="api.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 2</FONT> Using the Netscape Directory SDK for Java</FONT> 
+</A><BR> 
+
+<A HREF="qckstart.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 3</FONT> Quick Start</FONT> 
+</A><BR> 
+
+<A HREF="writing.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 4</FONT> Writing an LDAP Client</FONT></A><BR> 
+
+<A HREF="using.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 5</FONT>  Using the LDAP Java Classes</FONT></A><BR> 
+
+<A HREF="search.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 6</FONT> Searching the Directory</FONT></A><BR> 
+
+<A HREF="filter.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 7</FONT> Using Filter Configuration Files</FONT></A><BR>
+
+<A HREF="addmod.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 8</FONT> Adding, Updating, and Deleting Entries</FONT></A><BR>
+
+<A HREF="compare.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 9</FONT> Comparing Values in Entries</FONT></A><BR>
+
+<A HREF="url.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 10</FONT> Working with LDAP URLs</FONT></A><BR>
+
+<A HREF="servinfo.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 11</FONT> Getting Server Information</FONT></A><BR>
+
+<A HREF="ssl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 12</FONT> Connecting Over SSL</FONT></A><BR>
+
+<A HREF="controls.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 13</FONT> Working with LDAP Controls</FONT></A><BR>
+
+<A HREF="sasl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 14</FONT> Using SASL Authentication</FONT></A><BR>
+
+<A HREF="JNDIchap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 15</FONT> Using Netscape's JNDI Service Provider</FONT></A><BR>
+
+<A HREF="extendop.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 16</FONT> Working with Extended Operations</FONT></A><BR>
+
+<A HREF="asynch.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 17</FONT> Using the Asynchronous Interface</FONT></A><BR>
+
+<A HREF="glossary.htm"> <FONT COLOR="white"> Glossary</A><BR> 
+
+</TD> </TR> </TABLE> </DIV>
+
+</SCRIPT>
+
+</HEAD>
+
+<BODY LINK="#666699" VLINK="#666699" ALINK="#333366" BGCOLOR="#FFFFFF"><FONT FACE="PrimaSans BT, Verdana, 
+
+Sans-Serif" Size=-1>
+<a name="TOP">
+<TABLE CELLPADDING=10 CELLSPACING=2 border=0 WIDTH=100% BGCOLOR="#CCCCCC"> 
+
+<TR><TD><TABLE CELLPADDING=5 CELLSPACING=2 border=0>
+<TR>
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="sasl.htm"><IMG SRC="prev.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0>Previous</a></FONT>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="extendop.htm">Next<IMG SRC="next.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0></a></FONT>
+  </TD>   
+
+  <TD></TD>
+
+  <TD BGCOLOR="#9999CC"> <A HREF="javascript:showHideLayerSwitch('pulldownMenu');"><FONT FACE="PrimaSans BT, 
+
+Verdana, Sans-Serif" SIZE=-1 
+  COLOR="white">Contents</FONT></A>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><A HREF="index.htm">Index</A></FONT>
+  </TD>
+
+</TR>
+</TABLE>
+</TD></TR> 
+</TABLE>
+
+<BR> <BR>
+
+</a>
+</DIV>
+
+</P>
+
+<CENTER>
+<TABLE CELLPADDING=2 CELLSPACING=2 WIDTH="85%" BORDER=0>
+<TR>
+  <TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="
+">
+</A>
+<A NAME="1001595">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+
+
+</FONT></B><P><A NAME="
+">
+</A>
+<A NAME="1005437">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="#999999">
+<B>
+Chapter 15
+</B></FONT></A><A NAME="Using the JNDI Service Provider
+">
+</A>
+<A NAME="1005439">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+Using the JNDI Service Provider
+
+</FONT></B><P><A NAME="1006945">
+This chapter explains JNDI and shows you how to use Netscape's LDAP Service Provider for JNDI.</P></A>
+<A NAME="1012290">
+The Java Naming and Directory Interface (JNDI) allows Java applications to use a single set of methods to access multiple naming and directory services such as LDAP and NIS. JNDI was developed by the JavaSoft division of Sun Microsystems along with several industry partners, including Netscape. 
+</P>
+</A>
+<A NAME="1016196">
+The chapter contains the following sections:
+</P>
+</A>
+<ul><P>
+<A NAME="1016198">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="jndichap.htm#1012345">"How JNDI Works"</a></FONT></LI></A><P>
+<A NAME="1016255">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="jndichap.htm#1012703">"Installing the Service Provider"</a></FONT></LI></A><P>
+<A NAME="1012318">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="jndichap.htm#1013584">"JNDI Environment Properties"</a></FONT></LI></A><P>
+<A NAME="1012319">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="jndichap.htm#1015298">"Working with Controls"</a></FONT></LI></A></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="How JNDI Works"></A>
+<A NAME="1012345">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>How JNDI Works</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="1012453">
+JNDI is a Java API that provides a common way for programmers to access a variety of naming and directory services. The API consists of several packages:
+</P>
+</A>
+<ul><P>
+<A NAME="1012556">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">javax.naming </FONT>for naming operations (access entries)</FONT></LI></A><P>
+<A NAME="1012575">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">javax.naming</FONT>.<FONT FACE="courier, courier new, monospace">directory </FONT>for directory operations (access attributes)</FONT></LI></A><P>
+<A NAME="1012578">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">javax.naming.event</FONT> for requesting event notification</FONT></LI></A><P>
+<A NAME="1012581">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">javax.naming.ldap</FONT> for LDAP-specific features.</FONT></LI></A></ul><A NAME="1013085">
+JNDI operates through a layer of software called a Service Provider. The Service Provider implements the JNDI operations in terms of a particular underlying protocol. 
+</P>
+</A>
+<A NAME="1017313">
+JNDI's Service Provider Interface (SPI) allows you to select Service Providers at runtime. In many cases you can use the same JNDI methods regardless of whether the Service Provider is talking to an LDAP server or using another protocol such as NIS. In order to access all of the functionality of the LDAP protocol, however, you will have to use methods outside of this abstraction.
+</P>
+</A>
+<A NAME="1020605">
+For more information about JNDI and Service Providers as well as software, examples, and sample code visit <FONT FACE="courier, courier new, monospace"><A HREF="http://java.sun.com/products/jndi" TARGET="_blank">http://java.sun.com/products/jndi</a></FONT>.
+</P>
+</A>
+<A NAME="Netscape's LDAP Service Provider">
+</A><A NAME="1017317">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Netscape's LDAP Service Provider</B>
+</FONT></A><br>
+<A NAME="1012629">
+Netscape's LDAP Service Provider is based on version 1.2 of JNDI. In order to have JNDI use Netscape's LDAP Service Provider, you must prepare your environment and select the Service Provider in your code. The following section will help you do this.
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Installing the Service Provider"></A>
+<A NAME="1012703">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Installing the Service Provider</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="1012689">
+Installing the Netscape LDAP Service Provider involves
+</P>
+</A>
+<ul><P>
+<A NAME="1012728">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+adding the service provider to the <FONT FACE="courier, courier new, monospace">CLASSPATH</FONT></FONT></LI></A><P>
+<A NAME="1012690">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+specifying the Netscape LDAP Service Provider as the JNDI context in your code.</FONT></LI></A><P>
+<A NAME="1012736">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+(Optional) adding the JNDI object schema to the Directory.</FONT></LI></A></ul><A NAME="1012745">
+The rest of this section will show you how to perform these tasks.
+</P>
+</A>
+<A NAME="Add the Provider to the Classpath">
+</A><A NAME="1012753">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Add the Provider to the Classpath</B>
+</FONT></A><br>
+<A NAME="1012757">
+Before using the Netscape LDAP Service Provider for JNDI in an application launched from the command line, you must add the provider and its associated JAR files to your Java <FONT FACE="courier, courier new, monospace">CLASSPATH</FONT>. 
+</P>
+</A>
+<A NAME="1013383">
+To do this, include the following files in your <FONT FACE="courier, courier new, monospace">CLASSPATH</FONT>:
+</P>
+</A>
+<ul><P>
+<A NAME="1013386">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">ldapsp.jar</FONT>, the Netscape LDAP Service Provider for JNDI</FONT></LI></A><P>
+<A NAME="1013390">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">ldapjdk.jar</FONT>, the Netscape Directory SDK for Java 4.0 (required by the LDAP Service Provider)</FONT></LI></A><P>
+<A NAME="1013394">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">jndi.jar</FONT>, the Java Naming and Directory Interface version 1.2.</FONT></LI></A></ul><A NAME="Specify the Service Provider when Creating the Initial Context">
+</A><A NAME="1013476">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Specify the Service Provider when Creating the Initial Context</B>
+</FONT></A><br>
+<A NAME="1014946">
+In order to communicate with an LDAP server, JNDI needs to know where to find the LDAP Service Provider. 
+</P>
+</A>
+<A NAME="1017455">
+To have it use the Netscape Service Provider, add the following code to your Java application:
+</P>
+</A>
+<PRE><A NAME="1013501"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>Hashtable env = new Hashtable();<br>
+env.put(Context.INITIAL_CONTEXT_FACTORY, 
+"com.netscape.jndi.ldap.LdapContextFactory");<br>
+/* Insert any additional "env.put(... ...)" statements<br>
+DirContext ctx = new InitialDirContext(env);
+</FONT></A></PRE>
+
+
+<A NAME="Add the JNDI object schema to the Directory (Optional)">
+</A><A NAME="1013524">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Add the JNDI object schema to the Directory (Optional)</B>
+</FONT></A><br>
+<A NAME="1016690">
+Before you can store Java objects in an LDAP directory, you must make sure that the JNDI object schema is available to the directory. If you are using Netscape Directory Server, this requires a modification to your directory schema.
+</P>
+</A>
+<A NAME="1020861">
+Depending on which version of Netscape Directory Server you are using, there are two ways to do this.
+</P>
+</A>
+<A NAME="Updating Netscape Directory Server 4.1"></A>
+<A NAME="1020689">
+<FONT FACE="Palatino, Serif" SIZE="+1" COLOR="black"> <B>
+Updating Netscape Directory Server 4.1</B></FONT></A><br><A NAME="1016836">
+If you are using Netscape Directory Server 4.1 you must update the existing JNDI schema file. This is done as follows:
+</P>
+</A>
+<ol>
+<P><a name="1016695">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Stop the server</LI></a><P><a name="1020784">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>In the <FONT FACE="courier, courier new, monospace">&lt;server-root&gt;/slapd-&lt;id&gt;/config/</FONT> directory, replace the <FONT FACE="courier, courier new, monospace">java-object-schema.conf</FONT> file with the one provided in the Netscape Directory SDK for Java.</LI></a><P><a name="1016740">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Restart the server</LI></a></ol>
+<A NAME="Updating Pre-4.1 Netscape Directory Servers"></A>
+<A NAME="1020877">
+<FONT FACE="Palatino, Serif" SIZE="+1" COLOR="black"> <B>
+Updating Pre-4.1 Netscape Directory Servers</B></FONT></A><br><A NAME="1020872">
+If you are using Netscape Directory Server 4.0 or earlier, you must add the JNDI schema file. This is done as follows:
+</P>
+</A>
+<ol>
+<P><a name="1020894">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Stop the server.</LI></a><P><a name="1020919">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Copy the <FONT FACE="courier, courier new, monospace">java-object-schema.conf</FONT> file that is included with the Netscape Directory SDK for Java to the <FONT FACE="courier, courier new, monospace">&lt;server-root&gt;/slapd-&lt;id&gt;/config</FONT> directory.</LI></a><P><a name="1020907">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Edit <FONT FACE="courier, courier new, monospace">&lt;server-root&gt;/slapd-&lt;id&gt;/config/ns-schema.conf</FONT> to include the following line:<br><FONT FACE="courier, courier new, monospace">include &lt;server-root&gt;/slapd-&lt;id&gt;/config/java-object-schema.conf</FONT></LI></a><P><a name="1020925">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Restart the server.</LI></a></ol>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="JNDI Environment Properties"></A>
+<A NAME="1013584">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>JNDI Environment Properties</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="1013593">
+JNDI has a number of environment properties that you can set at the system level or pass directly to the initial context via a Hashtable. Netscape's LDAP Service Provider accepts all properties that are defined globally for JNDI. For those settings that are relevant to LDAP, but not included in the JNDI specification, Netscape's LDAP Service Provider uses the same property names and semantics as the Sun Microsystems LDAP Service Provider.
+</P>
+</A>
+<A NAME="1013630">
+If a change or addition to the JNDI context environment occurs after an initial context is created, it will be immediately visible unless the changed property pertains to the connection. To force these changes to take effect, invoke the <FONT FACE="courier, courier new, monospace">LdapContext.reconnect()</FONT> method. <FONT FACE="courier, courier new, monospace">LdapContext</FONT> is an extended <FONT FACE="courier, courier new, monospace">Context</FONT> that supports LDAP-specific methods (see <a href="jndichap.htm#1015298">"Working with Controls"</a>).
+</P>
+</A>
+<A NAME="1015159">
+The following table contains all JNDI environment properties that are relevant for the Netscape LDAP Service Provider. (Any additional properties that are used by the JNDI Naming Manager are not listed here.) The provider will silently ignore any properties that are not in the table.
+</P>
+</A>
+<A NAME="1018765">
+<TABLE BORDER=1 cellpadding=4 cellspacing=3>
+<CAPTION></caption>
+<A NAME="Descriptions of JNDI Environment Properties
+">
+</A>
+<A NAME="1015162">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<B>
+Table 15.1   Descriptions of JNDI Environment Properties
+
+</B>
+</font><br></a></caption><tr><th valign=baseline align=left><b><A NAME="Environment Property">
+</A>
+<A NAME="1015166">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Environment Property
+</FONT>
+</B>
+</A>
+<BR><B></th><th valign=baseline align=left><b><A NAME="Description">
+</A>
+<A NAME="1015168">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Description
+</FONT>
+</B>
+</A>
+<BR><B></th></tr>
+<tr><td valign=top><A NAME="1015170">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.factory.initial</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1015172">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Used to select the LDAP provider. To select the Netscape LDAP provider, specify <FONT FACE="courier, courier new, monospace">com.netscape.jndi.ldap.LdapContextFactory</FONT>
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1015174">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.provider.url</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1015176">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Specifies LDAP server information. For example:
+</FONT>
+</A>
+<BR><A NAME="1015177">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace"></FONT>
+</FONT>
+</A>
+<BR><A NAME="1017701">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">env.put(Context.PROVIDER_URL,<br>"ldap://dilly.mcom.com:389");</FONT>
+</FONT>
+</A>
+<BR><A NAME="1017706">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+</FONT>
+</A>
+<BR><A NAME="1015179">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+If this property is not set, the Service Provider will attempt to access an LDAP server at port 389 of the local host.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1015181">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.ldap.version</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1015183">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Specifies the protocol version for the Service Provider. Two values are possible:
+</FONT>
+</A>
+<BR><A NAME="1015184">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+2 - selects LDAP Version 2 (LDAPv2)
+</FONT>
+</A>
+<BR><A NAME="1015185">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+3 - selects LDAP Version 3 (LDAPv3)
+</FONT>
+</A>
+<BR><A NAME="1015186">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+For example: 
+</FONT>
+</A>
+<BR><A NAME="1017691">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">env.put("java.naming.ldap.version", "3");</FONT>
+</FONT>
+</A>
+<BR><A NAME="1020384">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+</FONT>
+</A>
+<BR><A NAME="1015187">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+sets the protocol version to 3.
+</FONT>
+</A>
+<BR><A NAME="1015188">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+</FONT>
+</A>
+<BR><A NAME="1017729">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+If this property is not set, the Service Provider will attempt to use LDAPv3. If this fails, LDAPv2 is used. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1015190">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.security.authentication</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1015192">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Specifies the authentication mechanism that the Service Provider will use. The following values are permitted:
+</FONT>
+</A>
+<BR><A NAME="1015193">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">none</FONT> - use no authentication (anonymous)
+</FONT>
+</A>
+<BR><A NAME="1015194">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">simple</FONT> - use weak authentication (clear text password)
+</FONT>
+</A>
+<BR><A NAME="1015195">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+</FONT>
+</A>
+<BR><A NAME="1017728">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+If this environment property is not set but the <FONT FACE="courier, courier new, monospace">java.naming.security.principal</FONT> property has been set, the Service Provider will use <FONT FACE="courier, courier new, monospace">simple</FONT> authentication. If neither property is set, the Service Provider will bind anonymously.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1015197">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.security.principal</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1015199">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Specifies the DN of the authenticating principal. For example:
+</FONT>
+</A>
+<BR><A NAME="1015200">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace"></FONT>
+</FONT>
+</A>
+<BR><A NAME="1017689">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">env.put(Context.SECURITY_PRINCIPAL, "cn=Directory Manager");</FONT>
+</FONT>
+</A>
+<BR><A NAME="1017690">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+</FONT>
+</A>
+<BR><A NAME="1015201">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+If this property is not set, the Service Provider will bind anonymously.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1015203">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.security.credentials</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1015205">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Specifies the password of the authenticating principal. For example:
+</FONT>
+</A>
+<BR><A NAME="1017710">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace"></FONT>
+</FONT>
+</A>
+<BR><A NAME="1017719">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">env.put(Context.SECURITY_CREDENTIALS, "secret");</FONT>
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1015208">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.security.protocol</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1015210">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Specifies the security protocol that the Service Provider will use. One possible value is defined: 
+</FONT>
+</A>
+<BR><A NAME="1015211">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace"></FONT>
+</FONT>
+</A>
+<BR><A NAME="1017730">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">ssl</FONT> - use Secure Socket Layer
+</FONT>
+</A>
+<BR><A NAME="1015212">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+</FONT>
+</A>
+<BR><A NAME="1017731">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+This is implemented as follows:
+</FONT>
+</A>
+<BR><A NAME="1017680">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace"></FONT>
+</FONT>
+</A>
+<BR><A NAME="1017718">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">env.put(Context.SECURITY_PROTOCOL, "ssl");</FONT>
+</FONT>
+</A>
+<BR><A NAME="1017681">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+</FONT>
+</A>
+<BR><A NAME="1015214">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+When this property is set and the <FONT FACE="courier, courier new, monospace">java.naming.ldap.factory.socket</FONT> property has not been set, the default socket factory <FONT FACE="courier, courier new, monospace">netscape.net.SSLSocket</FONT> is used. 
+</FONT>
+</A>
+<BR><A NAME="1017721">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+</FONT>
+</A>
+<BR><A NAME="1017724">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+This class is provided with Netscape Communicator 4.05 and higher.If <FONT FACE="courier, courier new, monospace">java.naming.ldap.factory.socket</FONT> 
+</FONT>
+</A>
+<BR><A NAME="1017725">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+has been set, the socket factory specified therein is used.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1021296">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.security.sasl.authorizationId</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1021298">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Specifies which user DN to use for SASL authentication.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1021292">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.security.sasl.callback</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1021294">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Specifies a callback handler for SASL mechanisms. This value of this property must be an instance of <FONT FACE="courier, courier new, monospace">javax.security.auth.callback.<br>CallbackHandler</FONT>. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1021288">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.security.sasl.client.pkgs</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1021290">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Specifies a "|"-separated list of packages. These packages are used to located factories that produce SASL mechanism drivers. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1015216">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.ldap.factory.socket</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1015218">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Specifies the class name of a socket factory. This environment property is used to override the default socket factory. 
+</FONT>
+</A>
+<BR><A NAME="1017672">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+For example:
+</FONT>
+</A>
+<BR><A NAME="1017740">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace"></FONT>
+</FONT>
+</A>
+<BR><A NAME="1017741">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">env.put("Java.naming.ldap.factory.<br>socket", "crysec.SSL.SSLSocket");</FONT>
+</FONT>
+</A>
+<BR><A NAME="1017669">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+</FONT>
+</A>
+<BR><A NAME="1015220">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+If the <FONT FACE="courier, courier new, monospace">java.naming.security.protocol</FONT> property has been set, but this property is not set, then the default value of <FONT FACE="courier, courier new, monospace">netscape.net.SSLSocket</FONT> is used. 
+</FONT>
+</A>
+<BR><A NAME="1017670">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+</FONT>
+</A>
+<BR><A NAME="1017671">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+See <a href="ssl.htm#1915315">Chapter 12, "Connecting Over SSL"</a> for more information.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1015225">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.ldap.ssl.ciphers</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1015227">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Specifies the suite of ciphers used for SSL connections. These connections are made through sockets created by the factory specified with <FONT FACE="courier, courier new, monospace">java.naming.ldap.factory.</FONT>
+</FONT>
+</A>
+<BR><A NAME="1017673">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">socket</FONT>. The value of this property is of the type <FONT FACE="courier, courier new, monospace">java.lang.Object</FONT>. For example:
+</FONT>
+</A>
+<BR><A NAME="1017228">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace"></FONT>
+</FONT>
+</A>
+<BR><A NAME="1017229">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">env.put("java.naming.ldap.ssl.ciphers",<br>crysec.SSL.SSLParams.getcipherSuite());</FONT>
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1015238">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.batchsize</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1015240">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Specifies if searches are to block until all results are available or to return results in batches. A setting of <FONT FACE="courier, courier new, monospace">0</FONT> (zero) indicates that the Service Provider should block until all results are received. 
+</FONT>
+</A>
+<BR><A NAME="1017744">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+</FONT>
+</A>
+<BR><A NAME="1017745">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+If this property is not set or is "0" then search results are returned in batches of one.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1015242">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.ldap.maxresults</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1015244">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Specifies the default maximum number of results returned for a search request. <FONT FACE="courier, courier new, monospace">0</FONT> (zero) means that there is no limit. If not specified, the default value is <FONT FACE="courier, courier new, monospace">1000</FONT>. 
+</FONT>
+</A>
+<BR><A NAME="1017746">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+</FONT>
+</A>
+<BR><A NAME="1017747">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+A request using the parameter <FONT FACE="courier, courier new, monospace">SearchConstraints</FONT> in the <FONT FACE="courier, courier new, monospace">DirContext.search()</FONT> method can override this value.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1015246">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.referral</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1015248">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Specifies the maximum number of referrals to follow in a chain of referrals. A setting of <FONT FACE="courier, courier new, monospace">0</FONT> (zero) indicates that there is no limit. The default limit is <FONT FACE="courier, courier new, monospace">10</FONT>.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1015250">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.ldap.deleteRDN</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1015252">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Specifies whether the old RDN is removed during <FONT FACE="courier, courier new, monospace">rename()</FONT>. If the value is set to <FONT FACE="courier, courier new, monospace">true</FONT>, the old RDN is removed. Otherwise, the RDN is not removed. The default value is <FONT FACE="courier, courier new, monospace">true</FONT>.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1015254">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.ldap.derefAliases</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1015256">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Specifies how aliases are dereferenced during search operations.
+</FONT>
+</A>
+<BR><A NAME="1015257">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+</FONT>
+</A>
+<BR><A NAME="1017652">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The possible values are:
+</FONT>
+</A>
+<BR><A NAME="1015258">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">always</FONT> - always dereference aliases
+</FONT>
+</A>
+<BR><A NAME="1015259">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">never</FONT> - never dereference aliases
+</FONT>
+</A>
+<BR><A NAME="1015260">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">finding</FONT> - dereference aliases only during name resolution
+</FONT>
+</A>
+<BR><A NAME="1015261">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">searching</FONT> - dereference aliases only after name resolution.
+</FONT>
+</A>
+<BR><A NAME="1015262">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+</FONT>
+</A>
+<BR><A NAME="1017651">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>NOTE</B>: Netscape Directory Server 3.<I>x</I> and 4.<I>x</I> do not support aliases.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1015264">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.ldap.typesOnly</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1015266">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Specifies whether to only return attribute types during searches and calls to <FONT FACE="courier, courier new, monospace">getAttributes()</FONT>. Possible values are <FONT FACE="courier, courier new, monospace">true</FONT> or <FONT FACE="courier, courier new, monospace">false</FONT>. The default is <FONT FACE="courier, courier new, monospace">false</FONT>.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1015268">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.ldap.control.connect</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1015270">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+An array of controls to set for an <FONT FACE="courier, courier new, monospace">LDAPConnection when executing LDAP operations.</FONT>
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1017753">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.ldap.attributes.binary</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1017788">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Specifies attributes that have binary syntax. It extends the Service Provider's list of known binary attributes. The value of this property is a list of comma-separated attribute names. For example:
+</FONT>
+</A>
+<BR><A NAME="1017789">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace"></FONT>
+</FONT>
+</A>
+<BR><A NAME="1017790">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">env.put("java.naming.ldap.attributes.<br>binary", "mpegVideo, mpegAudio");</FONT>
+</FONT>
+</A>
+<BR><A NAME="1017792">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+</FONT>
+</A>
+<BR><A NAME="1017795">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+In contrast to the Netscape Directory SDK for Java, JNDI does not allow you a choice of whether to read attributes as Strings or byte arrays. All attributes are returned as Strings unless they are considered to have binary syntax. The values of attributes that have binary syntax are returned as byte arrays instead of Strings.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1017802">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.ldap.attributes.binary</FONT>
+</FONT>
+</A>
+<BR><A NAME="1015272">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">(continued)</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1017650">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+If this property is not set then, by default, only the following attributes and OIDs are recognized as having binary syntax:
+</FONT>
+</A>
+<BR><A NAME="1015278">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+attribute names containing <FONT FACE="courier, courier new, monospace">;binary</FONT>
+</FONT>
+</A>
+<BR><A NAME="1015279">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">photo</FONT> (<FONT FACE="courier, courier new, monospace">0.9.2342.19200300.100.1.7</FONT>)
+</FONT>
+</A>
+<BR><A NAME="1015280">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">personalSignature</FONT> (<FONT FACE="courier, courier new, monospace">0.9.2342.19200300.100.1.53</FONT>)
+</FONT>
+</A>
+<BR><A NAME="1015281">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">audio</FONT> (<FONT FACE="courier, courier new, monospace">0.9.2342.19200300.100.1.55</FONT>)
+</FONT>
+</A>
+<BR><A NAME="1015282">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">jpegPhoto</FONT> (<FONT FACE="courier, courier new, monospace">0.9.2342.19200300.100.1.60</FONT>)
+</FONT>
+</A>
+<BR><A NAME="1015283">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">jpegSerialzedData</FONT> (<FONT FACE="courier, courier new, monospace">1.3.6.1.4.1.42.2.27.4.1.7</FONT>)
+</FONT>
+</A>
+<BR><A NAME="1015284">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">thumbnailPhoto</FONT> (<FONT FACE="courier, courier new, monospace">1.3.6.1.4.1.1466.101.120.35</FONT>)
+</FONT>
+</A>
+<BR><A NAME="1015285">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">thumbnailLogo</FONT> (<FONT FACE="courier, courier new, monospace">1.3.6.1.4.1.1466.101.120.36</FONT>)
+</FONT>
+</A>
+<BR><A NAME="1015286">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">userPassword</FONT> (<FONT FACE="courier, courier new, monospace">2.5.4.35</FONT>)
+</FONT>
+</A>
+<BR><A NAME="1015287">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">userCertificate</FONT> (<FONT FACE="courier, courier new, monospace">2.5.4.36</FONT>)
+</FONT>
+</A>
+<BR><A NAME="1015288">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">cACertificate</FONT> (<FONT FACE="courier, courier new, monospace">2.5.4.37</FONT>)
+</FONT>
+</A>
+<BR><A NAME="1015289">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">authorityRevocationList</FONT> (<FONT FACE="courier, courier new, monospace">2.5.4.38</FONT>)
+</FONT>
+</A>
+<BR><A NAME="1015290">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">certificateRevocationList</FONT> (<FONT FACE="courier, courier new, monospace">2.5.4.39</FONT>)
+</FONT>
+</A>
+<BR><A NAME="1015291">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">crossCertificatePair</FONT> (<FONT FACE="courier, courier new, monospace">2.5.4.40</FONT>)
+</FONT>
+</A>
+<BR><A NAME="1015292">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">x500UniqueIdentifier</FONT> (<FONT FACE="courier, courier new, monospace">2.5.4.45</FONT>)
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="1015294">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">java.naming.ldap.ref.separator</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="1015296">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Specifies the character to use when encoding a <FONT FACE="courier, courier new, monospace">RefAddr</FONT> object in the <FONT FACE="courier, courier new, monospace">javaReferenceAddress</FONT> attribute. This property is used to avoid a conflict should the default separator character appear in the components of a <FONT FACE="courier, courier new, monospace">RefAddr</FONT> object.
+</FONT>
+</A>
+<BR><A NAME="1015297">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+If no value is specified, then the default separator is the hash character (<FONT FACE="courier, courier new, monospace">#</FONT>).
+</FONT>
+</A>
+<BR></td></tr>
+</TABLE></P></A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Working with Controls"></A>
+<A NAME="1015298">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Working with Controls</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="1014545">
+JNDI 1.2 and the Netscape LDAP Service Provider support LDAP controls. Since JNDI only defines a generic interface for controls, the task of defining particular controls and their interfaces is left to the Service Provider. All controls supported by the Netscape Directory Server are implemented in the <FONT FACE="courier, courier new, monospace">com.netscape.jndi.ldap.controls</FONT> package. If you plan to use controls, you will need to import this package in your source code.
+</P>
+</A>
+<a name="1019349">
+<B>Note. </B></A><a name="1019373">This is in addition to the JNDI packages that are already specified in your 
+<FONT FACE="courier, courier new, monospace">CLASSPATH</FONT>.
+</a><P><A NAME="1016943">
+Netscape's LDAP Service Provider is implemented on top of the Directory SDK which means that any controls that are available in the SDK are also available through JNDI. These controls use the same API as the Directory SDK, except that they begin with "<FONT FACE="courier, courier new, monospace">Ldap</FONT>" instead of "<FONT FACE="courier, courier new, monospace">LDAP</FONT>." For instance, the SDK control <FONT FACE="courier, courier new, monospace">LDAPSortControl</FONT> is available as <FONT FACE="courier, courier new, monospace">LdapSortControl</FONT> in the Netscape LDAP Service Provider for JNDI.
+</P>
+</A>
+<A NAME="1021238">
+For more information about controls, see <a href="controls.htm#1915315">Chapter 13, "Working with LDAP Controls."</a>
+</P>
+</A>
+<A NAME="1014548">
+The following example shows you how to use <FONT FACE="courier, courier new, monospace">LdapSortControl</FONT>. Since controls are not part of the generalized directory context (<FONT FACE="courier, courier new, monospace">DirContext</FONT>), you must call <FONT FACE="courier, courier new, monospace">getInitialLdapContext()</FONT> instead of <FONT FACE="courier, courier new, monospace">getInitialDirContext()</FONT>. This creates an <FONT FACE="courier, courier new, monospace">LdapContext</FONT> object as the initial context.
+</P>
+</A>
+<PRE><A NAME="1014558"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>import java.util.Hashtable;<br>
+import javax.naming.*;<br>
+import javax.naming.directory.*;<br>
+import javax.naming.ldap.*;<br>
+import com.netscape.jndi.ldap.controls.*;<br>
+public class SortReverseOrder {<br>
+&nbsp;&nbsp;&nbsp;public static void main (String[] args) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hashtable env = new Hashtable(5, 0.75f); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/** Specify the initial context implementation to use.*/ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;env.put(Context.INITIAL_CONTEXT_FACTORY, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"com.netscape.jndi.ldap.LdapContextFactory"); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Specify host and port to use for directory service */ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;env.put(Context.PROVIDER_URL, "ldap://localhost:389"); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LdapContext ctx = null; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* get a handle to an Initial DirContext */ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctx = new InitialLdapContext(env, null); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* specify search constraints to search subtree */ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SearchControls cons = new SearchControls(); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cons.setSearchScope(SearchControls.SUBTREE_SCOPE); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cons.setReturningAttributes(new String[] { "sn" }); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// specify sort control <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctx.setRequestControls( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new Control[] {new LdapSortControl( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new LdapSortKey[]{ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new LdapSortKey("sn", true, null)},Control.CRITICAL)}); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* search for all entries of type "person" */ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NamingEnumeration results = ctx.search("o=mcom.com",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"(objectclass=person)", cons); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* for each entry print out name + all attrs and values */ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (results != null &amp;&amp; results.hasMore()) { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SearchResult si = (SearchResult)results.next(); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Attributes attrs = si.getAttributes(); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* print each attribute */ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (NamingEnumeration ae = attrs.getAll(); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ae.hasMoreElements();) { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Attribute attr = (Attribute)ae.next(); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String attrId = attr.getID(); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* print each value */ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (NamingEnumeration vals = attr.getAll();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vals.hasMore(); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(attrId + ": " + vals.next()));} <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch (NamingException e) { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.err.println("Search example failed."); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace(); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finally {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// cleanup <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ctx != null) { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try { ctx.close(); } catch (Exception e) {} <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br>
+&nbsp;&nbsp;&nbsp;} <br>
+} 
+</FONT></A></PRE>
+
+
+<PRE><A NAME="1020654"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>
+</FONT></A></PRE>
+
+
+</FONT>
+  </TD>
+</TR>
+<TR>
+  <TD>&nbsp;
+  </TD>
+</TR>
+<TR>
+  <TD BGCOLOR="#9999CC"><A HREF="#top"><IMG SRC="up.gif" BORDER=0></A>
+  </TD>
+</TR>
+</TABLE>
+<BR>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-2 COLOR="#999999">
+&copy; Copyright 1999 Netscape Communications Corporation.  All rights reserved.
+</FONT> </CENTER>
+
+<BR>
+
+</BODY>
+
+</HTML>

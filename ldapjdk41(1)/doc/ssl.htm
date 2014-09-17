@@ -1,0 +1,507 @@
+<html><head>
+<title>"Directory SDK for Java 4.0 Programmer's Guide": Connecting Over SSL
+ </title>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+
+        // for older browsers, will just replace the document
+
+        function showHideLayerSwitch(ignored)
+        {
+                document.location = 'contents.htm';
+        }
+
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript1.2">
+
+
+        var visibleVar="null";
+
+    if (navigator.appName == "Netscape") {
+        layerStyleRef="layer.";
+        layerRef="document.layers";
+        styleSwitch="";
+        visibleVar="show";
+    } else {
+        layerStyleRef="layer.style.";
+        layerRef="document.all";
+        styleSwitch=".style";
+        visibleVar="visible";
+    }
+        
+    function showHideLayerSwitch(layerName)
+    {
+        if (eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility == visibleVar')) {
+                hideLayer(layerName);
+        } else {
+            showLayer(layerName);
+        }
+    }
+
+    function showLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="visible"');
+    }
+        
+    function hideLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="hidden"');
+    }
+
+
+</SCRIPT>
+
+<STYLE TYPE="text/css">
+        #header {
+                z-index: 5;
+                visibility: visible;
+        }
+        #pulldownMenu {
+                position: absolute; 
+                z-index: 10; 
+                visibility: hidden; 
+                left: 182px; 
+                top: 55px;
+        }
+</STYLE>
+
+<DIV BGCOLOR="#000000" id="pulldownMenu" >
+
+<SCRIPT>
+        function onMouseOut()
+        {
+                visibility="hide";
+        }
+</SCRIPT>
+
+<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0> <TR> <TD BGCOLOR="#9999CC">
+
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+<A HREF="contents.htm"> <FONT COLOR="white"> Complete Contents</FONT></A><BR> 
+
+<A HREF="preface.htm"> <FONT COLOR="white"> Preface</FONT></A><BR> 
+
+<A HREF="ldap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 1</FONT> Understanding LDAP</FONT></A><BR> 
+
+<A HREF="api.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 2</FONT> Using the Netscape Directory SDK for Java</FONT> 
+</A><BR> 
+
+<A HREF="qckstart.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 3</FONT> Quick Start</FONT> 
+</A><BR> 
+
+<A HREF="writing.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 4</FONT> Writing an LDAP Client</FONT></A><BR> 
+
+<A HREF="using.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 5</FONT>  Using the LDAP Java Classes</FONT></A><BR> 
+
+<A HREF="search.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 6</FONT> Searching the Directory</FONT></A><BR> 
+
+<A HREF="filter.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 7</FONT> Using Filter Configuration Files</FONT></A><BR>
+
+<A HREF="addmod.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 8</FONT> Adding, Updating, and Deleting Entries</FONT></A><BR>
+
+<A HREF="compare.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 9</FONT> Comparing Values in Entries</FONT></A><BR>
+
+<A HREF="url.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 10</FONT> Working with LDAP URLs</FONT></A><BR>
+
+<A HREF="servinfo.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 11</FONT> Getting Server Information</FONT></A><BR>
+
+<A HREF="ssl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 12</FONT> Connecting Over SSL</FONT></A><BR>
+
+<A HREF="controls.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 13</FONT> Working with LDAP Controls</FONT></A><BR>
+
+<A HREF="sasl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 14</FONT> Using SASL Authentication</FONT></A><BR>
+
+<A HREF="JNDIchap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 15</FONT> Using Netscape's JNDI Service Provider</FONT></A><BR>
+
+<A HREF="extendop.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 16</FONT> Working with Extended Operations</FONT></A><BR>
+
+<A HREF="asynch.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 17</FONT> Using the Asynchronous Interface</FONT></A><BR>
+
+<A HREF="glossary.htm"> <FONT COLOR="white"> Glossary</A><BR> 
+
+</TD> </TR> </TABLE> </DIV>
+
+</SCRIPT>
+
+</HEAD>
+
+<BODY LINK="#666699" VLINK="#666699" ALINK="#333366" BGCOLOR="#FFFFFF"><FONT FACE="PrimaSans BT, Verdana, 
+
+Sans-Serif" Size=-1>
+<a name="TOP">
+<TABLE CELLPADDING=10 CELLSPACING=2 border=0 WIDTH=100% BGCOLOR="#CCCCCC"> 
+
+<TR><TD><TABLE CELLPADDING=5 CELLSPACING=2 border=0>
+<TR>
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="servinfo.htm"><IMG SRC="prev.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0>Previous</a></FONT>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="controls.htm">Next<IMG SRC="next.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0></a></FONT>
+  </TD>   
+
+  <TD></TD>
+
+  <TD BGCOLOR="#9999CC"> <A HREF="javascript:showHideLayerSwitch('pulldownMenu');"><FONT FACE="PrimaSans BT, 
+
+Verdana, Sans-Serif" SIZE=-1 
+  COLOR="white">Contents</FONT></A>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><A HREF="index.htm">Index</A></FONT>
+  </TD>
+
+</TR>
+</TABLE>
+</TD></TR> 
+</TABLE>
+
+<BR> <BR>
+
+</a>
+</DIV>
+
+</P>
+
+<CENTER>
+<TABLE CELLPADDING=2 CELLSPACING=2 WIDTH="85%" BORDER=0>
+<TR>
+  <TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="
+">
+</A>
+<A NAME="1915312">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+
+
+</FONT></B><P><A NAME="
+">
+</A>
+<A NAME="1915314">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="#999999">
+<B>
+Chapter 12
+</B></FONT></A><A NAME="Connecting Over SSL
+">
+</A>
+<A NAME="1915315">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+Connecting Over SSL
+
+</FONT></B><P><A NAME="1708500">
+This chapter describes the process of enabling an LDAP client to connect to an LDAP server over the Secure Sockets Layer (SSL) protocol. The chapter covers the procedures for connecting to an LDAP server and authenticating. </P></A>
+<A NAME="2843560">
+The chapter includes the following sections:
+</P>
+</A>
+<ul><P>
+<A NAME="2848088">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="ssl.htm#2841416">"How SSL Works with the Netscape Directory SDK for Java"</a> </FONT></LI></A><P>
+<A NAME="2848103">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="ssl.htm#2846951">"Prerequisites for Connecting Over SSL"</a> </FONT></LI></A><P>
+<A NAME="2848108">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="ssl.htm#2841981">"Connecting to the Server Over SSL"</a> </FONT></LI></A><P>
+<A NAME="2843607">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="ssl.htm#2847694">"Using Certificate-Based Client Authentication"</a> </FONT></LI></A></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="How SSL Works with the Netscape Directory SDK for Java"></A>
+<A NAME="2841416">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>How SSL Works with the Netscape Directory SDK for Java</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2841850">
+The Netscape Directory SDK for Java includes classes and methods to enable your application to connect to an LDAP server over a Secure Sockets Layer (SSL). 
+</P>
+</A>
+<A NAME="Understanding SSL">
+</A><A NAME="2848344">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Understanding SSL</B>
+</FONT></A><br>
+<A NAME="2846851">
+The primary goal of the SSL Protocol is to provide privacy and reliability between two communicating applications. For more information on SSL, see:
+</P>
+</A>
+<ul><P>
+<A NAME="2842711">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+The SSL 3.0 Protocol Specification (http://home.netscape.com/eng/ssl3/ssl-toc.html</a>)</FONT></LI></A></ul><A NAME="2846898">
+The Netscape Directory SDK for Java supports SSL 3.0. Note that SSL is not supported by all LDAP servers. 
+</P>
+</A>
+<A NAME="SSL Over LDAP">
+</A><A NAME="2848358">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>SSL Over LDAP</B>
+</FONT></A><br>
+<A NAME="2846971">
+When an LDAP client connects to an LDAP server over SSL, the LDAP server identifies itself by sending its certificate to the LDAP client. The LDAP client needs to determine whether or not the certificate authority (CA) who issued the certificate is trusted. 
+</P>
+</A>
+<A NAME="2847006">
+The LDAP server may also request that the client send a certificate to authenticate itself. (This process is called certificate-based client authentication.) 
+</P>
+</A>
+<A NAME="2847189">
+After receiving the client's certificate, the LDAP server determines whether or not the CA who issued the certificate is trusted. If the CA is trusted, the server uses the subject name in the certificate to determine if the client has access rights to perform the requested operation. 
+</P>
+</A>
+<A NAME="2848373">
+In order to use SSL, you need a certificate database to hold the CA certificate and (if certificate-based client authentication is used) the client's certificate. For details, see <a href="ssl.htm#2846951">"Prerequisites for Connecting Over SSL"</a>. 
+</P>
+</A>
+<A NAME="Interfaces and Classes for SSL">
+</A><A NAME="2848438">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Interfaces and Classes for SSL</B>
+</FONT></A><br>
+<A NAME="2848445">
+The Netscape Directory SDK for Java includes the <FONT FACE="courier, courier new, monospace">LDAPSocketFactory</FONT> interface, which describes a single method, <FONT FACE="courier, courier new, monospace">makeSocket</FONT>, that returns a socket to a given server (specified by a host name and port number). To establish an SSL connection, you need to create an object of a class that implements this interface.
+</P>
+</A>
+<A NAME="2848695">
+Note that the classes that implement this interface in the Netscape Directory SDK for Java rely on a separate class that implements SSL sockets. In the constructors for object that implement <FONT FACE="courier, courier new, monospace">LDAPSocketFactory</FONT>, you typically need to specify the name of a class that implements SSL sockets. 
+</P>
+</A>
+<A NAME="2848305">
+The following classes implement this interface:
+</P>
+</A>
+<ul><P>
+<A NAME="2848663">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">LDAPSSLSocketFactory</FONT></FONT></LI></A><P><A NAME="2848740">
+Use this class if you are using the<FONT FACE="courier, courier new, monospace"> netscape.net.SSLSocket </FONT>class (which 
+is provided with Netscape Communicator 4.05 and more recent versions) to 
+implement SSL sockets. You can also use this class if the class that 
+implements SSL sockets extends the<FONT FACE="courier, courier new, monospace"> Socket </FONT>object. 
+
+</A></P>
+<P>
+<A NAME="2848747">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">LDAPSSLSocketWrapFactory</FONT></FONT></LI></A><P><A NAME="2848748">
+Use this class if the class that implements SSL sockets does not extend the<FONT FACE="courier, courier new, monospace"> 
+Socket </FONT>object. The<FONT FACE="courier, courier new, monospace"> LDAPSSLSocketWrapFactory </FONT>class wraps your SSL 
+socket implementation class in a class that does extend the<FONT FACE="courier, courier new, monospace"> Socket </FONT>object. 
+
+</A></P>
+</ul><A NAME="2848672">
+You can construct an object of one of these factory classes and pass the factory object to the constructor for the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object to identify the socket factory that you want used for the connection. 
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Prerequisites for Connecting Over SSL"></A>
+<A NAME="2846951">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Prerequisites for Connecting Over SSL</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2843241">
+The LDAP Java classes that enable you to connect over SSL rely assume the following:
+</P>
+</A>
+<ul><P>
+<A NAME="2843242">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Your client has access to a Netscape certificate database. </FONT></LI></A><P><A NAME="2848918">
+If you are running your client as an applet in a Netscape Navigator browser, 
+you can use this certificate database to determine if you trust the certificate 
+sent from the server. 
+
+</A></P>
+<P>
+<A NAME="2843244">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+The database that you are using contains any one of the following:</FONT></LI></A><ul>
+<P>
+<A NAME="2843245">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the certificate of the certificate authority (CA) that issued the server's certificate 
+</FONT></LI></A><P>
+<A NAME="2843246">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+if the certificate authorities (CAs) are organized in a hierarchy, the certificate of any of the CAs in the hierarchy 
+</FONT></LI></A><P>
+<A NAME="2843247">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+the certificate of the LDAP server 
+</FONT></LI></A></ul>
+<P>
+<A NAME="2847248">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+The CA certificate is marked as "trusted" in the certificate database. </FONT></LI></A><P>
+<A NAME="2847238">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If you plan to use certificate-based client authentication, you also need the following:</FONT></LI></A><ul>
+<P>
+<A NAME="2847227">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+a client certificate (issued by a CA trusted by the LDAP server) in the certificate database 
+</FONT></LI></A><P>
+<A NAME="2847243">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+a public/private key pair in a Netscape key file (this can be either the<FONT FACE="courier, courier new, monospace"> key.db </FONT>file used by Netscape Navigator or the<FONT FACE="courier, courier new, monospace"> &lt;alias&gt;-key.db </FONT>file used by Netscape servers) 
+</FONT></LI></A></ul>
+</ul><A NAME="2843249">
+Essentially, when your client sends an initial request to the secure LDAP server, the server sends its certificate back to your client. Your client determines which CA issued the server's certificate and searches the certificate database for the certificate of that CA. 
+</P>
+</A>
+<A NAME="2843250">
+If your client cannot find the CA certificate or if the CA certificate is marked as "not trusted," your client refuses to connect to the server.
+</P>
+</A>
+<A NAME="2847520">
+If you are using certificate-based client authentication, your client retrieves its certificate from the certificate database and sends it to the server for authentication. The server determines which CA issued the client's certificate and searches its certificate database for the certificate of that CA. 
+</P>
+</A>
+<A NAME="2847742">
+If the server cannot find the CA certificate or if the CA certificate is marked as "not trusted," the server refuses to authenticate your client.
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Connecting to the Server Over SSL"></A>
+<A NAME="2841981">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Connecting to the Server Over SSL</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2841425">
+To connect to an LDAP server using SSL, do the following: 
+</P>
+</A>
+<ol>
+<P><a name="2848418">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Construct a new <FONT FACE="courier, courier new, monospace">LDAPSSLSocketFactory</FONT> object or a new <FONT FACE="courier, courier new, monospace">LDAPSSLSocketWrapFactory</FONT> object. </LI></a><P><A NAME="2848464">
+This object represents the SSL socket factory that will be used to create the 
+sockets for establishing connections with the LDAP server. 
+
+</A></P>
+<P><A NAME="2848480">
+The constructors for these classes allow you to specify the name of the class 
+that will be used to create the actual sockets. 
+
+</A></P>
+<ul>
+<P>
+<A NAME="2848829">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+For the <FONT FACE="courier, courier new, monospace">LDAPSSLSocketFactory</FONT> constructor, you should specify a class that implements the<FONT FACE="courier, courier new, monospace"> javax.net.ssl.SSLSocket </FONT>interface. By default, if you do not specify a class, the<FONT FACE="courier, courier new, monospace"> netscape.net.SSLSocket </FONT>class is used. This class is included with Netscape Communicator 4.05. 
+</FONT></LI></A><P>
+<A NAME="2848837">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If the SSL socket class does not extend the<FONT FACE="courier, courier new, monospace"> Socket </FONT>class (for example, if it just extends the<FONT FACE="courier, courier new, monospace"> Object </FONT>class), use the <FONT FACE="courier, courier new, monospace">LDAPSSLSocketWrapFactory</FONT> constructor. 
+</FONT></LI></A></ul>
+<P><a name="2848465">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Pass the object you constructed to the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> constructor. </LI></a><P><A NAME="2848546">
+When first establishing a connection to the LDAP server, the <FONT FACE="courier, courier new, monospace">makeSocket</FONT> 
+method of the specified object will be used to construct the socket. 
+
+</A></P>
+</ol>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Using Certificate-Based Client Authentication"></A>
+<A NAME="2847694">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Using Certificate-Based Client Authentication</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2847695">
+Some LDAP servers may be configured to use certificate-based client authentication. A server may request that your client send a certificate to identify itself. 
+</P>
+</A>
+<A NAME="2833774">
+Using the Netscape Directory SDK for Java, you can set up your client to perform certificate-based authentication in either of the following situations: 
+</P>
+</A>
+<ul><P>
+<A NAME="2848580">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Your client is an applet running in a Netscape browser. </FONT></LI></A><P>
+<A NAME="2848582">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Your client is using a class that implements the <FONT FACE="courier, courier new, monospace">LDAPSocketFactory</FONT> interface and supports certificate-based client authentication. </FONT></LI></A></ul><A NAME="2848581">
+Note the following: 
+</P>
+</A>
+<ul><P>
+<A NAME="2848588">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+The <FONT FACE="courier, courier new, monospace">LDAPSSLSocketWrapFactory</FONT> class currently does not support certificate-based client authentication. </FONT></LI></A><P>
+<A NAME="2848593">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+The <FONT FACE="courier, courier new, monospace">LDAPSSLSocketFactory</FONT> class relies on the Netscape browser to support certificate-based client authentication. This class does not support the use of certificates for authentication outside the browser (for example, if your client is a stand-alone Java application). </FONT></LI></A></ul><A NAME="2848589">
+To enable an applet to use certificate-based client authentication, do the following: 
+</P>
+</A>
+<ol>
+<P><a name="2848611">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Construct a new <FONT FACE="courier, courier new, monospace">LDAPSSLSocketFactory</FONT> object. </LI></a><P><a name="2848631">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Invoke the <FONT FACE="courier, courier new, monospace">enableClientAuth</FONT> method of the object to enable certificate-based client authentication. </LI></a><P><a name="2848641">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Pass the object you constructed to the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> constructor. </LI></a></ol>
+<A NAME="2848603">
+
+</P>
+</A>
+</FONT>
+  </TD>
+</TR>
+<TR>
+  <TD>&nbsp;
+  </TD>
+</TR>
+<TR>
+  <TD BGCOLOR="#9999CC"><A HREF="#top"><IMG SRC="up.gif" BORDER=0></A>
+  </TD>
+</TR>
+</TABLE>
+<BR>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-2 COLOR="#999999">
+&copy; Copyright 1999 Netscape Communications Corporation.  All rights reserved.
+</FONT> </CENTER>
+
+<BR>
+
+</BODY>
+
+</HTML>

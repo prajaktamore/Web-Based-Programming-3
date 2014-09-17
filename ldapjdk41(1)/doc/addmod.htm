@@ -1,0 +1,1046 @@
+<html><head>
+<title>"Directory SDK for Java 4.0 Programmer's Guide": Adding, Updating, and Deleting 
+Entries
+ </title>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+
+        // for older browsers, will just replace the document
+
+        function showHideLayerSwitch(ignored)
+        {
+                document.location = 'contents.htm';
+        }
+
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript1.2">
+
+
+        var visibleVar="null";
+
+    if (navigator.appName == "Netscape") {
+        layerStyleRef="layer.";
+        layerRef="document.layers";
+        styleSwitch="";
+        visibleVar="show";
+    } else {
+        layerStyleRef="layer.style.";
+        layerRef="document.all";
+        styleSwitch=".style";
+        visibleVar="visible";
+    }
+        
+    function showHideLayerSwitch(layerName)
+    {
+        if (eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility == visibleVar')) {
+                hideLayer(layerName);
+        } else {
+            showLayer(layerName);
+        }
+    }
+
+    function showLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="visible"');
+    }
+        
+    function hideLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="hidden"');
+    }
+
+
+</SCRIPT>
+
+<STYLE TYPE="text/css">
+        #header {
+                z-index: 5;
+                visibility: visible;
+        }
+        #pulldownMenu {
+                position: absolute; 
+                z-index: 10; 
+                visibility: hidden; 
+                left: 182px; 
+                top: 55px;
+        }
+</STYLE>
+
+<DIV BGCOLOR="#000000" id="pulldownMenu" >
+
+<SCRIPT>
+        function onMouseOut()
+        {
+                visibility="hide";
+        }
+</SCRIPT>
+
+<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0> <TR> <TD BGCOLOR="#9999CC">
+
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+<A HREF="contents.htm"> <FONT COLOR="white"> Complete Contents</FONT></A><BR> 
+
+<A HREF="preface.htm"> <FONT COLOR="white"> Preface</FONT></A><BR> 
+
+<A HREF="ldap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 1</FONT> Understanding LDAP</FONT></A><BR> 
+
+<A HREF="api.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 2</FONT> Using the Netscape Directory SDK for Java</FONT> 
+</A><BR> 
+
+<A HREF="qckstart.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 3</FONT> Quick Start</FONT> 
+</A><BR> 
+
+<A HREF="writing.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 4</FONT> Writing an LDAP Client</FONT></A><BR> 
+
+<A HREF="using.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 5</FONT>  Using the LDAP Java Classes</FONT></A><BR> 
+
+<A HREF="search.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 6</FONT> Searching the Directory</FONT></A><BR> 
+
+<A HREF="filter.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 7</FONT> Using Filter Configuration Files</FONT></A><BR>
+
+<A HREF="addmod.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 8</FONT> Adding, Updating, and Deleting Entries</FONT></A><BR>
+
+<A HREF="compare.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 9</FONT> Comparing Values in Entries</FONT></A><BR>
+
+<A HREF="url.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 10</FONT> Working with LDAP URLs</FONT></A><BR>
+
+<A HREF="servinfo.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 11</FONT> Getting Server Information</FONT></A><BR>
+
+<A HREF="ssl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 12</FONT> Connecting Over SSL</FONT></A><BR>
+
+<A HREF="controls.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 13</FONT> Working with LDAP Controls</FONT></A><BR>
+
+<A HREF="sasl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 14</FONT> Using SASL Authentication</FONT></A><BR>
+
+<A HREF="JNDIchap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 15</FONT> Using Netscape's JNDI Service Provider</FONT></A><BR>
+
+<A HREF="extendop.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 16</FONT> Working with Extended Operations</FONT></A><BR>
+
+<A HREF="asynch.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 17</FONT> Using the Asynchronous Interface</FONT></A><BR>
+
+<A HREF="glossary.htm"> <FONT COLOR="white"> Glossary</A><BR> 
+
+</TD> </TR> </TABLE> </DIV>
+
+</SCRIPT>
+
+</HEAD>
+
+<BODY LINK="#666699" VLINK="#666699" ALINK="#333366" BGCOLOR="#FFFFFF"><FONT FACE="PrimaSans BT, Verdana, 
+
+Sans-Serif" Size=-1>
+<a name="TOP">
+<TABLE CELLPADDING=10 CELLSPACING=2 border=0 WIDTH=100% BGCOLOR="#CCCCCC"> 
+
+<TR><TD><TABLE CELLPADDING=5 CELLSPACING=2 border=0>
+<TR>
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="filter.htm"><IMG SRC="prev.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0>Previous</a></FONT>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="compare.htm">Next<IMG SRC="next.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0></a></FONT>
+  </TD>   
+
+  <TD></TD>
+
+  <TD BGCOLOR="#9999CC"> <A HREF="javascript:showHideLayerSwitch('pulldownMenu');"><FONT FACE="PrimaSans BT, 
+
+Verdana, Sans-Serif" SIZE=-1 
+  COLOR="white">Contents</FONT></A>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><A HREF="index.htm">Index</A></FONT>
+  </TD>
+
+</TR>
+</TABLE>
+</TD></TR> 
+</TABLE>
+
+<BR> <BR>
+
+</a>
+</DIV>
+
+</P>
+
+<CENTER>
+<TABLE CELLPADDING=2 CELLSPACING=2 WIDTH="85%" BORDER=0>
+<TR>
+  <TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="
+">
+</A>
+<A NAME="1915312">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+
+
+</FONT></B><P><A NAME="
+">
+</A>
+<A NAME="1915314">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="#999999">
+<B>
+Chapter 8
+</B></FONT></A><A NAME="Adding, Updating, and Deleting 
+Entries
+">
+</A>
+<A NAME="2832217">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+Adding, Updating, and Deleting 
+Entries
+
+</FONT></B><P><A NAME="2832223">
+This chapter explains how to use the LDAP Java classes to add, modify, delete, and rename entries in the directory. </P></A>
+<A NAME="2835906">
+The chapter includes the following sections:
+</P>
+</A>
+<ul><P>
+<A NAME="2835955">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="addmod.htm#2828841">"Adding a New Entry"</a></FONT></LI></A><P>
+<A NAME="2835973">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="addmod.htm#2829050">"Modifying an Entry"</a></FONT></LI></A><P>
+<A NAME="2835982">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="addmod.htm#2838220">"Deleting an Entry"</a></FONT></LI></A><P>
+<A NAME="2835991">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="addmod.htm#2834429">"Changing the Name of an Entry"</a></FONT></LI></A></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Adding a New Entry "></A>
+<A NAME="2828841">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Adding a New Entry </B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2833748">
+To add an entry to the directory, you need to follow this general procedure: 
+</P>
+</A>
+<ol>
+<P><a name="2836444">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Create each individual attribute that will be in the entry. (See <a href="addmod.htm#2836378">"Creating a New Attribute"</a>.) </LI></a><P><a name="2836461">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Create the set of attributes that make up the entry, and add each of the attributes to this set. (See <a href="addmod.htm#2833806">"Creating a New Attribute Set"</a>.) </LI></a><P><a name="2836467">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Create the new entry, specifying a unique distinguished name (DN) to identify the entry and the set of attributes that make up the entry. (See <a href="addmod.htm#2832661">"Creating a New Entry"</a>.) </LI></a><P><a name="2840530">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Add the new entry to directory. (See <a href="addmod.htm#2840751">"Adding the Entry to the Directory"</a>.) </LI></a></ol>
+<A NAME="2841377">
+For a complete example, see <a href="addmod.htm#2841383">"Example of Adding an Entry"</a>. 
+</P>
+</A>
+<A NAME="Creating a New Attribute">
+</A><A NAME="2836378">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Creating a New Attribute</B>
+</FONT></A><br>
+<A NAME="2836428">
+An attribute can have a single value or multiple values and can contain string values or binary data. In the LDAP Java classes, an attribute is represented by an <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> object. 
+</P>
+</A>
+<A NAME="2840490">
+To create a new attribute, use the <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> constructor. You can specify a single string value, multiple string values, or a binary value when constructing the object. 
+</P>
+</A>
+<A NAME="2840494">
+For example, the following section of code creates a new object for the attribute "cn" with the value "Jane St. Clair". 
+</P>
+</A>
+<PRE><A NAME="2840521"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+LDAPAttribute attr = new LDAPAttribute( "cn", "Jane St. Clair" );<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2833766">
+The following section of code creates an attribute "objectclass" with the values "top", "person", "organizationalPerson", and "inetOrgPerson". 
+</P>
+</A>
+<PRE><A NAME="2832679"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+String objectclasses[] = { "top",<br>
+&nbsp;&nbsp;&nbsp;"person", "organizationalPerson", "inetOrgPerson" };<br>
+LDAPAttribute attr = new LDAPAttribute( "objectclass", objectclasses );<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2840722">
+You can also add string or binary values to an <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> object by invoking the <FONT FACE="courier, courier new, monospace">addValue</FONT> method. 
+</P>
+</A>
+<A NAME="Creating a New Attribute Set">
+</A><A NAME="2833806">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Creating a New Attribute Set</B>
+</FONT></A><br>
+<A NAME="2840611">
+To specify the set of attributes in an entry, you need to create an attribute set. In the LDAP Java classes, a set of one or more attributes is represented by an <FONT FACE="courier, courier new, monospace">LDAPAttributeSet</FONT> object. 
+</P>
+</A>
+<A NAME="2840707">
+To create a new attribute set, use the <FONT FACE="courier, courier new, monospace">LDAPAttributeSet</FONT> constructor and invoke the <FONT FACE="courier, courier new, monospace">add</FONT> methodto add <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> objects to the set. 
+</P>
+</A>
+<A NAME="2840750">
+For example:
+</P>
+</A>
+<PRE><A NAME="2840711"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+LDAPAttribute attr1 = new LDAPAttribute( "cn", "Jane St. Clair" );<br>
+String objectclasses[] = { "top",<br>
+&nbsp;&nbsp;&nbsp;"person", "organizationalPerson", "inetOrgPerson" };<br>
+LDAPAttribute attr2 = new LDAPAttribute( "objectclass", objectclasses );<br>
+LDAPAttributeSet attrSet = new LDAPAttributeSet();<br>
+attrSet.add( attr1 );<br>
+attrSet.add( attr2 );<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="Creating a New Entry">
+</A><A NAME="2832661">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Creating a New Entry</B>
+</FONT></A><br>
+<A NAME="2840850">
+An entry contains a distinguished name (DN), which identifies the entry in the directory, and a set of attributes. In the LDAP Java classes, an entry is represented by an <FONT FACE="courier, courier new, monospace">LDAPEntry</FONT> object. 
+</P>
+</A>
+<A NAME="2840863">
+To create a new entry, use the <FONT FACE="courier, courier new, monospace">LDAPEntry</FONT> constructor. For example: 
+</P>
+</A>
+<PRE><A NAME="2840865"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+LDAPAttribute attr1 = new LDAPAttribute( "cn", "Jane St. Clair" );<br>
+String objectclasses[] = { "top",<br>
+&nbsp;&nbsp;&nbsp;"person", "organizationalPerson", "inetOrgPerson" };<br>
+LDAPAttribute attr2 = new LDAPAttribute( "objectclass", objectclasses );<br>
+LDAPAttributeSet attrSet = new LDAPAttributeSet();<br>
+attrSet.add( attr1 );<br>
+attrSet.add( attr2 );<br>
+String dn = "uid=jsclair,ou=People,o=Airius.com"; <br>
+LDAPEntry newEntry = new LDAPEntry( dn, attrs );<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="Adding the Entry to the Directory">
+</A><A NAME="2840751">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Adding the Entry to the Directory</B>
+</FONT></A><br>
+<A NAME="2840452">
+To add the entry to the directory, invoke the <FONT FACE="courier, courier new, monospace">add</FONT> methodof the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object. For example:
+</P>
+</A>
+<PRE><A NAME="2841051"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+try {<br>
+&nbsp;&nbsp;&nbsp;LDAPConnection ld = new LDAPConnection();<br>
+&nbsp;&nbsp;&nbsp;ld.connect( "localhost", LDAPv2.DEFAULT_PORT ); <br>
+&nbsp;&nbsp;&nbsp;ld.authenticate( "cn=Directory Manager", "23skidoo" );<br>
+&nbsp;&nbsp;&nbsp;LDAPEntry newEntry = new LDAPEntry( dn, attrs );<br>
+&nbsp;&nbsp;&nbsp;ld.add( newEntry );<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2840464">
+Before you add an entry, make sure of the following: 
+</P>
+</A>
+<ul><P>
+<A NAME="2841202">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+You have specified the object classes of the entry (use the "objectclass" attribute to specify these) and the required attributes for that object class. </FONT></LI></A><P><A NAME="2841272">
+For example, in the Netscape Directory Server, organizational units are 
+represented by entries of the "organizationalUnit" object class. To add an 
+entry for a person, you need to specify the following attributes in the entry: 
+
+</A></P>
+<ul>
+<P>
+<A NAME="2841290">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+objectclass (this attribute should have the values "top" and "organizationalUnit") 
+</FONT></LI></A><P>
+<A NAME="2841295">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+ou (this is a required attribute) 
+</FONT></LI></A></ul>
+<P><A NAME="2841282">
+For a listing of object classes and their required attributes, see the Directory 
+Server Administrator's Guide. 
+
+</A></P>
+<P>
+<A NAME="2841271">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Make sure that you authenticate as a user who has the access permissions to add the entry to the directory. (If you do not have permission to add the entry, an <FONT FACE="courier, courier new, monospace">LDAPException</FONT> is thrown with the result code <FONT FACE="courier, courier new, monospace">LDAPException</FONT>.<FONT FACE="courier, courier new, monospace">INSUFFICIENT_ACCESS_RIGHTS</FONT>.)</FONT></LI></A></ul><A NAME="Example of Adding an Entry">
+</A><A NAME="2841383">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Example of Adding an Entry</B>
+</FONT></A><br>
+<A NAME="2841390">
+The following example adds a new entry to the directory for the user named William Jensen. 
+</P>
+</A>
+<PRE><A NAME="2841409"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>import netscape.ldap.*;<br>
+import java.util.*;<br>
+public class Add {<br>
+&nbsp;&nbsp;&nbsp;public static void main( String[] args ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Specify the DN of the new entry. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String dn = "uid=wbjensen, ou=People, o=Airius.com";<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Create a new attribute set for the entry. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttributeSet attrs = new LDAPAttributeSet();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Create and add attributes to the attribute set. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String objectclass_values[] = { "top", "person", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"organizationalPerson", "inetOrgPerson" };<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttribute attr = new LDAPAttribute( "objectclass", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;objectclass_values );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attrs.add( attr );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String cn_values[] = { "William B Jensen", "William Jensen", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Bill Jensen" };<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attr = new LDAPAttribute( "cn", cn_values );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attrs.add( attr );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String givenname_values[] = { "William", "Bill" };<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attr = new LDAPAttribute( "givenname", givenname_values );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attrs.add( attr );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attrs.add( new LDAPAttribute( "sn", "Jensen" ) );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attrs.add( new LDAPAttribute( "telephonenumber", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+1 415 555 1212" ) );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attrs.add( new LDAPAttribute( "uid", "wbjensen" ) );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Create an entry with this DN and these attributes . */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPEntry myEntry = new LDAPEntry( dn, attrs );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Connect to the server and add the entry. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPConnection ld = null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int status = -1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld = new LDAPConnection();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Connect to the server. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String HOSTNAME= "localhost";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.connect( HOSTNAME, LDAPv2.DEFAULT_PORT );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Authenticate to the server as the directory manager. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MGR_DN = "cn=Directory Manager";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MGR_PW = "23skidoo";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.authenticate( MGR_DN, MGR_PW );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Add the entry to the directory. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.add( myEntry );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Added entry successfully."  );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e.getLDAPResultCode() == <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPException.ENTRY_ALREADY_EXISTS )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: Entry already present" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* When done, disconnect from the server. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( (ld != null) &amp;&amp; ld.isConnected() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.disconnect();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(status);<br>
+&nbsp;&nbsp;&nbsp;}<br>
+}
+</FONT></A></PRE>
+
+
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Modifying an Entry"></A>
+<A NAME="2829050">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Modifying an Entry</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2837278">
+To modify an entry in the directory, you need to follow this general procedure: 
+</P>
+</A>
+<ol>
+<P><a name="2837279">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Specify each change to an attribute that needs to be made. You can do one of the following: </LI></a><ul>
+<P>
+<A NAME="2842205">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If you are making only one change to the entry, you need to construct an <FONT FACE="courier, courier new, monospace">LDAPModification</FONT> object specifying the change that needs to be made. 
+</FONT></LI></A><P>
+<A NAME="2837283">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If you are making more than one change, you need to construct an <FONT FACE="courier, courier new, monospace">LDAPModificationSet</FONT> object specifying the changes that need to be made. 
+</FONT></LI></A></ul>
+<P><A NAME="2843509">
+See <a href="addmod.htm#2832879">"Specifying the Changes"</a> for details. 
+
+</A></P>
+<P><a name="2837287">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Use the distinguished name of the entry to find and update the entry in the directory. (See <a href="addmod.htm#2832864">"Modifying the Entry in the Directory"</a>.)</LI></a></ol>
+<A NAME="2843536">
+For a complete example, see <a href="addmod.htm#2843471">"Example of Modifying an Entry"</a>. 
+</P>
+</A>
+<A NAME="Specifying the Changes">
+</A><A NAME="2832879">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Specifying the Changes</B>
+</FONT></A><br>
+<A NAME="2834185">
+You can add a new attribute, removing an existing attribute, or changing the values of an existing attribute. This section describes the process of specifying these changes.
+</P>
+</A>
+<ul><P>
+<A NAME="2842837">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="addmod.htm#2842761">Adding New Values to an Attribute</a> </FONT></LI></A><P>
+<A NAME="2842842">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="addmod.htm#2842850">Removing Values to an Attribute</a> </FONT></LI></A><P>
+<A NAME="2842758">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="addmod.htm#2842939">Replacing the Values of an Attribute</a> </FONT></LI></A><P>
+<A NAME="2842360">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="addmod.htm#2842844">Adding a New Attribute</a> </FONT></LI></A><P>
+<A NAME="2842367">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="addmod.htm#2842478">Removing an Attribute</a> </FONT></LI></A></ul><A NAME="Adding New Values to an Attribute"></A>
+<A NAME="2842761">
+<FONT FACE="Palatino, Serif" SIZE="+1" COLOR="black"> <B>
+Adding New Values to an Attribute</B></FONT></A><br><A NAME="2842765">
+To add new values to an attribute in an entry, construct a new <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> object, specifying the name of the attribute and the values that you want to add. Then, do one of the following: 
+</P>
+</A>
+<ul><P>
+<A NAME="2842766">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If you are only making a single change to the entry, construct a new <FONT FACE="courier, courier new, monospace">LDAPModification</FONT> objectto specify that change. Pass <FONT FACE="courier, courier new, monospace">LDAPModification</FONT>.<FONT FACE="courier, courier new, monospace">ADD</FONT> and the <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> object as arguments to the <FONT FACE="courier, courier new, monospace">LDAPModification</FONT> constructor. </FONT></LI></A><P>
+<A NAME="2842782">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If you are collecting multiple changes to an entry in an <FONT FACE="courier, courier new, monospace">LDAPModificationSet</FONT> object, invoke the <FONT FACE="courier, courier new, monospace">add</FONT> method to add this change to the list. Pass <FONT FACE="courier, courier new, monospace">LDAPModification</FONT>.<FONT FACE="courier, courier new, monospace">ADD</FONT> and the <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> object as arguments to this method. </FONT></LI></A></ul><A NAME="2842798">
+For example, the following section of code prepares to add the value "babs@airius.com" to the "mail" attribute to an entry. 
+</P>
+</A>
+<PRE><A NAME="2842799"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+LDAPModificationSet mods = new LDAPModificationSet();<br>
+LDAPAttribute attrMail = new LDAPAttribute( "mail",<br>
+&nbsp;&nbsp;&nbsp;"babs@airius.com" );<br>
+mods.add( LDAPModification.ADD, attrMail );<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2842828">
+Note that if the specified attribute does not exist in the entry, the attribute will be added to the entry. For example, if the "mail" attribute does not exist in the entry, adding the value "babs@airius.com" will add the "mail" attribute to the entry. 
+</P>
+</A>
+<A NAME="Removing Values to an Attribute"></A>
+<A NAME="2842850">
+<FONT FACE="Palatino, Serif" SIZE="+1" COLOR="black"> <B>
+Removing Values to an Attribute</B></FONT></A><br><A NAME="2842854">
+To remove values from an attribute in an entry, construct a new <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> object, specifying the name of the attribute and the values that you want to remove. Then, do one of the following: 
+</P>
+</A>
+<ul><P>
+<A NAME="2842855">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If you are only making a single change to the entry, construct a new <FONT FACE="courier, courier new, monospace">LDAPModification</FONT> object to specify that change. Pass <FONT FACE="courier, courier new, monospace">LDAPModification</FONT>.<FONT FACE="courier, courier new, monospace">DELETE</FONT> and the <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> object as arguments to the <FONT FACE="courier, courier new, monospace">LDAPModification</FONT> constructor. </FONT></LI></A><P>
+<A NAME="2842871">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If you are collecting multiple changes to an entry in an <FONT FACE="courier, courier new, monospace">LDAPModificationSet</FONT> object, invoke the <FONT FACE="courier, courier new, monospace">add</FONT> method to add this change to the list. Pass <FONT FACE="courier, courier new, monospace">LDAPModification</FONT>.<FONT FACE="courier, courier new, monospace">DELETE</FONT> and the <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> object as arguments to this method. </FONT></LI></A></ul><A NAME="2842887">
+For example, the following section of code prepares to remove the value "babs@airius.com" from the "mail" attribute to an entry. 
+</P>
+</A>
+<PRE><A NAME="2842888"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+LDAPModificationSet mods = new LDAPModificationSet();<br>
+LDAPAttribute attrMail = new LDAPAttribute( "mail",<br>
+&nbsp;&nbsp;&nbsp;"babs@airius.com" );<br>
+mods.add( LDAPModification.DELETE, attrMail );<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2842894">
+Note that if you are removing all values in the attribute, the attribute will be removed. For example, if "babs@airius.com" is the only value of the "mail" attribute, removing this value will remove the "mail" attribute from the entry. 
+</P>
+</A>
+<A NAME="2843079">
+Also note that if you do not specify any values in the <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> object, the attribute will be removed. For example, if you construct the object by invoking<FONT FACE="courier, courier new, monospace"> LDAPAttribute( "mail" )</FONT>, the "mail" attribute will be removed. 
+</P>
+</A>
+<A NAME="Replacing the Values of an Attribute"></A>
+<A NAME="2842939">
+<FONT FACE="Palatino, Serif" SIZE="+1" COLOR="black"> <B>
+Replacing the Values of an Attribute</B></FONT></A><br><A NAME="2843003">
+To replace all of the values of an attribute in an entry, construct a new <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> object, specifying the name of the attribute and the new values that should replace all of the existing values of the attribute. Then, do one of the following: 
+</P>
+</A>
+<ul><P>
+<A NAME="2843004">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If you are only making a single change to the entry, construct a new <FONT FACE="courier, courier new, monospace">LDAPModification</FONT> object to specify that change. Pass <FONT FACE="courier, courier new, monospace">LDAPModification</FONT>.<FONT FACE="courier, courier new, monospace">REPLACE</FONT> and the <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> object as arguments to the <FONT FACE="courier, courier new, monospace">LDAPModification</FONT> constructor. </FONT></LI></A><P>
+<A NAME="2843020">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If you are collecting multiple changes to an entry in an <FONT FACE="courier, courier new, monospace">LDAPModificationSet</FONT> object, invoke the <FONT FACE="courier, courier new, monospace">add</FONT> method to add this change to the list. Pass <FONT FACE="courier, courier new, monospace">LDAPModification</FONT>.<FONT FACE="courier, courier new, monospace">REPLACE</FONT> and the <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> object as arguments to this method. </FONT></LI></A></ul><A NAME="2843036">
+For example, the following section of code prepares to replace the existing values of the "mail" attribute with the values "bjensen@airius.com" and "babs@airius.com". 
+</P>
+</A>
+<PRE><A NAME="2843037"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+LDAPModificationSet mods = new LDAPModificationSet();<br>
+String attrValues = { "bjensen@airius.com", "babs@airius.com" }<br>
+LDAPAttribute attrMail = new LDAPAttribute( "mail", attrValues );<br>
+mods.add( LDAPModification.REPLACE, attrMail );<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2843043">
+Note that if the specified attribute does not exist in the entry, the attribute will be added to the entry. For example, if the "mail" attribute does not exist in the entry, replacing the values "bjensen@airius.com" and "babs@airius.com" will add the "mail" attribute to the entry. 
+</P>
+</A>
+<A NAME="2843100">
+Also note that if you do not specify any values in the <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> object, the attribute will be removed. For example, if you construct the object by invoking<FONT FACE="courier, courier new, monospace"> LDAPAttribute( "mail" )</FONT>, the "mail" attribute will be removed. 
+</P>
+</A>
+<A NAME="Adding a New Attribute"></A>
+<A NAME="2842844">
+<FONT FACE="Palatino, Serif" SIZE="+1" COLOR="black"> <B>
+Adding a New Attribute</B></FONT></A><br><A NAME="2842404">
+To add a new attribute to an entry, follow the instructions under <a href="addmod.htm#2842761">"Adding New Values to an Attribute"</a> or <a href="addmod.htm#2842939">"Replacing the Values of an Attribute"</a>. If you add or replace values for an attribute that does not exist in the entry, the attribute will be added to the entry. 
+</P>
+</A>
+<A NAME="Removing an Attribute"></A>
+<A NAME="2842478">
+<FONT FACE="Palatino, Serif" SIZE="+1" COLOR="black"> <B>
+Removing an Attribute</B></FONT></A><br><A NAME="2842482">
+To remove an attribute from an entry, you can do one of the following: 
+</P>
+</A>
+<ul><P>
+<A NAME="2843151">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+replace the values of the attribute with no values (construct the <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> object with no values) </FONT></LI></A><P>
+<A NAME="2843159">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+specify that you want to remove a value from the attribute, and specify no value (construct the <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> object with no values) </FONT></LI></A><P>
+<A NAME="2843158">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+remove all values of the attribute </FONT></LI></A></ul><A NAME="2843152">
+For example, the following section of code prepares to remove the "mail" and "description" attributes from an entry. This example demonstrates how you can use either <FONT FACE="courier, courier new, monospace">LDAPModification</FONT>.<FONT FACE="courier, courier new, monospace">REPLACE</FONT> or <FONT FACE="courier, courier new, monospace">LDAPModification</FONT>.<FONT FACE="courier, courier new, monospace">DELETE</FONT> to remove the attribute.
+</P>
+</A>
+<PRE><A NAME="2851036"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+LDAPModificationSet mods = new LDAPModificationSet();<br>
+LDAPAttribute attrMail = new LDAPAttribute( "mail" );<br>
+LDAPAttribute attrDesc = new LDAPAttribute( "description" );<br>
+mods.add( LDAPModification.REPLACE, attrMail );<br>
+mods.add( LDAPModification.DELETE, attrDesc );<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2851039">
+For more information on removing or replacing values, see <a href="addmod.htm#2842850">"Removing Values to an Attribute"</a> or <a href="addmod.htm#2842939">"Replacing the Values of an Attribute"</a>. 
+</P>
+</A>
+<A NAME="Modifying the Entry in the Directory">
+</A><A NAME="2832864">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Modifying the Entry in the Directory</B>
+</FONT></A><br>
+<A NAME="2832876">
+When you are done specifying the change (an <FONT FACE="courier, courier new, monospace">LDAPModification</FONT> object) or list of changes (<FONT FACE="courier, courier new, monospace">LDAPModificationSet</FONT>) that you want made, you can pass this object with the distinguished name of the entry that you want modified to the <FONT FACE="courier, courier new, monospace">modify</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object. 
+</P>
+</A>
+<A NAME="2843454">
+Before you modify an entry, make sure of the following: 
+</P>
+</A>
+<ul><P>
+<A NAME="2843455">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+You are not removing any of the required attributes for that object class. </FONT></LI></A><P><A NAME="2843456">
+For example, in the Netscape Directory Server, organizational units are 
+represented by entries of the "organizationalUnit" object class. The "ou" 
+attribute is a required attribute of the object class and should not be 
+removed. 
+
+</A></P>
+<P><A NAME="2843459">
+For a listing of object classes and their required attributes, see the Directory 
+Server Administrator's Guide. 
+
+</A></P>
+<P>
+<A NAME="2843460">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Make sure that you authenticate as a user who has the access permissions to modify the entry in the directory. (If you do not have permission to modify the entry, an <FONT FACE="courier, courier new, monospace">LDAPException</FONT> is thrown with the result code <FONT FACE="courier, courier new, monospace">LDAPException</FONT>.<FONT FACE="courier, courier new, monospace">INSUFFICIENT_ACCESS_RIGHTS</FONT>.)</FONT></LI></A></ul><A NAME="Example of Modifying an Entry">
+</A><A NAME="2843471">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Example of Modifying an Entry</B>
+</FONT></A><br>
+<A NAME="2843472">
+The following example modifies the entry in the directory for the user named William Jensen. 
+</P>
+</A>
+<PRE><A NAME="2851088"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>import netscape.ldap.*;<br>
+import java.util.*;<br>
+public class ModAttrs {<br>
+&nbsp;&nbsp;&nbsp;public static void main( String[] args ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Specify the entry to be modified. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String ENTRYDN = "uid=wbjensen, ou=People, o=Airius.com";<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Create a new set of modifications. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPModificationSet mods = new LDAPModificationSet();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Add each change to an attribute to the set of modifications. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttribute attrEmail = new LDAPAttribute( "mail", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"willj@airius.com" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mods.add( LDAPModification.REPLACE, attrEmail );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttribute attrDesc = new LDAPAttribute( "description", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"This entry was modified with the modattrs program" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mods.add( LDAPModification.ADD, attrDesc );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttribute attrPhone = new <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttribute("telephoneNumber");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mods.add( LDAPModification.DELETE, attrPhone );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Connect to the server and modify the entry. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPConnection ld = null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int status = -1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld = new LDAPConnection();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Connect to the server. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String HOSTNAME = "localhost";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.connect( HOSTNAME, LDAPv2.DEFAULT_PORT );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Authenticate to the server as directory manager */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MGR_DN = "cn=Directory Manager";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MGR_PW = "23skidoo";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.authenticate( MGR_DN, MGR_PW );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Now modify the entry in the directory */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.modify( ENTRYDN, mods );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Successfully modified the entry." );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( e.getLDAPResultCode() == <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPException.NO_SUCH_OBJECT )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: No such entry" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if ( e.getLDAPResultCode() == <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPException.INSUFFICIENT_ACCESS_RIGHTS )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: Insufficient rights" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if ( e.getLDAPResultCode() == <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPException.ATTRIBUTE_OR_VALUE_EXISTS )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: Attribute or value exists" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Disconnect when done. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( (ld != null) &amp;&amp; ld.isConnected() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.disconnect();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(status);<br>
+&nbsp;&nbsp;&nbsp;}<br>
+}
+</FONT></A></PRE>
+
+
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Deleting an Entry"></A>
+<A NAME="2838220">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Deleting an Entry</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2845065">
+To remove an entry from the directory, invoke the <FONT FACE="courier, courier new, monospace">delete</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object and specify the distinguished name (DN) of the entry that you want to remove.
+</P>
+</A>
+<A NAME="2845292">
+Before you delete an entry, make sure that you authenticate as a user who has the access permissions to remove the entry from the directory. (If you do not have permission to remove the entry, an <FONT FACE="courier, courier new, monospace">LDAPException</FONT> is thrown with the result code <FONT FACE="courier, courier new, monospace">LDAPException</FONT>.<FONT FACE="courier, courier new, monospace">INSUFFICIENT_ACCESS_RIGHTS</FONT>.)
+</P>
+</A>
+<A NAME="Example of Deleting an Entry">
+</A><A NAME="2845277">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Example of Deleting an Entry</B>
+</FONT></A><br>
+<A NAME="2845311">
+The following section of code deletes the entry for the user named William Jensen. 
+</P>
+</A>
+<PRE><A NAME="2845339"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>import netscape.ldap.*;<br>
+import java.util.*;<br>
+public class Del {<br>
+&nbsp;&nbsp;&nbsp;public static void main( String[] args ) {<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Connect to the server and delete the entry. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPConnection ld = null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int status = -1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld = new LDAPConnection();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Connect to the server. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String HOSTNAME = "localhost";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.connect( HOSTNAME, LDAPv2.DEFAULT_PORT );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Authenticate to the server as the directory manager. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MGR_DN = "cn=Directory Manager";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MGR_PW = "23skidoo";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.authenticate( MGR_DN, MGR_PW );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Delete the entry. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String dn = "uid=wbjensen, ou=People, o=Airius.com";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.delete( dn );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Entry deleted" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( e.getLDAPResultCode() == <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPException.NO_SUCH_OBJECT )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: No such entry" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if ( e.getLDAPResultCode() == <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPException.INSUFFICIENT_ACCESS_RIGHTS )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: Insufficient rights" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* When done, disconnect from the server. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( (ld != null) &amp;&amp; ld.isConnected() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.disconnect();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(status);<br>
+&nbsp;&nbsp;&nbsp;}<br>
+}
+</FONT></A></PRE>
+
+
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Changing the Name of an Entry "></A>
+<A NAME="2834429">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Changing the Name of an Entry </B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2845174">
+To rename an entry, invoke the <FONT FACE="courier, courier new, monospace">rename</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object. Using this method, you can do the following: 
+</P>
+</A>
+<ul><P>
+<A NAME="2845230">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Change the relative distinguished name (RDN) of an entry. For example, you can </FONT></LI></A><P>
+<A NAME="2845239">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Change the location of an entry in the directory tree (in other words, change the distinguished name of an entry) </FONT></LI></A></ul><A NAME="2845272">
+Note that not all LDAP servers support the ability to change the location of an entry in the directory tree. (The Netscape Directory Server does not yet support this capability.) 
+</P>
+</A>
+<A NAME="2846333">
+For a complete example, see <a href="addmod.htm#2845251">"Example of Renaming an Entry"</a>. 
+</P>
+</A>
+<A NAME="Removing the Attribute for the Old RDN">
+</A><A NAME="2845267">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Removing the Attribute for the Old RDN</B>
+</FONT></A><br>
+<A NAME="2839092">
+When invoking the <FONT FACE="courier, courier new, monospace">rename</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object, you can specify a <FONT FACE="courier, courier new, monospace">deleteoldrdn</FONT> parameter that allows you to remove the old RDN from the entry. The <FONT FACE="courier, courier new, monospace">deleteoldrdn</FONT> parameter is best explained through this example. Suppose an entry has the following values for the <FONT FACE="courier, courier new, monospace">uid</FONT> attribute: 
+</P>
+</A>
+<PRE><A NAME="2839093"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;uid: wbjensen<br>
+&nbsp;&nbsp;&nbsp;uid: wbj
+</FONT></A></PRE>
+
+
+<A NAME="2847568">
+The following method adds "wjensen" to this list of values and removes the "wbjensen" value:
+</P>
+</A>
+<PRE><A NAME="2847561"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;ld.<FONT FACE="courier, courier new, monospace">rename</FONT>( "uid=wbjensen,ou=People,o=Airius.com", "uid=wjensen", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;true );
+</FONT></A></PRE>
+
+
+<A NAME="2839097">
+The resulting entry has the following values:
+</P>
+</A>
+<PRE><A NAME="2839098"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;uid: wjensen<br>
+&nbsp;&nbsp;&nbsp;uid: wbj
+</FONT></A></PRE>
+
+
+<A NAME="2839100">
+If instead<FONT FACE="courier, courier new, monospace"> false </FONT>is passed for the <FONT FACE="courier, courier new, monospace">deleteoldrdn</FONT> parameter:
+</P>
+</A>
+<PRE><A NAME="2847608"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;ld.<FONT FACE="courier, courier new, monospace">rename</FONT>( "uid=wbjensen,ou=People,o=Airius.com", "uid=wjensen", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;false );
+</FONT></A></PRE>
+
+
+<A NAME="2839102">
+the "Barbara Jensen" value is not removed from the entry:
+</P>
+</A>
+<PRE><A NAME="2847622"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;uid: wjensen<br>
+&nbsp;&nbsp;&nbsp;uid: wbjensen<br>
+&nbsp;&nbsp;&nbsp;uid: wbj
+</FONT></A></PRE>
+
+
+<A NAME="2845205">
+Before you rename an entry, make sure that you authenticate as a user who has the access permissions to rename the entry in the directory. (If you do not have permission to rename the entry, an <FONT FACE="courier, courier new, monospace">LDAPException</FONT> is thrown with the result code <FONT FACE="courier, courier new, monospace">LDAPException</FONT>.<FONT FACE="courier, courier new, monospace">INSUFFICIENT_ACCESS_RIGHTS</FONT>.)
+</P>
+</A>
+<A NAME="Example of Renaming an Entry">
+</A><A NAME="2845251">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Example of Renaming an Entry</B>
+</FONT></A><br>
+<A NAME="2845263">
+The following example changes the RDN of an entry from uid=wbjensen to uid=wjensen. 
+</P>
+</A>
+<PRE><A NAME="2846357"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>import netscape.ldap.*;<br>
+import java.util.*;<br>
+public class Rename {<br>
+&nbsp;&nbsp;&nbsp;public static void main( String[] args ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Connect to the server and rename the entry. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPConnection ld = null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int status = -1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld = new LDAPConnection();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Connect to the server. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String HOSTNAME = "localhost";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.connect( HOSTNAME, LDAPv2.DEFAULT_PORT );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Authenticate to the server as the directory manager. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MGR_DN = "cn=Directory Manager";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MGR_PW = "23skidoo";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.authenticate( MGR_DN, MGR_PW );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Change the RDN of the entry. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String dn = "uid=wbjensen,ou=People,o=Airius.com";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String nrdn = "uid=wjensen";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.rename( dn, nrdn, true );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Entry " + dn + " has been renamed." );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( e.getLDAPResultCode() == <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPException.NO_SUCH_OBJECT )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: No such entry" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if ( e.getLDAPResultCode() == <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPException.INSUFFICIENT_ACCESS_RIGHTS )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: Insufficient rights" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if ( e.getLDAPResultCode() == <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPException.ATTRIBUTE_OR_VALUE_EXISTS )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: Attribute or value exists" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Done, so disconnect */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( (ld != null) &amp;&amp; ld.isConnected() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.disconnect();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(status);<br>
+&nbsp;&nbsp;&nbsp;}<br>
+}
+</FONT></A></PRE>
+
+
+<A NAME="2832481">
+
+</P>
+</A>
+</FONT>
+  </TD>
+</TR>
+<TR>
+  <TD>&nbsp;
+  </TD>
+</TR>
+<TR>
+  <TD BGCOLOR="#9999CC"><A HREF="#top"><IMG SRC="up.gif" BORDER=0></A>
+  </TD>
+</TR>
+</TABLE>
+<BR>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-2 COLOR="#999999">
+&copy; Copyright 1999 Netscape Communications Corporation.  All rights reserved.
+</FONT> </CENTER>
+
+<BR>
+
+</BODY>
+
+</HTML>

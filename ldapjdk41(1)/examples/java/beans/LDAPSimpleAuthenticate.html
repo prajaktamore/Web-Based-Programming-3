@@ -1,0 +1,96 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.0b4 [en] (WinNT; I) [Netscape]">
+   <TITLE>LDAP Authenticator</TITLE>
+</HEAD>
+<BODY>
+
+<H4>
+A very simple example of user authentication with LDAP. There is a small
+invisible JavaBean - LDAPSimpleAuth. JavaScript fetches
+user-entered values and validates the user against the specified directory,
+by setting properties on LDAPSimpleAuth and calling its authenticate()
+method.</H4>
+An example of an entry to test is:
+<H5>
+User ID: prose
+<BR>
+Password: regatta
+</H5>
+
+<FORM NAME=input>
+<TABLE WIDTH="300">
+<TR>
+<TD>Host:</TD>
+<TD><INPUT TYPE=text NAME="host" VALUE="localhost" SIZE=40></TD>
+</TR>
+
+<TR>
+<TD>Port:</TD>
+<TD><INPUT TYPE=text NAME="port" VALUE=389 SIZE=40></TD>
+</TR>
+
+<TR>
+<TD>Directory base:</TD>
+<TD><INPUT TYPE=text NAME="base"
+VALUE="ou=People, o=Airius.com" SIZE=40></TD>
+</TR>
+
+<TR>
+<TD>User ID:</TD>
+<TD><INPUT TYPE=text NAME="username" VALUE="prose" SIZE=40></TD>
+</TR>
+
+<TR>
+<TD>Password:</TD>
+<TD><INPUT TYPE=password NAME="password" VALUE="regatta" SIZE=40></TD>
+</TR>
+</TABLE>
+
+<BR><INPUT TYPE=button VALUE="Check" 
+ onClick="checkAuthentication()">
+</FORM>
+
+<SCRIPT LANGUAGE="JavaScript">
+function checkAuthentication() {
+	if ( document.input.username.value.length < 1 ) {
+		alert( "Must enter a value for User ID" );
+		return;
+	}
+	if ( document.input.password.value.length < 1 ) {
+		alert( "Must enter a value for Password" );
+		return;
+	}
+	auth = new netscape.ldap.beans.LDAPSimpleAuth();
+	auth.setHost( document.input.host.value );
+	auth.setPort( parseInt(document.input.port.value) );
+	auth.setBase( document.input.base.value );
+	auth.setUserID( document.input.username.value );
+	auth.setAuthPassword( document.input.password.value );
+	result = auth.authenticate();
+	alert( "The response is: " + result );
+}
+
+function doWire() {
+	document.input.host.value =
+		java.net.InetAddress.getLocalHost().getHostName();
+}
+
+window.onload=doWire()
+</SCRIPT>
+
+<P>
+The JavaScript code to do this is as follows:
+<PRE>
+	auth = new netscape.ldap.beans.LDAPSimpleAuth();
+	auth.setHost( document.input.host.value );
+	auth.setPort( parseInt(document.input.port.value) );
+	auth.setBase( document.input.base.value );
+	auth.setUserID( document.input.username.value );
+	auth.setAuthPassword( document.input.password.value );
+	result = auth.authenticate();
+	alert( "The response is: " + result );
+</PRE>
+</BODY>
+</HTML>

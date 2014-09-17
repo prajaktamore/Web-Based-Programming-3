@@ -1,0 +1,151 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.TimeZone;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+
+public class Report  extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	public String BASE = "o=airius.com";
+	public String FILTER;
+
+	public Report() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession(false);
+
+		try {
+		String award = null;
+		
+		Class.forName ("com.mysql.jdbc.jdbc2.optional.MysqlDataSource").newInstance();
+		
+		Class.forName("com.mysql.jdbc.Driver").newInstance(); 
+		Connection con = DriverManager.getConnection("jdbc:mysql://bigyellowcat.cs.binghamton.edu/more", "more", "more7755");
+		
+	    // Create statement
+	    Statement stmt = con.createStatement();
+		String str1 = request.getParameter("r1");
+		String str2 = request.getParameter("r2");
+		String str3 = request.getParameter("r3");
+		String str4 = request.getParameter("r4");
+		String str5 = request.getParameter("r5");
+		 ResultSet rs = null;
+		if (str1 != null && str1 != "" && str2 != null && str2 != "") {
+			
+			DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+			format.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
+			
+			
+			 String query = "SELECT * FROM Award";
+			 // Execute the query
+			 rs = stmt.executeQuery(query);
+			ArrayList<String> dateStr = new ArrayList<String>();
+			 while(rs.next())
+		      {
+		          String retrieved = rs.getString("enterdate");
+		         
+		          DateFormat formatter; 
+		          java.util.Date date_for1; 
+		          formatter = new SimpleDateFormat("MM/dd/yyyy");
+		          date_for1 = formatter.parse(retrieved);
+		          
+		          java.util.Date date_for2; 
+		          formatter = new SimpleDateFormat("MM/dd/yyyy");
+		          date_for2 = formatter.parse(str1);
+		          java.sql.Date sqlDate11 = new java.sql.Date(date_for2.getTime());
+		         
+		          java.util.Date date_for3; 
+		          formatter = new SimpleDateFormat("MM/dd/yyyy");
+		          date_for2 = formatter.parse(str2);
+		          java.sql.Date sqlDate13 = new java.sql.Date(date_for2.getTime());
+		          if(date_for1.compareTo(date_for2) > 0 && date_for1.compareTo(date_for3) < 0){
+		          dateStr.add(str1);
+		          }
+		      }
+		} else if(str3 != null && str3 != "") {
+			
+			String query = "SELECT * FROM Award WHERE sdept='"+str3+"'";
+			 // Execute the query
+			 rs = stmt.executeQuery(query);
+			 
+		} else if(str4 != null && str4 != "") {
+			
+			String query = "SELECT * FROM Award WHERE suid='"+str4+"' OR ruid='"+str4+"'";
+			 // Execute the query
+			 rs = stmt.executeQuery(query);
+	
+		}else {
+			String query = "SELECT * FROM Award WHERE sname='"+str5+"' OR rname='"+str5+"'";
+			 // Execute the query
+			 rs = stmt.executeQuery(query);
+		}
+		 while(rs.next())
+	      {
+		session.setAttribute("repsname", rs.getString("sname"));
+		session.setAttribute("repsuid", rs.getString("suid"));
+		session.setAttribute("repruid", rs.getString("ruid"));
+		session.setAttribute("repsmname", rs.getString("smname"));
+		session.setAttribute("repslname", rs.getString("slname"));
+		session.setAttribute("repsmail", rs.getString("smail"));
+		session.setAttribute("repsdept", rs.getString("sdept"));
+		
+		session.setAttribute("reprname", rs.getString("rname"));
+		session.setAttribute("reprmname", rs.getString("rmname"));
+		session.setAttribute("reprlname", rs.getString("rlname"));
+		session.setAttribute("reprmail", rs.getString("rmail"));
+		session.setAttribute("reprdept", rs.getString("rdept")); 
+		session.setAttribute("repaward", rs.getString("award"));
+		session.setAttribute("repdif", rs.getString("dif"));
+		
+	      }
+				RequestDispatcher rd = request
+						.getRequestDispatcher("./changeAwardWinners.jsp");
+				rd.include(request, response);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+}
+
+}

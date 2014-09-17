@@ -1,0 +1,1651 @@
+<html><head>
+<title>"Directory SDK for Java 4.0 Programmer's Guide": Searching the Directory
+ </title>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+
+        // for older browsers, will just replace the document
+
+        function showHideLayerSwitch(ignored)
+        {
+                document.location = 'contents.htm';
+        }
+
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript1.2">
+
+
+        var visibleVar="null";
+
+    if (navigator.appName == "Netscape") {
+        layerStyleRef="layer.";
+        layerRef="document.layers";
+        styleSwitch="";
+        visibleVar="show";
+    } else {
+        layerStyleRef="layer.style.";
+        layerRef="document.all";
+        styleSwitch=".style";
+        visibleVar="visible";
+    }
+        
+    function showHideLayerSwitch(layerName)
+    {
+        if (eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility == visibleVar')) {
+                hideLayer(layerName);
+        } else {
+            showLayer(layerName);
+        }
+    }
+
+    function showLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="visible"');
+    }
+        
+    function hideLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="hidden"');
+    }
+
+
+</SCRIPT>
+
+<STYLE TYPE="text/css">
+        #header {
+                z-index: 5;
+                visibility: visible;
+        }
+        #pulldownMenu {
+                position: absolute; 
+                z-index: 10; 
+                visibility: hidden; 
+                left: 182px; 
+                top: 55px;
+        }
+</STYLE>
+
+<DIV BGCOLOR="#000000" id="pulldownMenu" >
+
+<SCRIPT>
+        function onMouseOut()
+        {
+                visibility="hide";
+        }
+</SCRIPT>
+
+<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0> <TR> <TD BGCOLOR="#9999CC">
+
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+<A HREF="contents.htm"> <FONT COLOR="white"> Complete Contents</FONT></A><BR> 
+
+<A HREF="preface.htm"> <FONT COLOR="white"> Preface</FONT></A><BR> 
+
+<A HREF="ldap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 1</FONT> Understanding LDAP</FONT></A><BR> 
+
+<A HREF="api.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 2</FONT> Using the Netscape Directory SDK for Java</FONT> 
+</A><BR> 
+
+<A HREF="qckstart.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 3</FONT> Quick Start</FONT> 
+</A><BR> 
+
+<A HREF="writing.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 4</FONT> Writing an LDAP Client</FONT></A><BR> 
+
+<A HREF="using.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 5</FONT>  Using the LDAP Java Classes</FONT></A><BR> 
+
+<A HREF="search.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 6</FONT> Searching the Directory</FONT></A><BR> 
+
+<A HREF="filter.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 7</FONT> Using Filter Configuration Files</FONT></A><BR>
+
+<A HREF="addmod.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 8</FONT> Adding, Updating, and Deleting Entries</FONT></A><BR>
+
+<A HREF="compare.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 9</FONT> Comparing Values in Entries</FONT></A><BR>
+
+<A HREF="url.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 10</FONT> Working with LDAP URLs</FONT></A><BR>
+
+<A HREF="servinfo.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 11</FONT> Getting Server Information</FONT></A><BR>
+
+<A HREF="ssl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 12</FONT> Connecting Over SSL</FONT></A><BR>
+
+<A HREF="controls.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 13</FONT> Working with LDAP Controls</FONT></A><BR>
+
+<A HREF="sasl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 14</FONT> Using SASL Authentication</FONT></A><BR>
+
+<A HREF="JNDIchap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 15</FONT> Using Netscape's JNDI Service Provider</FONT></A><BR>
+
+<A HREF="extendop.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 16</FONT> Working with Extended Operations</FONT></A><BR>
+
+<A HREF="asynch.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 17</FONT> Using the Asynchronous Interface</FONT></A><BR>
+
+<A HREF="glossary.htm"> <FONT COLOR="white"> Glossary</A><BR> 
+
+</TD> </TR> </TABLE> </DIV>
+
+</SCRIPT>
+
+</HEAD>
+
+<BODY LINK="#666699" VLINK="#666699" ALINK="#333366" BGCOLOR="#FFFFFF"><FONT FACE="PrimaSans BT, Verdana, 
+
+Sans-Serif" Size=-1>
+<a name="TOP">
+<TABLE CELLPADDING=10 CELLSPACING=2 border=0 WIDTH=100% BGCOLOR="#CCCCCC"> 
+
+<TR><TD><TABLE CELLPADDING=5 CELLSPACING=2 border=0>
+<TR>
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="using.htm"><IMG SRC="prev.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0>Previous</a></FONT>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="filter.htm">Next<IMG SRC="next.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0></a></FONT>
+  </TD>   
+
+  <TD></TD>
+
+  <TD BGCOLOR="#9999CC"> <A HREF="javascript:showHideLayerSwitch('pulldownMenu');"><FONT FACE="PrimaSans BT, 
+
+Verdana, Sans-Serif" SIZE=-1 
+  COLOR="white">Contents</FONT></A>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><A HREF="index.htm">Index</A></FONT>
+  </TD>
+
+</TR>
+</TABLE>
+</TD></TR> 
+</TABLE>
+
+<BR> <BR>
+
+</a>
+</DIV>
+
+</P>
+
+<CENTER>
+<TABLE CELLPADDING=2 CELLSPACING=2 WIDTH="85%" BORDER=0>
+<TR>
+  <TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="
+">
+</A>
+<A NAME="1915312">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+
+
+</FONT></B><P><A NAME="
+">
+</A>
+<A NAME="1915314">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="#999999">
+<B>
+Chapter 6
+</B></FONT></A><A NAME="Searching the Directory
+">
+</A>
+<A NAME="1915315">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+Searching the Directory
+
+</FONT></B><P><A NAME="2835633">
+This chapter explains how to use the LDAP Java classes to search the directory and retrieve entries. The chapter also describes how to get attributes and attribute values from an entry. </P></A>
+<A NAME="2839792">
+This chapter covers the following topics:
+</P>
+</A>
+<ul><P>
+<A NAME="2840215">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="search.htm#2829709">"Overview: Searching with the LDAP Java Classes"</a></FONT></LI></A><P>
+<A NAME="2835581">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="search.htm#2841199">"Sending a Search Request"</a></FONT></LI></A><P>
+<A NAME="2840739">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="search.htm#2828841">"Getting the Search Results"</a></FONT></LI></A><P>
+<A NAME="2845138">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="search.htm#2845086">"Sorting the Search Results"</a></FONT></LI></A><P>
+<A NAME="2846114">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="search.htm#2830942">"Abandoning a Search"</a></FONT></LI></A><P>
+<A NAME="2840747">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="search.htm#2845478">"Example: Searching the Directory"</a></FONT></LI></A><P>
+<A NAME="2835632">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="search.htm#2846186">"Reading an Entry"</a></FONT></LI></A><P>
+<A NAME="2835561">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="search.htm#2846221">"Listing Subentries"</a></FONT></LI></A></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Overview: Searching with the LDAP Java Classes"></A>
+<A NAME="2829709">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Overview: Searching with the LDAP Java Classes</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2840198">
+In the Netscape Directory SDK for Java, searches are represented by objects of the following classes: 
+</P>
+</A>
+<ul><P>
+<A NAME="2840277">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+You can send a search request by invoking the <FONT FACE="courier, courier new, monospace">search</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object. </FONT></LI></A><P>
+<A NAME="2841471">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+You can specify a set of search constraints (such as the maximum number of results to return or the maximum amount to time allowed for a search) by using an <FONT FACE="courier, courier new, monospace">LDAPSearchConstraints</FONT> object.</FONT></LI></A><P>
+<A NAME="2841500">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+You can either specify different parts of the search criteria in separate arguments, or you can construct an <FONT FACE="courier, courier new, monospace">LDAPUrl</FONT> object to specify the search criteria. </FONT></LI></A><P>
+<A NAME="2840287">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+The server returns the search results to the LDAP Java classes, which represents the results as an <FONT FACE="courier, courier new, monospace">LDAPSearchResults</FONT> object. </FONT></LI></A><P>
+<A NAME="2840269">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+You can search for a single entry by invoking the <FONT FACE="courier, courier new, monospace">read</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object. </FONT></LI></A></ul><A NAME="2840296">
+The rest of this chapter explains how to use these classes and methods to search a directory. 
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Sending a Search Request"></A>
+<A NAME="2841199">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Sending a Search Request</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2841206">
+To search the directory, use the <FONT FACE="courier, courier new, monospace">search</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object. The search results are returned in the form of an <FONT FACE="courier, courier new, monospace">LDAPSearchResults</FONT> object. 
+</P>
+</A>
+<PRE><A NAME="2841326"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>public <FONT FACE="courier, courier new, monospace">LDAPSearchResults</FONT> search(String base, int scope, <br>
+&nbsp;&nbsp;&nbsp;String filter, String attrs[], boolean attrsOnly, <br>
+&nbsp;&nbsp;&nbsp;LDAPSearchConstraints cons) throws <FONT FACE="courier, courier new, monospace">LDAPException
+</FONT></FONT></A></PRE>
+
+
+<A NAME="2829814">
+You need to specify the following information as arguments to the <FONT FACE="courier, courier new, monospace">search</FONT> method:
+</P>
+</A>
+<ul><P>
+<A NAME="2829815">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">base </FONT>specifies the starting point in the directory, or the <a href="glossary.htm#1014824">base DN</a> (an entry where to start searching) </FONT></LI></A><ul><P><A NAME="2830098">
+To search entries under "o=Airius.com", the base DN is "o=Airius.com". See 
+<a href="search.htm#2842334">"Specifying the Base DN and Scope"</a> for details. 
+
+</A></P>
+</ul><P>
+<A NAME="2830063">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">scope </FONT>specifies the scope of the search (which entries you want to search) </FONT></LI></A><ul><P><A NAME="2830149">
+You can narrow the scope of the search to search only the base DN, entries 
+at one level under the base DN, or entries at all levels under the base DN. 
+See <a href="search.htm#2842334">"Specifying the Base DN and Scope"</a> for details. 
+
+</A></P>
+</ul><P>
+<A NAME="2829833">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">filter </FONT>specifies a search filter (what to search for)</FONT></LI></A><ul><P><A NAME="2830148">
+A search filter can be as simple as "find entries where the last name is 
+Jensen" or as complex as "find entries that belong to Dept. #17 and whose 
+first names start with the letter F." See <a href="search.htm#2832737">"Specifying a Search Filter"</a> for 
+details. 
+
+</A></P>
+</ul><P>
+<A NAME="2830064">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">attrs </FONT>and<FONT FACE="courier, courier new, monospace"> attrsOnly </FONT>specify the type of information that you want return (which attributes you want to retrieve)</FONT></LI></A><ul><P><A NAME="2830154">
+For example, you can return only email addresses and phone numbers, or 
+you can set up a search to return all attributes in an entry. You can also 
+specify that you only want to return the names of attributes, not the values. 
+See <a href="search.htm#2846484">"Specifying the Attributes to Retrieve"</a> for details. 
+
+</A></P>
+</ul><P>
+<A NAME="2841335">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">cons </FONT>specifies the search constraints that you want applied to this search</FONT></LI></A><ul><P><A NAME="2841336">
+For example, you can set up a set of search constraints that differs from the 
+default set of constraints. See <a href="search.htm#2841574">"Setting Search Preferences"</a> for details. 
+
+</A></P>
+</ul></ul><A NAME="2836705">
+<a href="search.htm#2836680">Figure 6.1</a> illustrates how search criteria works.
+</P>
+</A>
+<A NAME="2836680">
+<P>
+<B>
+Figure 6.1	  &nbsp&nbsp Search criteria <p><img src="hierovrw.gif">of an LDAP search operation
+
+</B>
+</P>
+</A><A NAME="2842322">
+You can also specify the criteria in the form of an LDAP URL. An LDAP URL allows you to specify the hostname and port number of the LDAP server that you want to search. (If you want to search a different LDAP server than the one you are connected to, you can invoke the <FONT FACE="courier, courier new, monospace">search</FONT> method and specify an LDAP URL in the form of an <FONT FACE="courier, courier new, monospace">LDAPUrl</FONT> object.) 
+</P>
+</A>
+<A NAME="2842332">
+For details on using LDAP URLs for searches, see <a href="url.htm#2830333">Chapter 10, "Working with LDAP URLs"</a>. 
+</P>
+</A>
+<A NAME="Specifying the Base DN and Scope">
+</A><A NAME="2842334">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Specifying the Base DN and Scope</B>
+</FONT></A><br>
+<A NAME="2840825">
+When sending a search request, you need to specify the base DN and scope of the search to identify the entries that you want searched. 
+</P>
+</A>
+<A NAME="2841691">
+The base DN (the<FONT FACE="courier, courier new, monospace"> base </FONT>argument) is the DN of the entry that serves as the starting point of the search. 
+</P>
+</A>
+<A NAME="2841686">
+To specify the scope of the search, you pass one of the following values as the <FONT FACE="courier, courier new, monospace">scope</FONT> parameter: 
+</P>
+</A>
+<ul><ul>
+<P>
+<A NAME="2840826">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">LDAPv2</FONT>.<FONT FACE="courier, courier new, monospace">SCOPE_SUB</FONT> searches the<FONT FACE="courier, courier new, monospace"> base </FONT>entry and all entries at all levels below the<FONT FACE="courier, courier new, monospace"> base </FONT>entry (as illustrated in <a href="search.htm#2840834">Figure 6.2</a>). 
+</FONT></LI></A></ul>
+<A NAME="2840834">
+<P>
+<B>
+Figure 6.2	  &nbsp&nbsp Example of a search with the scope LDAPv2.SCOPE_SUB <p><img src="hiersrch.gif">
+
+</B>
+</P>
+</A><ul>
+<P>
+<A NAME="2840835">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">LDAPv2</FONT>.<FONT FACE="courier, courier new, monospace">SCOPE_ONE</FONT> searches all entries at one level below the<FONT FACE="courier, courier new, monospace"> base </FONT>entry (as illustrated in <a href="search.htm#2840849">Figure 6.3</a>). The<FONT FACE="courier, courier new, monospace"> base </FONT>entry is not included in the search. Use this setting if you just want a list of the entries under a given entry. (See <a href="search.htm#2846221">"Listing Subentries"</a> for an example.) 
+</FONT></LI></A></ul>
+<A NAME="2840849">
+<P>
+<B>
+Figure 6.3	  &nbsp&nbsp Example of a search with the scope LDAPv2.SCOPE_ONE <p><img src="hier1lvl.gif">
+
+</B>
+</P>
+</A><ul>
+<P>
+<A NAME="2840850">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">LDAPv2</FONT>.<FONT FACE="courier, courier new, monospace">SCOPE_BASE</FONT> searches only the<FONT FACE="courier, courier new, monospace"> base </FONT>entry. Use this setting if you just want to read the attributes of the<FONT FACE="courier, courier new, monospace"> base </FONT>entry (as illustrated in <a href="search.htm#2840864">Figure 6.4</a>). (See <a href="search.htm#2846186">"Reading an Entry"</a> for an example.) 
+</FONT></LI></A></ul>
+<A NAME="2840864">
+<P>
+<B>
+Figure 6.4	  &nbsp&nbsp Example of a search with the scope LDAPv2.SCOPE_BASE <p><img src="hierbase.gif">
+
+</B>
+</P>
+</A></ul><A NAME="Specifying a Search Filter">
+</A><A NAME="2832737">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Specifying a Search Filter</B>
+</FONT></A><br>
+<A NAME="2829716">
+When you search the directory, you use a search filter to define the search. Here is the basic syntax for a search filter: 
+</P>
+</A>
+<PRE><A NAME="2829717"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>(<em>attribute</em> <em>operator</em> <em>value</em>)
+</FONT></A></PRE>
+
+
+<A NAME="2829718">
+Here is a simple example of a search filter:
+</P>
+</A>
+<PRE><A NAME="2829719"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>(cn=Barbara Jensen)
+</FONT></A></PRE>
+
+
+<A NAME="2829720">
+In this example, <FONT FACE="courier, courier new, monospace">cn</FONT> is the attribute, <FONT FACE="courier, courier new, monospace">=</FONT> is the operator, and <FONT FACE="courier, courier new, monospace">Barbara Jensen</FONT> is the value. The filter finds entries with the common name <FONT FACE="courier, courier new, monospace">Barbara Jensen</FONT> 
+</P>
+</A>
+<A NAME="2829721">
+For a listing of valid attributes that you can use in your search filter, see the documentation for the LDAP server. (For information on the attributes in the schema for the Netscape Directory Server, see the Administrator's Guide.) 
+</P>
+</A>
+<A NAME="2829747">
+<a href="search.htm#2836852">Table 6.1</a> lists the valid operators you can use.
+</P>
+</A>
+<A NAME="2854411">
+<TABLE BORDER=1 cellpadding=4 cellspacing=3>
+<CAPTION></caption>
+<A NAME="Basic operators for search filters 
+">
+</A>
+<A NAME="2836852">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<B>
+Table 6.1   Basic operators for search filters 
+
+</B>
+</font><br></a></caption><tr><th valign=baseline align=left><b><A NAME="Operator">
+</A>
+<A NAME="2836856">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Operator
+</FONT>
+</B>
+</A>
+<BR><B></th><th valign=baseline align=left><b><A NAME="Description">
+</A>
+<A NAME="2836858">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Description
+</FONT>
+</B>
+</A>
+<BR><B></th><th valign=baseline align=left><b><A NAME="Example">
+</A>
+<A NAME="2837052">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Example
+</FONT>
+</B>
+</A>
+<BR><B></th></tr>
+<tr><td valign=top><PRE><A NAME="2836922"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>=
+</FONT></A></PRE>
+
+
+</td><td valign=top><A NAME="2836946">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Returns entries whose attribute is equal to the value. 
+</FONT>
+</A>
+<BR></td><td valign=top><PRE><A NAME="2837054"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>(cn=Barbara Jensen) 
+</FONT></A></PRE>
+
+
+<A NAME="2837090">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+finds the entry "cn=Barbara Jensen"
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><PRE><A NAME="2836924"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&gt;=
+</FONT></A></PRE>
+
+
+</td><td valign=top><A NAME="2836948">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Returns entries whose attribute is greater than or equal to the value. 
+</FONT>
+</A>
+<BR></td><td valign=top><PRE><A NAME="2837056"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>(sn &gt;= jensen) 
+</FONT></A></PRE>
+
+
+<A NAME="2837096">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+finds all entries from "sn=jensen" to "sn=z..."
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><PRE><A NAME="2836926"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&lt;=
+</FONT></A></PRE>
+
+
+</td><td valign=top><A NAME="2836950">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Returns entries whose attribute is less than or equal to the value. 
+</FONT>
+</A>
+<BR></td><td valign=top><PRE><A NAME="2837058"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>(sn &lt;= jensen) 
+</FONT></A></PRE>
+
+
+<A NAME="2837097">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+finds all entries from "sn=a..." to "sn=jensen"
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><PRE><A NAME="2836928"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>=*
+</FONT></A></PRE>
+
+
+</td><td valign=top><A NAME="2836952">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Returns entries that have a value set for that attribute. 
+</FONT>
+</A>
+<BR></td><td valign=top><PRE><A NAME="2837060"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>(sn =*) 
+</FONT></A></PRE>
+
+
+<A NAME="2837098">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+finds all entries that have the <FONT FACE="courier, courier new, monospace">sn</FONT> attribute. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><PRE><A NAME="2836930"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>~=
+</FONT></A></PRE>
+
+
+</td><td valign=top><A NAME="2836954">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Returns entries whose attribute value approximately matches the specified value. Typically, this is an algorithm that matches words that sound alike. 
+</FONT>
+</A>
+<BR></td><td valign=top><PRE><A NAME="2837062"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>(sn ~= jensen) 
+</FONT></A></PRE>
+
+
+<A NAME="2837102">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+finds the entry "sn = jansen"
+</FONT>
+</A>
+<BR></td></tr>
+</TABLE></P></A>
+<A NAME="2833781">
+Note that when comparing values containing letters, the letter <FONT FACE="courier, courier new, monospace">a</FONT> is less than the value <FONT FACE="courier, courier new, monospace">z</FONT>. For example, the following filter finds all entries with last names beginning with <FONT FACE="courier, courier new, monospace">a</FONT> through <FONT FACE="courier, courier new, monospace">jensen</FONT>:
+</P>
+</A>
+<PRE><A NAME="2833795"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>(sn&lt;=jensen)
+</FONT></A></PRE>
+
+
+<A NAME="2829749">
+Using Boolean operators and parentheses, you can combine different sets of conditions. Here is the syntax for combining search filters:
+</P>
+</A>
+<PRE><A NAME="2829750"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>( <em>boolean_operator</em> (<em>filter1</em>)(<em>filter2</em>)(<em>filter3</em>) ) 
+</FONT></A></PRE>
+
+
+<A NAME="2833685">
+<a href="search.htm#2837150">Table 6.2</a> lists the valid boolean operators you can use.
+</P>
+</A>
+<A NAME="2854416">
+<TABLE BORDER=1 cellpadding=4 cellspacing=3>
+<CAPTION></caption>
+<A NAME="Boolean operators for search filters
+">
+</A>
+<A NAME="2837150">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<B>
+Table 6.2   Boolean operators for search filters
+
+</B>
+</font><br></a></caption><tr><th valign=baseline align=left><b><A NAME="Boolean Operator">
+</A>
+<A NAME="2837154">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Boolean Operator
+</FONT>
+</B>
+</A>
+<BR><B></th><th valign=baseline align=left><b><A NAME="Description">
+</A>
+<A NAME="2837156">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Description
+</FONT>
+</B>
+</A>
+<BR><B></th></tr>
+<tr><td valign=top><PRE><A NAME="2837241"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&amp; 
+</FONT></A></PRE>
+
+
+</td><td valign=top><A NAME="2837247">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Returns entries matching all specified filter criteria. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><PRE><A NAME="2837243"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>| 
+</FONT></A></PRE>
+
+
+</td><td valign=top><A NAME="2837249">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Returns entries matching one or more of the filter criteria.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><PRE><A NAME="2837245"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>!
+</FONT></A></PRE>
+
+
+</td><td valign=top><A NAME="2837251">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Returns entries for which the filter is not true.You can only apply this operator to a single filter. For example, you can use:
+</FONT>
+</A>
+<BR><A NAME="2837252">
+(!(filter))
+<P>
+</A><A NAME="2837253">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+but not:
+</FONT>
+</A>
+<BR><A NAME="2837254">
+(!(filter1)(filter2))
+<P>
+</A></td></tr>
+</TABLE></P></A>
+<A NAME="2829751">
+For example, you can use this filter to search for all entries with the last name <FONT FACE="courier, courier new, monospace">Jensen</FONT> or the last name <FONT FACE="courier, courier new, monospace">Johnson</FONT>:
+</P>
+</A>
+<PRE><A NAME="2829752"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>(|(sn=Jensen)(sn=Johnson))
+</FONT></A></PRE>
+
+
+<A NAME="2833710">
+You can also include wildcards to search for entries that start with, contain, or end with a given value. For example, you can use this filter to search for all entries whose names begin with the letter F:
+</P>
+</A>
+<PRE><A NAME="2833761"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>(givenName=F*)
+</FONT></A></PRE>
+
+
+<A NAME="Specifying the Attributes to Retrieve">
+</A><A NAME="2846484">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Specifying the Attributes to Retrieve</B>
+</FONT></A><br>
+<A NAME="2846485">
+Using the<FONT FACE="courier, courier new, monospace"> attrs </FONT>argument, you can either retrieve all attributes in entries returned by the search, or you can specify the attributes that you want returned in the search results. For example, you can specify that you want to return the following attributes: 
+</P>
+</A>
+<ul><P>
+<A NAME="2846486">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To return selected attributes, pass an array of the attribute names as the<FONT FACE="courier, courier new, monospace"> attrs </FONT>argument. For example, to return only email addresses and phone numbers, pass the array <FONT FACE="courier, courier new, monospace">{"mail", "telephoneNumber"} </FONT>as the<FONT FACE="courier, courier new, monospace"> attrs </FONT>argument. </FONT></LI></A><P>
+<A NAME="2856519">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To return all attributes in an entry, pass <FONT FACE="courier, courier new, monospace">null </FONT>as the<FONT FACE="courier, courier new, monospace"> attrs </FONT>argument. </FONT></LI></A><P>
+<A NAME="2856520">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To return none of the attributes from an entry, pass <FONT FACE="courier, courier new, monospace">LDAPv3</FONT>.<FONT FACE="courier, courier new, monospace">NO_ATTRS</FONT> as the<FONT FACE="courier, courier new, monospace"> attrs </FONT>argument. </FONT></LI></A></ul><A NAME="2853988">
+Note that if you plan to sort the results on your client (see <a href="search.htm#2845086">"Sorting the Search Results"</a>), you need to return the attributes that you plan to use for sorting. For example, if you plan to sort by email address, make sure that the mail attribute is returned in the search results.
+</P>
+</A>
+<A NAME="2846493">
+Some attributes are used by servers for administering the directory. For example, the <FONT FACE="courier, courier new, monospace">creatorsName</FONT> attribute specifies the DN of the user who added the entry.These attributes are called <a href="glossary.htm#1015298">operational attributes</a>. 
+</P>
+</A>
+<A NAME="2846497">
+Servers do not normally return operational attributes in search results unless you specify the attributes by name. For example, if you pass<FONT FACE="courier, courier new, monospace"> null </FONT>for the<FONT FACE="courier, courier new, monospace"> attrs </FONT>argument to retrieve all of the attributes in entries found by the search, the operational attribute <FONT FACE="courier, courier new, monospace">creatorsName</FONT> will not be returned to your client. You need to explicitly specify the <FONT FACE="courier, courier new, monospace">creatorsName</FONT> attribute in the<FONT FACE="courier, courier new, monospace"> attrs </FONT>argument.
+</P>
+</A>
+<A NAME="2846498">
+To return all attributes in an entry and selected operational attributes, pass a string array containing <FONT FACE="courier, courier new, monospace">LDAPv3</FONT>.<FONT FACE="courier, courier new, monospace">ALL_USER_ATTRS</FONT> and the names of the operational attributes as the<FONT FACE="courier, courier new, monospace"> attrs </FONT>argument. 
+</P>
+</A>
+<A NAME="2846499">
+The following table lists some of the operational attributes and the information they contain.
+</P>
+</A>
+<A NAME="2854467">
+<TABLE BORDER=1 cellpadding=4 cellspacing=3>
+<CAPTION></caption>
+<A NAME="Information available in operational attributes
+">
+</A>
+<A NAME="2846502">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<B>
+Table 6.3   Information available in operational attributes
+
+</B>
+</font><br></a></caption><tr><th valign=baseline align=left><b><A NAME="Attribute Name">
+</A>
+<A NAME="2846506">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Attribute Name
+</FONT>
+</B>
+</A>
+<BR><B></th><th valign=baseline align=left><b><A NAME="Description of Values">
+</A>
+<A NAME="2846508">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Description of Values
+</FONT>
+</B>
+</A>
+<BR><B></th></tr>
+<tr><td valign=top><A NAME="2846510">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">createTimestamp</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2846512">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The time the entry was added to the directory. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2846514">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">modifyTimestamp</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2846516">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The time the entry was last modified. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2846518">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">creatorsName</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2846520">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Distinguished name (DN) of the user who added the entry to the directory. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2846522">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">modifiersName</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2846524">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Distinguished name (DN) of the user who last modified the entry. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2846526">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">subschemaSubentry</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2846531">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Distinguished name (DN) of the <a href="glossary.htm#1015127">subschema entry</a>, which controls the schema for this entry. (See <a href="servinfo.htm#2850607">"Getting Schema Information"</a> for details.) 
+</FONT>
+</A>
+<BR></td></tr>
+</TABLE></P></A>
+<A NAME="Setting Search Preferences">
+</A><A NAME="2841574">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Setting Search Preferences</B>
+</FONT></A><br>
+<A NAME="2841575">
+For a given search, you can apply a set of preferences that determine how the search is performed. For example, you can specify the maximum number of results to be returned or the maximum amount of time to wait for a search. 
+</P>
+</A>
+<A NAME="2841582">
+The <FONT FACE="courier, courier new, monospace">LDAPSearchConstraints</FONT> class represents a set of search constraints. The methods of this class allow you to get and set the constraints. 
+</P>
+</A>
+<A NAME="2845518">
+The rest of this section explains how to set these constraints. The following topics are discussed:
+</P>
+</A>
+<ul><P>
+<A NAME="2845582">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="search.htm#2842352">Setting Preferences for All Searches</a></FONT></LI></A><P>
+<A NAME="2845587">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="search.htm#2841615">Overriding Preferences on Individual Searches</a></FONT></LI></A><P>
+<A NAME="2845592">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="search.htm#2845699">Configuring the Search to Wait for All Results</a></FONT></LI></A><P>
+<A NAME="2845541">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="search.htm#2845509">Setting Size and Time Limits</a></FONT></LI></A></ul><A NAME="Setting Preferences for All Searches"></A>
+<A NAME="2842352">
+<FONT FACE="Palatino, Serif" SIZE="+1" COLOR="black"> <B>
+Setting Preferences for All Searches</B></FONT></A><br><A NAME="2841586">
+The <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object (which represents a connection to the LDAP server) is associated with a default set of search constraints. These constraints apply to all searches performed over the connection. 
+</P>
+</A>
+<ul><P>
+<A NAME="2845534">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get the default set of search constraints for the connection, you can use the <FONT FACE="courier, courier new, monospace">getSearchConstraints</FONT> method</FONT></LI></A><P>
+<A NAME="2841594">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get or set any of the search constraints individually, you can use the <FONT FACE="courier, courier new, monospace">getOption</FONT> method and the <FONT FACE="courier, courier new, monospace">setOption</FONT> method.</FONT></LI></A></ul><A NAME="2841607">
+For example, if you want to specify the maximum number of results returned, you can either set this constraint for the connection:
+</P>
+</A>
+<PRE><A NAME="2841608"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>LDAPConnection ld = new LDAPConnection();<br>
+ld.connect( "ldap.airius.com", LDAPv2.DEFAULT_PORT ); <br>
+ld.setOption( LDAPv2.SIZELIMIT, new Integer( 100 ) );
+</FONT></A></PRE>
+
+
+<A NAME="Overriding Preferences on Individual Searches"></A>
+<A NAME="2841615">
+<FONT FACE="Palatino, Serif" SIZE="+1" COLOR="black"> <B>
+Overriding Preferences on Individual Searches</B></FONT></A><br><A NAME="2842356">
+To override the default set of search constraints for a given search request, construct your own <FONT FACE="courier, courier new, monospace">LDAPSearchConstraints</FONT> object and pass it to the <FONT FACE="courier, courier new, monospace">search</FONT> methodof the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object. 
+</P>
+</A>
+<A NAME="2845689">
+You can modify a copy of the existing search constraints and pass the modified set of constraints to the <FONT FACE="courier, courier new, monospace">search</FONT> method. Invoke the <FONT FACE="courier, courier new, monospace">getSearchConstraints</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object to get the default set of constraints for that connection, then invoke the <FONT FACE="courier, courier new, monospace">clone</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPSearchConstraints</FONT> object to make a copy of the set. 
+</P>
+</A>
+<A NAME="Configuring the Search to Wait for All Results"></A>
+<A NAME="2845699">
+<FONT FACE="Palatino, Serif" SIZE="+1" COLOR="black"> <B>
+Configuring the Search to Wait for All Results</B></FONT></A><br><A NAME="2845700">
+By default, the <FONT FACE="courier, courier new, monospace">search</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object does not block until all results are received. Instead, the<FONT FACE="courier, courier new, monospace"> search </FONT>method returns as soon as one of the results has been received.
+</P>
+</A>
+<A NAME="2845843">
+If you want to change this so that the <FONT FACE="courier, courier new, monospace">search</FONT> method blocks until all results are returned, you can do one of the following: 
+</P>
+</A>
+<ul><P>
+<A NAME="2845856">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Use the <FONT FACE="courier, courier new, monospace">setOption</FONT> methodof the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object to set the <FONT FACE="courier, courier new, monospace">LDAPv2</FONT>.<FONT FACE="courier, courier new, monospace">BATCHSIZE</FONT> preference to 0. </FONT></LI></A><P>
+<A NAME="2845895">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Pass a 0 to the <FONT FACE="courier, courier new, monospace">setBatchSize</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPSearchConstraints</FONT> object to change this for a particular set of search constraints. </FONT></LI></A></ul><A NAME="2847705">
+Note that in either case, you still need to invoke the <FONT FACE="courier, courier new, monospace">next</FONT> method of the returned <FONT FACE="courier, courier new, monospace">LDAPSearchResults</FONT> object to retrieve each individual result. 
+</P>
+</A>
+<A NAME="Setting Size and Time Limits"></A>
+<A NAME="2845509">
+<FONT FACE="Palatino, Serif" SIZE="+1" COLOR="black"> <B>
+Setting Size and Time Limits</B></FONT></A><br><A NAME="2845958">
+By default, when you search the directory from a client built with the Netscape Directory SDK for Java, the maximum number of entries to return is set to 1000, and there is no maximum time limit for waiting on an operation to complete.
+</P>
+</A>
+<A NAME="2845988">
+To change these default values, you can do one of the following:
+</P>
+</A>
+<ul><P>
+<A NAME="2846001">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Use the <FONT FACE="courier, courier new, monospace">setOption</FONT> methodof the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object to set the <FONT FACE="courier, courier new, monospace">LDAPv2</FONT>.<FONT FACE="courier, courier new, monospace">SIZELIMIT</FONT> and <FONT FACE="courier, courier new, monospace">LDAPv2</FONT>.<FONT FACE="courier, courier new, monospace">TIMELIMIT</FONT> preferences. </FONT></LI></A><P>
+<A NAME="2846014">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Use the <FONT FACE="courier, courier new, monospace">setMaxResults</FONT> method and the <FONT FACE="courier, courier new, monospace">setTimeLimit</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPSearchConstraints</FONT> object to change this for a particular set of search constraints. </FONT></LI></A></ul><A NAME="2842389">
+Setting the size limit or time limit may cause an <FONT FACE="courier, courier new, monospace">LDAPException</FONT> to be thrown if the size limit or time limit is exceeded:
+</P>
+</A>
+<ul><P>
+<A NAME="2846047">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If the size limit is exceeded, the server returns an <FONT FACE="courier, courier new, monospace">LDAPException</FONT>.<FONT FACE="courier, courier new, monospace">SIZE_LIMIT_EXCEEDED</FONT> result code. </FONT></LI></A><P>
+<A NAME="2846048">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If the time limit is exceeded, the server returns an <FONT FACE="courier, courier new, monospace">LDAPException</FONT>.<FONT FACE="courier, courier new, monospace">TIME_LIMIT_EXCEEDED</FONT> result code.) </FONT></LI></A></ul><A NAME="2847722">
+Note that the smallest unit supported by the Netscape Directory Server is seconds, not milliseconds. Since the Netscape Directory SDK for Java allows you to specify the time limit in milliseconds, the value that you specify will be rounded to the nearest second by the Directory Server.
+</P>
+</A>
+<A NAME="Example of Sending a Search Request">
+</A><A NAME="2841080">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Example of Sending a Search Request</B>
+</FONT></A><br>
+<A NAME="2841173">
+The following section of code searches for all entries with the last name (or surname) "Jensen" in the Airius.com organization. The search retrieves the names and values of the<FONT FACE="courier, courier new, monospace"> cn</FONT>,<FONT FACE="courier, courier new, monospace"> mail</FONT>, and<FONT FACE="courier, courier new, monospace"> telephoneNumber </FONT>attributes. 
+</P>
+</A>
+<PRE><A NAME="2831151"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+<FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> ld = null;<br>
+try {<br>
+&nbsp;&nbsp;&nbsp;/* Create a new LDAPConnection object. */<br>
+&nbsp;&nbsp;&nbsp;ld = new <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT>();<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Connect and bind to the server. */<br>
+&nbsp;&nbsp;&nbsp;String HOSTNAME = "localhost";<br>
+&nbsp;&nbsp;&nbsp;ld.<FONT FACE="courier, courier new, monospace">connect</FONT>( HOSTNAME, DEFAULT_PORT, null, null );<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Specify the search criteria. */<br>
+&nbsp;&nbsp;&nbsp;String baseDN = "o=Airius.com";<br>
+&nbsp;&nbsp;&nbsp;int searchScope = LDAPv2.SCOPE_SUB;<br>
+&nbsp;&nbsp;&nbsp;String searchFilter = "(sn=Jensen)";<br>
+&nbsp;&nbsp;&nbsp;String getAttrs[] = {"cn", "mail", "telephoneNumber"};<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Send the search request. */<br>
+&nbsp;&nbsp;&nbsp;<FONT FACE="courier, courier new, monospace">LDAPSearchResults</FONT> res = ld.<FONT FACE="courier, courier new, monospace">search</FONT>( baseDN, searchScope,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;searchFilter, getAttrs, false );<br>
+&nbsp;&nbsp;&nbsp;...<br>
+} catch( <FONT FACE="courier, courier new, monospace">LDAPException</FONT> e ) {<br>
+&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString );<br>
+}<br>
+...
+</FONT></A></PRE>
+
+
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Getting the Search Results"></A>
+<A NAME="2828841">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Getting the Search Results</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2842576">
+When you invoke the <FONT FACE="courier, courier new, monospace">search</FONT> method of an <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object to search the directory, the method returns the search results in the form of an <FONT FACE="courier, courier new, monospace">LDAPSearchResults</FONT> object. 
+</P>
+</A>
+<A NAME="2842734">
+The search results consist of an enumeration of entries, which are represented by <FONT FACE="courier, courier new, monospace">LDAPEntry</FONT> objects. The search results can also include smart referrals (also known as a <a href="glossary.htm#1014832">search reference</a>) and exceptions. 
+</P>
+</A>
+<A NAME="2842749">
+Each entry contains a set of attributes, which are represented by <FONT FACE="courier, courier new, monospace">LDAPAttributeSet</FONT> objects. Individual attributes are represented by <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> objects. Each attribute has a set of values that you can get. 
+</P>
+</A>
+<A NAME="2832929">
+<a href="search.htm#2832935">Figure 6.5</a> illustrates the relationship between entries, attributes, values, and search results.
+</P>
+</A>
+<A NAME="2832935">
+<P>
+<B>
+Figure 6.5	  &nbsp&nbsp Search results in terms of entries, attributes, and values <p><img src="entries.gif">
+
+</B>
+</P>
+</A><A NAME="2842684">
+The rest of this section explains the steps for getting data from the search results: 
+</P>
+</A>
+<ul><P>
+<A NAME="2842701">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+For information on getting individual entries from the results, see <a href="search.htm#2830933">"Getting Entries from the Results"</a>. </FONT></LI></A><P>
+<A NAME="2842724">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+For information on getting the DN of an entry, see <a href="search.htm#2830940">"Getting Distinguished Names from the Results"</a>. </FONT></LI></A><P>
+<A NAME="2842706">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+For information on getting the attributes of an entry, see <a href="search.htm#2843662">"Getting Attributes from an Entry"</a>. </FONT></LI></A><P>
+<A NAME="2842711">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+For information on getting the values of an attribute, see <a href="search.htm#2831717">"Getting the Name and Values of an Attribute"</a>. </FONT></LI></A></ul><A NAME="Getting Entries from the Results">
+</A><A NAME="2830933">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Getting Entries from the Results</B>
+</FONT></A><br>
+<A NAME="2853202">
+The <FONT FACE="courier, courier new, monospace">LDAPSearchResults</FONT> object represents the results of the search. These results can include entries found by the search, search references, and result codes. (If your LDAP client receives an<FONT FACE="courier, courier new, monospace"> ADMIN_LIMIT_EXCEEDED</FONT>,<FONT FACE="courier, courier new, monospace"> TIME_LIMIT_EXCEEDED</FONT>, or<FONT FACE="courier, courier new, monospace"> SIZE_LIMIT_EXCEEDED </FONT>result code from the server, the Netscape Directory SDK for Java adds an exception for this result code to the search results.) 
+</P>
+</A>
+<A NAME="2834192">
+To get entries from the <FONT FACE="courier, courier new, monospace">LDAPSearchResults</FONT> object, you can either invoke the <FONT FACE="courier, courier new, monospace">next</FONT> method or the <FONT FACE="courier, courier new, monospace">nextElement</FONT> method
+</P>
+</A>
+<ul><P>
+<A NAME="2843081">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+When you invoke the <FONT FACE="courier, courier new, monospace">next</FONT> method, if the next item in the search results is an entry, the method returns an <FONT FACE="courier, courier new, monospace">LDAPEntry</FONT> object. </FONT></LI></A><P><A NAME="2843113">
+If the next item is a search reference, one of the following can occur: 
+
+</A></P>
+<ul>
+<P>
+<A NAME="2843114">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If referrals are not followed automatically, or if the referral hop limit has been exceeded, an <FONT FACE="courier, courier new, monospace">LDAPReferralException</FONT> is thrown. 
+</FONT></LI></A><P>
+<A NAME="2843149">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If referrals are followed automatically and if the referral hop limit has not been exceeded, the LDAP Java classes follow the referral and retrieve the entry for you. (The method creates a new connection to the server specified in the referral and attempts to retrieve the entry from that server.) 
+</FONT></LI></A></ul>
+<P><A NAME="2853276">
+For information about referrals and search references, see <a href="using.htm#2844087">"Handling 
+Referrals"</a>. 
+
+</A></P>
+<P><A NAME="2853278">
+If the next item is an LDAP result code such as<FONT FACE="courier, courier new, monospace"> ADMIN_LIMIT_EXCEEDED</FONT>,<FONT FACE="courier, courier new, monospace"> 
+TIME_LIMIT_EXCEEDED</FONT>, or<FONT FACE="courier, courier new, monospace"> SIZE_LIMIT_EXCEEDED</FONT>, the LDAP Java classes 
+throw an <FONT FACE="courier, courier new, monospace">LDAPException</FONT>. 
+
+</A></P>
+<P>
+<A NAME="2853282">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+When you invoke the <FONT FACE="courier, courier new, monospace">nextElement</FONT> method, the method returns an object that you must cast. The object is an <FONT FACE="courier, courier new, monospace">LDAPEntry</FONT> object, an <FONT FACE="courier, courier new, monospace">LDAPReferralException</FONT>, or an <FONT FACE="courier, courier new, monospace">LDAPException</FONT>.</FONT></LI></A></ul><A NAME="2843092">
+As you iterate through the search results, you can invoke the <FONT FACE="courier, courier new, monospace">hasMoreElements</FONT> method to determine if you have reached the end of the search results. 
+</P>
+</A>
+<A NAME="2843161">
+For example:
+</P>
+</A>
+<PRE><A NAME="2831309"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+LDAPConnection ld = null;<br>
+try {<br>
+&nbsp;&nbsp;&nbsp;/* Create a new LDAPConnection object. */<br>
+&nbsp;&nbsp;&nbsp;ld = new LDAPConnection();<br>
+&nbsp;&nbsp;&nbsp;...<br>
+&nbsp;&nbsp;&nbsp;/* Send the search request. */<br>
+&nbsp;&nbsp;&nbsp;LDAPSearchResults res = ld.search( baseDN, searchScope,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;searchFilter, getAttrs, false );<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Iterate through the results until finished. */<br>
+&nbsp;&nbsp;&nbsp;while ( res.hasMoreElements() ) {<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the next entry in the results. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPEntry findEntry = null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;findEntry = res.next();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* If it is a search reference, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print the LDAP URLs in the reference. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( LDAPReferralException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Search references: " );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPUrl refUrls[] = e.getURLs();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for ( int i=0; i &lt; refUrls.length; i++ ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\t" + refUrls[i].getUrl() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br>
+&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;...<br>
+} catch ( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;...}
+</FONT></A></PRE>
+
+
+<A NAME="Getting Distinguished Names from the Results">
+</A><A NAME="2830940">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Getting Distinguished Names from the Results</B>
+</FONT></A><br>
+<A NAME="2831072">
+To get the distinguished name of an <FONT FACE="courier, courier new, monospace">LDAPEntry</FONT> object, invoke the <FONT FACE="courier, courier new, monospace">getDN</FONT> method. This method returns a string. For example: 
+</P>
+</A>
+<PRE><A NAME="2843582"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+LDAPEntry nextEntry = res.next();<br>
+String nextDN = nextEntry.getDN();<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2843574">
+Note that although the <FONT FACE="courier, courier new, monospace">netscape.ldap</FONT> package includes an <FONT FACE="courier, courier new, monospace">LDAPDN</FONT> class, you typically do not construct objects of this class to represent DNs. The <FONT FACE="courier, courier new, monospace">LDAPDN</FONT> class is mainly a utility class that provides methods for manipulating string DNs. (See <a href="using.htm#2848650">"Getting the Components of a Distinguished Name"</a> for details.) 
+</P>
+</A>
+<A NAME="Getting Attributes from an Entry">
+</A><A NAME="2843662">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Getting Attributes from an Entry</B>
+</FONT></A><br>
+<A NAME="2843837">
+To get the set of attributes in an <FONT FACE="courier, courier new, monospace">LDAPEntry</FONT> object, invoke the <FONT FACE="courier, courier new, monospace">getAttributeSet</FONT> method. This method returns an <FONT FACE="courier, courier new, monospace">LDAPAttributeSet</FONT> object. 
+</P>
+</A>
+<A NAME="2843853">
+For example: 
+</P>
+</A>
+<PRE><A NAME="2843841"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+LDAPEntry nextEntry = res.next();<br>
+LDAPAttributeSet entryAttrs = nextEntry.getAttributeSet();<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2843860">
+To get individual attributes from an <FONT FACE="courier, courier new, monospace">LDAPAttributeSet</FONT> object, invoke the <FONT FACE="courier, courier new, monospace">getAttributes</FONT> method. This method returns an enumeration of attributes. You can then iterate through the elements in this enumeration to retrieve individual <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> objects.
+</P>
+</A>
+<A NAME="2843882">
+For example:
+</P>
+</A>
+<PRE><A NAME="2855947"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+/* Get the set of attributes for an entry. */<br>
+LDAPAttributeSet entryAttrs = nextEntry.getAttributeSet();<br>
+<br>
+/* Get an enumeration of those attribute. */<br>
+Enumeration enumAttrs = entryAttrs.getAttributes();<br>
+<br>
+/* Loop through the enumeration to get each attribute. */<br>
+while ( enumAttrs.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;LDAPAttribute nextAttr =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(LDAPAttribute)enumAttrs.nextElement();<br>
+&nbsp;&nbsp;&nbsp;...<br>
+}<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2855948">
+To determine the number of attributes in the <FONT FACE="courier, courier new, monospace">LDAPAttributeSet</FONT> object, invoke the <FONT FACE="courier, courier new, monospace">size</FONT> method.
+</P>
+</A>
+<A NAME="2844237">
+You can also retrieve a specific attribute from the entry or from the attribute set:
+</P>
+</A>
+<ul><P>
+<A NAME="2844223">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get a specific attribute from an <FONT FACE="courier, courier new, monospace">LDAPEntry</FONT> object, invoke the <FONT FACE="courier, courier new, monospace">getAttribute</FONT> method.</FONT></LI></A><P>
+<A NAME="2844230">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get a specific attribute from an <FONT FACE="courier, courier new, monospace">LDAPAttributeSet</FONT> object by invoking the <FONT FACE="courier, courier new, monospace">getAttribute</FONT> method. </FONT></LI></A></ul><A NAME="2844218">
+Both methods return an <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> object. 
+</P>
+</A>
+<A NAME="2843899">
+For example:
+</P>
+</A>
+<PRE><A NAME="2844079"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+LDAPEntry nextEntry = res.next();<br>
+LDAPAttribute anAttr = nextEntry.getAttribute( "cn" );<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="Getting the Name and Values of an Attribute">
+</A><A NAME="2831717">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Getting the Name and Values of an Attribute</B>
+</FONT></A><br>
+<A NAME="2844661">
+To get the name of an <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> object, invoke the <FONT FACE="courier, courier new, monospace">getName</FONT> method. For example: 
+</P>
+</A>
+<PRE><A NAME="2844665"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+LDAPAttribute nextAttr =<br>
+&nbsp;&nbsp;&nbsp;(LDAPAttribute)enumAttrs.nextElement();<br>
+String attrName = nextAttr.getName();<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2831718">
+To get the values in an <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> object, you can use the following methods: 
+</P>
+</A>
+<ul><P>
+<A NAME="2831991">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get the string values, invoke the <FONT FACE="courier, courier new, monospace">getStringValues</FONT> method. </FONT></LI></A><P>
+<A NAME="2844264">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To get the binary values as byte arrays, invoke the <FONT FACE="courier, courier new, monospace">getByteValues</FONT> method.</FONT></LI></A></ul><A NAME="2844293">
+Both methods return an enumeration that you can iterate through to retrieve individual results. If an error occurs (for example, if you invoke <FONT FACE="courier, courier new, monospace">getStringValues</FONT> and the values are binary data), the methods return<FONT FACE="courier, courier new, monospace"> null</FONT>.
+</P>
+</A>
+<A NAME="2844298">
+You can also count the number of values in an attribute by invoking the <FONT FACE="courier, courier new, monospace">size</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPAttribute</FONT> object. 
+</P>
+</A>
+<A NAME="2844297">
+For example:
+</P>
+</A>
+<PRE><A NAME="2832474"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+LDAPAttribute nextAttr =<br>
+&nbsp;&nbsp;&nbsp;(LDAPAttribute)enumAttrs.nextElement();<br>
+<br>
+/* Get and print the attribute name. */<br>
+String attrName = nextAttr.getName();<br>
+System.out.println( "\t" + attrName + ":" );<br>
+<br>
+/* Iterate through the attribute's values. */<br>
+Enumeration enumVals = nextAttr.getStringValues();<br>
+if (enumVals != null) {<br>
+&nbsp;&nbsp;&nbsp;while ( enumVals.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String nextValue = ( String )enumVals.nextElement();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\t\t" + nextValue );<br>
+&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+...
+</FONT></A></PRE>
+
+
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Sorting the Search Results"></A>
+<A NAME="2845086">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Sorting the Search Results</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2845090">
+With the Netscape Directory SDK for Java, you can sort the search results in two ways:
+</P>
+</A>
+<ul><P>
+<A NAME="2845091">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+You can specify that the LDAP server should sort the results before returning the results to your client. </FONT></LI></A><P><A NAME="2845266">
+To do this, you need to send a server-side sorting control to the server. For 
+details, see <a href="controls.htm#1915315">Chapter 13, "Working with LDAP Controls"</a>. Note that in the 
+Netscape Directory Server, server-side sorting works best if you specify a 
+filter that uses an indexed attribute. 
+
+</A></P>
+<P>
+<A NAME="2845191">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+After you receive the results from the server, you can sort them on your client. </FONT></LI></A><P><A NAME="2845282">
+To do this, you need to specify the names of the attributes that you want to 
+use for sorting. You also need to specify whether or not the sorting is done 
+in ascending or descending order. 
+
+</A></P>
+</ul><A NAME="2845092">
+You can sort the results on the client by invoking the <FONT FACE="courier, courier new, monospace">sort</FONT> methodof the <FONT FACE="courier, courier new, monospace">LDAPSearchResults</FONT> object. 
+</P>
+</A>
+<A NAME="2845311">
+When invoking this method, you need to pass a comparator object, which is an object of a class that implements the <FONT FACE="courier, courier new, monospace">LDAPEntryComparator</FONT> interface. The Netscape Directory SDK for Java includes an <FONT FACE="courier, courier new, monospace">LDAPCompareAttrNames</FONT> class hat implements this interface. This class specifies how entries are compared with each other and sorted. 
+</P>
+</A>
+<A NAME="2845314">
+To construct an <FONT FACE="courier, courier new, monospace">LDAPCompareAttrNames</FONT> object, you need to specify the attributes that you want to use for sorting and, optionally, the sort order. 
+</P>
+</A>
+<A NAME="2845346">
+For example, the following section of code sorts first by surname ("sn") and then by common name ("cn") in ascending order: 
+</P>
+</A>
+<PRE><A NAME="2845373"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+LDAPConnection ld = new LDAPConnection();<br>
+ld.connect( ... );<br>
+LDAPSearchResults res = ld.search( ... );<br>
+String[]  sortAttrs = {"sn", "cn"};<br>
+boolean[] ascending = {true, true};<br>
+res.sort( new LDAPCompareAttrNames(sortAttrs, ascending) );<br>
+...
+</FONT></A></PRE>
+
+
+<a name="2845460">
+<B>Note. </B></A><a name="2845462">Since the sorting is done by the client, the attributes used for sorting must be 
+returned in the search results. If you are returning only a subset of attributes in 
+the search results, make sure to include the attributes that you specify in the 
+<FONT FACE="courier, courier new, monospace">LDAPCompareAttrNames</FONT> constructor.
+</a><P><A NAME="2846055">
+If all search results have not yet been returned, the <FONT FACE="courier, courier new, monospace">sort</FONT> method will block until all results have been received. 
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Abandoning a Search"></A>
+<A NAME="2830942">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Abandoning a Search</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2845484">
+At any point during a search operation, you can send a request to the server to abandon (or cancel) the search. To abandon the search, use the <FONT FACE="courier, courier new, monospace">abandon</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object. Pass in the <FONT FACE="courier, courier new, monospace">LDAPSearchResults</FONT> object that was returned to you when you first invoked the <FONT FACE="courier, courier new, monospace">search</FONT> method. 
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Example: Searching the Directory"></A>
+<A NAME="2845478">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Example: Searching the Directory</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2830941">
+The following section of code prints out the values of all attributes in the entries returned by a search. 
+</P>
+</A>
+<PRE><A NAME="2844763"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+import netscape.ldap.*;<br>
+import java.util.*;<br>
+public class Search {<br>
+&nbsp;&nbsp;&nbsp;public static void main( String[] args ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPConnection ld = null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int status = -1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld = new LDAPConnection();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Connect to the server. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MY_HOST = "localhost";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int MY_PORT = 389;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.connect( MY_HOST, MY_PORT );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Search for all entries with surname of Jensen. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MY_FILTER = "sn=Jensen";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MY_SEARCHBASE = "o=Airius.com";<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Send the search request. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPSearchResults res = ld.search( MY_SEARCHBASE,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPConnection.SCOPE_SUB,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MY_FILTER, null, false );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Sort the results first by last name, then by first. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[]  sortAttrs = {"sn", "cn"};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boolean[] ascending = {true, true};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;res.sort( new LDAPCompareAttrNames(sortAttrs, ascending) );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Iterate through and print out the results. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ( res.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the next directory entry. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPEntry findEntry = null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;findEntry = res.next();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* If the next result is a search reference, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print the LDAP URLs in that reference. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( LDAPReferralException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Search references: " );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPUrl refUrls[] = e.getURLs();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for ( int i=0; i &lt; refUrls.length; i++ ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\t" + refUrls[i].getURL() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Print the DN of the entry. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( findEntry.getDN() );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the attributes of the entry */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttributeSet findAttrs = <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;findEntry.getAttributeSet();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enumeration enumAttrs = findAttrs.getAttributes();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\tAttributes: " );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Loop on attributes */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ( enumAttrs.hasMoreElements()) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttribute anAttr =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(LDAPAttribute)enumAttrs.nextElement();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String attrName = anAttr.getName();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\t\t" + attrName );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Loop on values for this attribute */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enumeration enumVals = anAttr.getStringValues();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (enumVals != null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ( enumVals.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String aVal = ( String )enumVals.nextElement();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\t\t\t" + aVal );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status = 0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Done, so disconnect */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( (ld != null) &amp;&amp; ld.isConnected() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.disconnect();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(status);<br>
+&nbsp;&nbsp;&nbsp;}<br>
+}
+</FONT></A></PRE>
+
+
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Reading an Entry"></A>
+<A NAME="2846186">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Reading an Entry</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2846215">
+To get a single entry from the directory, use the <FONT FACE="courier, courier new, monospace">read</FONT> methodof the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object. You can specify the DN of the entry and (optionally) the attributes that you want to retrieve (if you don't want to get all attributes of the entry back). Or you can specify an LDAP URL that identifies the entry that you want to retrieve. 
+</P>
+</A>
+<A NAME="2846325">
+You can use the same classes and methods described in <a href="search.htm#2843662">"Getting Attributes from an Entry"</a> and <a href="search.htm#2831717">"Getting the Name and Values of an Attribute"</a> to retrieve data from the entry. 
+</P>
+</A>
+<A NAME="2846316">
+The following section of code gets an entry and prints the values of its attributes. 
+</P>
+</A>
+<PRE><A NAME="2855201"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>import netscape.ldap.*;<br>
+import java.util.*;<br>
+public class RdEntry {<br>
+&nbsp;&nbsp;&nbsp;public static void main( String[] args )<br>
+&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPConnection ld = null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int status = -1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld = new LDAPConnection();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Connect to the server. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MY_HOST = "localhost";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int MY_PORT = 389;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.connect( MY_HOST, MY_PORT );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the specified entry and all of its attributes. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String ENTRYDN = "uid=bjensen, ou=People, o=Airius.com";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPEntry findEntry = ld.read( ENTRYDN );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get and print the DN of the entry. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( findEntry.getDN() );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the set of attributes in the entry. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttributeSet findAttrs = findEntry.getAttributeSet();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enumeration enumAttrs = findAttrs.getAttributes();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\tAttributes: " );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get each individual attribute. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ( enumAttrs.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttribute anAttr =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(LDAPAttribute)enumAttrs.nextElement();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get and print the attribute name. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String attrName = anAttr.getName();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\t\t" + attrName );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get and print each value of this attribute. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enumeration enumVals = anAttr.getStringValues();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (enumVals != null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ( enumVals.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String aVal = ( String )enumVals.nextElement();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\t\t\t" + aVal );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Done, so disconnect from the server. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( (ld != null) &amp;&amp; ld.isConnected() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.disconnect();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(status);<br>
+&nbsp;&nbsp;&nbsp;}<br>
+}
+</FONT></A></PRE>
+
+
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Listing Subentries"></A>
+<A NAME="2846221">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Listing Subentries</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2829196">
+To list the subentries beneath a particular entry, set the starting point of the search to the entry, and set the scope of the search to <FONT FACE="courier, courier new, monospace">LDAPv2</FONT>.<FONT FACE="courier, courier new, monospace">SCOPE_ONE</FONT>. 
+</P>
+</A>
+<A NAME="2832978">
+<P>
+<B>
+Figure 6.6	  &nbsp&nbsp Using the LDAPv2.SCOPE_ONE scope to list subentries <p><img src="hier1lvl.gif">
+
+</B>
+</P>
+</A><A NAME="2830445">
+The following section of code performs a one-level search.
+</P>
+</A>
+<PRE><A NAME="2855344"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+import netscape.ldap.*;<br>
+import java.util.*;<br>
+...<br>
+LDAPConnection ld = null;<br>
+try {<br>
+&nbsp;&nbsp;&nbsp;ld = new LDAPConnection();<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Connect to the server. */<br>
+&nbsp;&nbsp;&nbsp;String MY_HOST = "localhost";<br>
+&nbsp;&nbsp;&nbsp;int MY_PORT = LDAPv2.DEFAULT_PORT;<br>
+&nbsp;&nbsp;&nbsp;ld.connect( MY_HOST, MY_PORT );<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Search for all entries at this level. */<br>
+&nbsp;&nbsp;&nbsp;String MY_FILTER = "objectclass=*";<br>
+&nbsp;&nbsp;&nbsp;String MY_SEARCHBASE = "o=Airius.com";<br>
+&nbsp;&nbsp;&nbsp;LDAPSearchResults res = ld.search( MY_SEARCHBASE,<br>
+&nbsp;&nbsp;&nbsp;LDAPConnection.SCOPE_ONE, MY_FILTER, null, false );<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Loop on results until finished */<br>
+&nbsp;&nbsp;&nbsp;while ( res.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the next directory entry */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPEntry findEntry = null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;findEntry = res.next();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* If the next result is a search reference, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print the LDAP URLs in the reference. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( LDAPReferralException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Search references: " );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPUrl refUrls[] = e.getURLs();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for ( int i=0; i &lt; refUrls.length; i++ ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\t" + refUrls[i].getUrl() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Print the DN of the entry. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( findEntry.getDN() );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the attributes of the entry */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttributeSet findAttrs = findEntry.getAttributeSet();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enumeration enumAttrs = findAttrs.getAttributes();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\tAttributes: " );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Loop on attributes */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ( enumAttrs.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttribute anAttr = (LDAPAttribute)enumAttrs.nextElement();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String attrName = anAttr.getName();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\t\t" + attrName );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Loop on values for this attribute */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enumeration enumVals = anAttr.getStringValues();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (enumVals != null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ( enumVals.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String aVal = ( String )enumVals.nextElement();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\t\t\t" + aVal );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;}<br>
+} catch( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+}<br>
+<br>
+/* Done, so disconnect */<br>
+if ( (ld != null) &amp;&amp; ld.isConnected() ) {<br>
+&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.disconnect();<br>
+&nbsp;&nbsp;&nbsp;} catch ( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+}<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2855398">
+
+</P>
+</A>
+</FONT>
+  </TD>
+</TR>
+<TR>
+  <TD>&nbsp;
+  </TD>
+</TR>
+<TR>
+  <TD BGCOLOR="#9999CC"><A HREF="#top"><IMG SRC="up.gif" BORDER=0></A>
+  </TD>
+</TR>
+</TABLE>
+<BR>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-2 COLOR="#999999">
+&copy; Copyright 1999 Netscape Communications Corporation.  All rights reserved.
+</FONT> </CENTER>
+
+<BR>
+
+</BODY>
+
+</HTML>

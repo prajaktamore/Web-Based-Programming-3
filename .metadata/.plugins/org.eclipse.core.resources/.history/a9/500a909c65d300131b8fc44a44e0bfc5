@@ -1,0 +1,120 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import java.net.URL;
+import java.sql.*;
+
+public class Awards  extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	public String BASE = "o=airius.com";
+	public String FILTER;
+	public Awards() {
+		super(); 
+		// TODO Auto-generated constructor stub
+	}
+
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
+	}
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html");  
+		PrintWriter out = response.getWriter();  
+		HttpSession session = request.getSession(false);
+		
+		Calendar currentDate = Calendar.getInstance(); //Get the current date
+		SimpleDateFormat formatter= new SimpleDateFormat("MM-dd-yyyy"); //format it as per your requirement
+		String dateNow = formatter.format(currentDate.getTime());
+		System.out.println("Now the date is :=>  " + dateNow);
+		
+		String month = dateNow.substring(0, 2);
+		String date = dateNow.substring(3, 5);
+		String year = dateNow.substring(6, 10);
+		
+		
+		String query ="INSERT INTO Award(sname,smname,slname,smail,sdept,rname,rmname,rlname,rmail,rdept,award,diff,suid,ruid,enterdate,Approval)values('"+request.getParameter("u1")+"','"+
+		request.getParameter("u2")+"','"+request.getParameter("u3")+"','"+request.getParameter("u4")+"','"+request.getParameter("u5")+"','"
+		+request.getParameter("rdown")+"','"+request.getParameter("r2")+"','"+request.getParameter("r3")+"','"+request.getParameter("r4")+"','"+request.getParameter("r5")+"','"
+		+request.getParameter("rdownlist")+"','"+request.getParameter("r7")+"','"+session.getAttribute("suid")+"','"+request.getParameter("r8")+"','"+year+"-"+month+"-"+date+"','WAITING')"; 
+		
+		
+		out.print(query);
+        // default data source name 
+        String url   = "jdbc:mysql://bigyellowcat.cs.binghamton.edu/more";
+
+        try {
+			Class.forName ("com.mysql.jdbc.jdbc2.optional.MysqlDataSource").newInstance();
+		
+			Class.forName("com.mysql.jdbc.Driver").newInstance(); 
+			Connection con = DriverManager.getConnection("jdbc:mysql://bigyellowcat.cs.binghamton.edu/more", "more", "more7755");
+			
+       
+			 // Create statement
+	        Statement stmt = con.createStatement();
+	        
+       
+        
+        String query1 = "SELECT maxcount FROM MaxSubmission LIMIT 1";
+		
+        ResultSet rs1 = stmt.executeQuery("SELECT * FROM Award");
+		ResultSetMetaData rsmd = rs1.getMetaData();
+		
+		ResultSet rs2 = stmt.executeQuery(query1);
+		
+        
+        ArrayList<String>  awardList =  new ArrayList<String>();
+    	while(rs2.next())
+	      {
+	          String strprodvalue = rs2.getString("AwardName");
+	          awardList.add(strprodvalue);   
+	      }
+      
+    	
+    	int rowCount = 0;  
+    	while ( rs1.next() )  
+    	{  
+    	    // Process the row.  
+    	    rowCount++;  
+    	}  
+    	
+        if(rowCount <= Integer.parseInt(awardList.get(0))){
+        	 // Execute the query
+            int rs = stmt.executeUpdate(query );
+            
+	        if(rs == 1){
+	        	out.print("Awarded");
+	        }else{
+	        	out.print("Failure");
+	        }
+		}
+        } catch (InstantiationException e) {
+        	RequestDispatcher rd=request.getRequestDispatcher("./Awards.jsp");  
+		    rd.include(request,response);
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			RequestDispatcher rd=request.getRequestDispatcher("./Awards.jsp");  
+		    rd.include(request,response);
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			RequestDispatcher rd=request.getRequestDispatcher("./Awards.jsp");  
+		    rd.include(request,response);
+			e.printStackTrace();
+		} catch (SQLException e) {
+			RequestDispatcher rd=request.getRequestDispatcher("./Awards.jsp");  
+		    rd.include(request,response);
+			e.printStackTrace();
+		}
+	}
+}

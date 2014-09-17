@@ -1,0 +1,27 @@
+This is a test application for the LDAPFilter* libraries.
+You can run this as an applet in Netscape Navigator or Communicator,
+or you can run this from a command-line by entering:
+
+    java FilterTest2
+
+To run the application, make sure that
+
+    netscape.ldap.util.*
+
+are in your classpath.  
+
+The "Tag Pattern" is the string that you would use to select from the
+set of filters (see the documentation on ldapfilter.conf).  And the
+Value is the string that your user might potentially type in.
+
+You can set the filter affixes by clicking on the "Modify Affixes" Button
+
+Try starting out with "xax500" for the Tag Pattern and
+"yourname@netscape.com" for the Value.  The text view at the bottom of
+the window will show you what filters were matched.  The "FILTER"
+string is what you get back from LDAPFilter.getFilter() and is usable
+in LDAPConnection.search().
+
+If you're looking for the bits of code that use the
+LDAPFilterDescriptor, look for "LDAPFilter Example Code" in the
+comments.  It is near all of the relevant code.

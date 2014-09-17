@@ -1,0 +1,1877 @@
+<html><head>
+<title>"Directory SDK for Java 4.0 Programmer's Guide": Working with LDAP Controls
+ </title>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+
+        // for older browsers, will just replace the document
+
+        function showHideLayerSwitch(ignored)
+        {
+                document.location = 'contents.htm';
+        }
+
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript1.2">
+
+
+        var visibleVar="null";
+
+    if (navigator.appName == "Netscape") {
+        layerStyleRef="layer.";
+        layerRef="document.layers";
+        styleSwitch="";
+        visibleVar="show";
+    } else {
+        layerStyleRef="layer.style.";
+        layerRef="document.all";
+        styleSwitch=".style";
+        visibleVar="visible";
+    }
+        
+    function showHideLayerSwitch(layerName)
+    {
+        if (eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility == visibleVar')) {
+                hideLayer(layerName);
+        } else {
+            showLayer(layerName);
+        }
+    }
+
+    function showLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="visible"');
+    }
+        
+    function hideLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="hidden"');
+    }
+
+
+</SCRIPT>
+
+<STYLE TYPE="text/css">
+        #header {
+                z-index: 5;
+                visibility: visible;
+        }
+        #pulldownMenu {
+                position: absolute; 
+                z-index: 10; 
+                visibility: hidden; 
+                left: 182px; 
+                top: 55px;
+        }
+</STYLE>
+
+<DIV BGCOLOR="#000000" id="pulldownMenu" >
+
+<SCRIPT>
+        function onMouseOut()
+        {
+                visibility="hide";
+        }
+</SCRIPT>
+
+<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0> <TR> <TD BGCOLOR="#9999CC">
+
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+<A HREF="contents.htm"> <FONT COLOR="white"> Complete Contents</FONT></A><BR> 
+
+<A HREF="preface.htm"> <FONT COLOR="white"> Preface</FONT></A><BR> 
+
+<A HREF="ldap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 1</FONT> Understanding LDAP</FONT></A><BR> 
+
+<A HREF="api.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 2</FONT> Using the Netscape Directory SDK for Java</FONT> 
+</A><BR> 
+
+<A HREF="qckstart.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 3</FONT> Quick Start</FONT> 
+</A><BR> 
+
+<A HREF="writing.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 4</FONT> Writing an LDAP Client</FONT></A><BR> 
+
+<A HREF="using.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 5</FONT>  Using the LDAP Java Classes</FONT></A><BR> 
+
+<A HREF="search.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 6</FONT> Searching the Directory</FONT></A><BR> 
+
+<A HREF="filter.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 7</FONT> Using Filter Configuration Files</FONT></A><BR>
+
+<A HREF="addmod.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 8</FONT> Adding, Updating, and Deleting Entries</FONT></A><BR>
+
+<A HREF="compare.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 9</FONT> Comparing Values in Entries</FONT></A><BR>
+
+<A HREF="url.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 10</FONT> Working with LDAP URLs</FONT></A><BR>
+
+<A HREF="servinfo.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 11</FONT> Getting Server Information</FONT></A><BR>
+
+<A HREF="ssl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 12</FONT> Connecting Over SSL</FONT></A><BR>
+
+<A HREF="controls.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 13</FONT> Working with LDAP Controls</FONT></A><BR>
+
+<A HREF="sasl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 14</FONT> Using SASL Authentication</FONT></A><BR>
+
+<A HREF="JNDIchap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 15</FONT> Using Netscape's JNDI Service Provider</FONT></A><BR>
+
+<A HREF="extendop.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 16</FONT> Working with Extended Operations</FONT></A><BR>
+
+<A HREF="asynch.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 17</FONT> Using the Asynchronous Interface</FONT></A><BR>
+
+<A HREF="glossary.htm"> <FONT COLOR="white"> Glossary</A><BR> 
+
+</TD> </TR> </TABLE> </DIV>
+
+</SCRIPT>
+
+</HEAD>
+
+<BODY LINK="#666699" VLINK="#666699" ALINK="#333366" BGCOLOR="#FFFFFF"><FONT FACE="PrimaSans BT, Verdana, 
+
+Sans-Serif" Size=-1>
+<a name="TOP">
+<TABLE CELLPADDING=10 CELLSPACING=2 border=0 WIDTH=100% BGCOLOR="#CCCCCC"> 
+
+<TR><TD><TABLE CELLPADDING=5 CELLSPACING=2 border=0>
+<TR>
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="ssl.htm"><IMG SRC="prev.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0>Previous</a></FONT>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="sasl.htm">Next<IMG SRC="next.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0></a></FONT>
+  </TD>   
+
+  <TD></TD>
+
+  <TD BGCOLOR="#9999CC"> <A HREF="javascript:showHideLayerSwitch('pulldownMenu');"><FONT FACE="PrimaSans BT, 
+
+Verdana, Sans-Serif" SIZE=-1 
+  COLOR="white">Contents</FONT></A>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><A HREF="index.htm">Index</A></FONT>
+  </TD>
+
+</TR>
+</TABLE>
+</TD></TR> 
+</TABLE>
+
+<BR> <BR>
+
+</a>
+</DIV>
+
+</P>
+
+<CENTER>
+<TABLE CELLPADDING=2 CELLSPACING=2 WIDTH="85%" BORDER=0>
+<TR>
+  <TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="
+">
+</A>
+<A NAME="1915312">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+
+
+</FONT></B><P><A NAME="
+">
+</A>
+<A NAME="1915314">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="#999999">
+<B>
+Chapter 13
+</B></FONT></A><A NAME="Working with LDAP Controls
+">
+</A>
+<A NAME="1915315">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+Working with LDAP Controls
+
+</FONT></B><P><A NAME="1708500">
+This chapter explains how LDAP controls work and how to use the LDAP controls that are supported by the Netscape Directory Server. </P></A>
+<A NAME="2843560">
+The chapter includes the following sections:
+</P>
+</A>
+<ul><P>
+<A NAME="2848341">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2848450">"How LDAP Controls Work"</a></FONT></LI></A><P>
+<A NAME="2849682">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2848454">"Using Controls in the LDAP Java Classes"</a></FONT></LI></A><P>
+<A NAME="2849693">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2849035">"Determining the Controls Supported By the Server"</a></FONT></LI></A><P>
+<A NAME="2849698">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2848857">"Using the Server-Side Sorting Control"</a></FONT></LI></A><P>
+<A NAME="2849712">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2851860">"Using the Persistent Search Control"</a></FONT></LI></A><P>
+<A NAME="2849717">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2849610">"Using the Entry Change Notification Control"</a></FONT></LI></A><P>
+<A NAME="2849724">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2848467">"Using the Virtual List View Control"</a></FONT></LI></A><P>
+<A NAME="2849738">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2848484">"Using the Manage DSA IT Control"</a></FONT></LI></A><P>
+<A NAME="2849751">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2848498">"Using Password Policy Controls"</a></FONT></LI></A><P>
+<A NAME="2870559">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2869883">"Using the Proxied Authorization Control"</a></FONT></LI></A></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="How LDAP Controls Work"></A>
+<A NAME="2848450">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>How LDAP Controls Work</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2848874">
+The LDAP v3 protocol (documented in <A HREF="http://www.ietf.org/rfc/rfc2251.txt" TARGET="_blank">RFC 2251, "Lightweight Directory Access Protocol (v3)"</a>) allows clients and servers to use controls as a mechanism for extending an LDAP operation. A control is a way to specify additional information as part of a request and a response.
+</P>
+</A>
+<A NAME="2848581">
+For example, a client can send a control to a server as part of a search request to indicate that the server should sort the search results before sending the results back to the client. 
+</P>
+</A>
+<A NAME="2848647">
+Servers can also send controls back to clients. For example, the Netscape Directory Server sends a control back to a client during the authentication process if the client's password has expired or is going to expire. 
+</P>
+</A>
+<A NAME="2848656">
+A control specifies the following information: 
+</P>
+</A>
+<ul><P>
+<A NAME="2848661">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+A unique object identifier (OID) </FONT></LI></A><P>
+<A NAME="2848662">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+An indication of whether or not the control is critical to the operation </FONT></LI></A><P>
+<A NAME="2849209">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Optional data related to the control (for example, for the server-side sorting control, the attributes used for sorting search results) </FONT></LI></A></ul><A NAME="2849210">
+The OID identifies the control. If you plan to use a control, you need to make sure that the server supports the control. (See <a href="controls.htm#2849035">"Determining the Controls Supported By the Server"</a> for details.) 
+</P>
+</A>
+<A NAME="2848909">
+When your client includes a control in a request for an LDAP operation, the server may respond in one of the following ways: 
+</P>
+</A>
+<ul><P>
+<A NAME="2848520">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If the server supports this control and if the control is appropriate to the operation, the server should make use of the control when performing the operation.</FONT></LI></A><P>
+<A NAME="2848523">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If the server does not support the control type or if the control is not appropriate, the server should do one of the following: </FONT></LI></A><ul>
+<P>
+<A NAME="2848982">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If the control is marked as critical to the operation, the server should not perform the operation and should send an "unavailable critical extension" result code. When receiving this result code, your client throws an <FONT FACE="courier, courier new, monospace">LDAPException</FONT> with the result code <FONT FACE="courier, courier new, monospace">LDAPException</FONT>.<FONT FACE="courier, courier new, monospace">UNAVAILABLE_CRITICAL_EXTENSION</FONT>. 
+</FONT></LI></A><P>
+<A NAME="2848529">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If the control is marked as not critical to the operation, the server should ignore the control and should proceed to perform the operation.
+</FONT></LI></A></ul>
+</ul><A NAME="2849087">
+Note that servers can also send controls back to clients. 
+</P>
+</A>
+<A NAME="2849223">
+There are two types of controls:
+</P>
+</A>
+<ul><P>
+<A NAME="2849218">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Server controls can be included in requests sent by clients and in responses sent by servers. </FONT></LI></A><P>
+<A NAME="2849228">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Client controls affect the behavior of the LDAP Java classes only and are never sent to the server. (At this point in time, no client controls are supported in the Netscape Directory SDK for Java.) </FONT></LI></A></ul><A NAME="2849197">
+The next section describes how controls are implemented in the LDAP Java classes and which classes and methods you can use to create, send, and parse data from LDAP controls. 
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Using Controls in the LDAP Java Classes"></A>
+<A NAME="2848454">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Using Controls in the LDAP Java Classes</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2849040">
+In the LDAP Java classes, a control is represented by an object of the <FONT FACE="courier, courier new, monospace">LDAPControl</FONT> class. 
+</P>
+</A>
+<A NAME="2849176">
+To include a control in a request, you should do the following: 
+</P>
+</A>
+<ol>
+<P><a name="2850393">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Invoke the <FONT FACE="courier, courier new, monospace">getSearchConstraints</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object to get a clone of <FONT FACE="courier, courier new, monospace">LDAPSearchConstraints</FONT> for this connection. </LI></a><P><a name="2850431">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Invoke the <FONT FACE="courier, courier new, monospace">setServerControls</FONT> method of the cloned constraints object, passing in the <FONT FACE="courier, courier new, monospace">LDAPControl</FONT> object that represents the control you want to include.</LI></a><P><a name="2850514">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Invoke the appropriate method to perform the LDAP operation, passing in the constraints object. For example, if you are performing a search, invoke the <FONT FACE="courier, courier new, monospace">search</FONT> method and pass the search constraints as an argument. </LI></a></ol>
+<A NAME="2849395">
+(You can also include controls by invoking the <FONT FACE="courier, courier new, monospace">setServerControls</FONT> method for the default set of search constraints or by invoking the <FONT FACE="courier, courier new, monospace">setOption</FONT> method to set the <FONT FACE="courier, courier new, monospace">LDAPv3</FONT>.<FONT FACE="courier, courier new, monospace">SERVERCONTROLS</FONT> option. Note, however, that these controls will be sent to the server with every request. In general, controls tend to be specific to a type of operation, so you should only include a control in a request for the operation that it applies to.) 
+</P>
+</A>
+<A NAME="2849293">
+You can then retrieve data from the returned controls through accessor methods in the <FONT FACE="courier, courier new, monospace">LDAPControl</FONT> object. 
+</P>
+</A>
+<A NAME="2849362">
+The rest of this chapter explains how to use the LDAP Java classes to send and retrieve specific types of controls. 
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Determining the Controls Supported By the Server"></A>
+<A NAME="2849035">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Determining the Controls Supported By the Server</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2866181">
+According to the LDAP v3 protocol, servers should list any controls that they support in the <FONT FACE="courier, courier new, monospace">supportedControl</FONT> attribute in the <a href="glossary.htm#1014998">root DSE</a>. 
+</P>
+</A>
+<A NAME="2866186">
+The following table lists some of the OIDs for server controls.
+</P>
+</A>
+<A NAME="2862018">
+<TABLE BORDER=1 cellpadding=4 cellspacing=3>
+<CAPTION></caption>
+<A NAME="LDAP v3 Server Controls
+">
+</A>
+<A NAME="2866251">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<B>
+Table 13.1   LDAP v3 Server Controls
+
+</B>
+</font><br></a></caption><tr><th valign=baseline align=left><b><A NAME="OID of Control and Defined Constant">
+</A>
+<A NAME="2866255">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>OID of Control and Defined Constant
+</FONT>
+</B>
+</A>
+<BR><B></th><th valign=baseline align=left><b><A NAME="Description of Control ">
+</A>
+<A NAME="2866257">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Description of Control 
+</FONT>
+</B>
+</A>
+<BR><B></th></tr>
+<tr><td valign=top><A NAME="2866259">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+2.16.840.1.113730.3.4.2
+</FONT>
+</A>
+<BR><A NAME="2866260">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">netscape.ldap</FONT>.<FONT FACE="courier, courier new, monospace">LDAPControl</FONT>.<br><FONT FACE="courier, courier new, monospace">MANAGEDSAIT</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2866262">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+"Manage DSA IT" control (see <a href="controls.htm#2848484">"Using the Manage DSA IT Control"</a> for details) 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2866267">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+2.16.840.1.113730.3.4.3
+</FONT>
+</A>
+<BR><A NAME="2866268">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">netscape.ldap.controls</FONT>.<br><FONT FACE="courier, courier new, monospace">LDAPPersistSearchControl</FONT>.<br><FONT FACE="courier, courier new, monospace">PERSISTENTSEARCH</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2866270">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+"Persistent search" control (see <a href="controls.htm#2851860">"Using the Persistent Search Control"</a> for details) 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2866275">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+2.16.840.1.113730.3.4.4
+</FONT>
+</A>
+<BR><A NAME="2866276">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">netscape.ldap</FONT>.<FONT FACE="courier, courier new, monospace">LDAPControl</FONT>.<br><FONT FACE="courier, courier new, monospace">PWEXPIRED</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2866278">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+ "Password expired" control (see <a href="controls.htm#2848498">"Using Password Policy Controls"</a> for details) 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2866283">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+2.16.840.1.113730.3.4.5
+</FONT>
+</A>
+<BR><A NAME="2866284">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">netscape.ldap</FONT>.<FONT FACE="courier, courier new, monospace">LDAPControl</FONT>.<br><FONT FACE="courier, courier new, monospace">PWEXPIRING</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2866286">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+"Password expiration warning" control (see <a href="controls.htm#2848498">"Using Password Policy Controls"</a> for details) 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2866291">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+2.16.840.1.113730.3.4.9
+</FONT>
+</A>
+<BR><A NAME="2866292">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">netscape.ldap.controls</FONT>.<br><FONT FACE="courier, courier new, monospace">LDAPVirtualListControl</FONT>.<br><FONT FACE="courier, courier new, monospace">VIRTUALLIST</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2866294">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+"Virtual list view" control (see <a href="controls.htm#2848467">"Using the Virtual List View Control"</a> for details) 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2869451">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+2.16.840.1.113730.3.4.12
+</FONT>
+</A>
+<BR><A NAME="2869462">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">netscape.ldap.controls.<br>LDAPProxiedAuthControl.<br>PROXIEDAUTHREQUEST</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2869453">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+"Proxied authorization" control (see "Using the Proxied Authorization Control" for details)
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2866299">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+1.2.840.113556.1.4.473
+</FONT>
+</A>
+<BR><A NAME="2866300">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">netscape.ldap.controls</FONT>.<br><FONT FACE="courier, courier new, monospace">LDAPSortControl</FONT>.<FONT FACE="courier, courier new, monospace">SORTREQUEST</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2866302">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+ "Server-side sorting" control (see <a href="controls.htm#2848857">"Using the Server-Side Sorting Control"</a> for details) 
+</FONT>
+</A>
+<BR></td></tr>
+</TABLE></P></A>
+<A NAME="2849433">
+The following example is a simple command-line program that searches for the root DSE and prints the values of the <FONT FACE="courier, courier new, monospace">supportedControl</FONT> attribute. 
+</P>
+</A>
+<PRE><A NAME="2866693"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+import netscape.ldap.*;<br>
+import netscape.ldap.controls.*;<br>
+import java.util.*;<br>
+...<br>
+public class ListCtrl {<br>
+&nbsp;&nbsp;&nbsp;public static void main( String[] args ) {<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Hashtable mapping OIDs of known controls to descriptions of <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;each control. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hashtable knownControls = new Hashtable();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;knownControls.put( LDAPSortControl.SORTREQUEST, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Sort control" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;knownControls.put( LDAPControl.MANAGEDSAIT, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ManageDsaIT control" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;knownControls.put( LDAPPersistSearchControl.PERSISTENTSEARCH, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Persistent Search control" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;knownControls.put( LDAPControl.PWEXPIRED, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Password Expiration Notification control" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;knownControls.put( LDAPControl.PWEXPIRING, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Password Expiration Warning control" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;knownControls.put( LDAPVirtualListControl.VIRTUALLIST, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Virtual List View control" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;knownControls.put( LDAPProxiedAuthControl.PROXIEDAUTHREQUEST, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Proxied Authorization control" );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPConnection ld = new LDAPConnection();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String hostname = "localhost";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int portnumber = LDAPv2.DEFAULT_PORT;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Connect and authenticate to server */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.connect( 3, hostname, portnumber );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* The list of supported controls can be retrieved by<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getting the root DSE.  To get the root DSE, you need<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to do a search where:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- The scope is SCOPE_BASE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- The base is ""<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- The search filter is "(objectclass=*)"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The values of the supportedControl attribute of the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resulting entry are the OIDs of the supported controls. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int MY_SCOPE = LDAPv2.SCOPE_BASE;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MY_FILTER = "(objectclass=*)";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MY_SEARCHBASE = "";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String getAttrs[] = { "supportedControl" };<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPSearchResults res = ld.search( MY_SEARCHBASE,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MY_SCOPE, MY_FILTER, getAttrs, false );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* There should only be one entry found. */<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the attributes of this entry. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPEntry DSE = (LDAPEntry)res.nextElement();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttributeSet findAttrs = DSE.getAttributeSet();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enumeration enumAttrs = findAttrs.getAttributes();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Print each attribute returned <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(this should only be the supportedControl attribute) */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ( enumAttrs.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttribute anAttr = <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(LDAPAttribute)enumAttrs.nextElement();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String attrName = anAttr.getName();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( attrName );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the values of this attribute. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enumeration enumVals = anAttr.getStringValues();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( enumVals == null ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\tNo values." );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ( enumVals.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String aVal = ( String )enumVals.nextElement();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Each value should be the OID of a control. Look up the <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;description corresponding to the OID. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String aDesc = ( String )knownControls.get( aVal );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( aDesc != null ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\t" + aDesc+ " (" + aVal + ")" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\t" + aVal );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.disconnect();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.exit(1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(0);<br>
+&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+...
+</FONT></A></PRE>
+
+
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Using the Server-Side Sorting Control"></A>
+<A NAME="2848857">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Using the Server-Side Sorting Control</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2852272">
+The control with the OID 1.2.840.113556.1.4.473 (or the constant <FONT FACE="courier, courier new, monospace">netscape.ldap</FONT>.<FONT FACE="courier, courier new, monospace">LDAPControl</FONT>.<FONT FACE="courier, courier new, monospace">SORTREQUEST</FONT>) is a server-side sorting control. When you send a search request with this control to the server, the server should sort the results before sending them back to you.
+</P>
+</A>
+<A NAME="2852275">
+The server-side sorting control is described in the Internet-Draft "LDAP Control Extension for Server Side Sorting of Search Results." This document is available at: <A HREF="http://www.ietf.org/internet-drafts/draft-ietf-ldapext-sorting-02.txt" TARGET="_blank"><FONT FACE="courier, courier new, monospace">http://www.ietf.org/internet-drafts/draft-ietf-ldapext-sorting-02.txt</a></FONT>
+</P>
+</A>
+<a name="2870896">
+<B>Note. </B></A><a name="2870902">Internet-Drafts expire every six months. If the URL above does not work, try 
+incrementing the number by one. For example, <FONT FACE="courier, courier new, monospace">draft-06.txt</FONT> would become 
+<FONT FACE="courier, courier new, monospace">draft-07.txt</FONT>.
+</a><P><A NAME="2852362">
+This section covers the following topics:
+</P>
+</A>
+<ul><P>
+<A NAME="2856986">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2852298">"Specifying the Sort Order"</a></FONT></LI></A><P>
+<A NAME="2861204">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2852494">"Creating the Control"</a></FONT></LI></A><P>
+<A NAME="2856991">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2852506">"Performing the Search"</a></FONT></LI></A><P>
+<A NAME="2861579">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2853575">"Interpreting the Results"</a></FONT></LI></A><P>
+<A NAME="2857006">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2861521">"Known Problems with Server Sorting"</a></FONT></LI></A><P>
+<A NAME="2857011">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2855363">"Example of Using the Server-Sorting Control"</a></FONT></LI></A></ul><A NAME="Specifying the Sort Order">
+</A><A NAME="2852298">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Specifying the Sort Order</B>
+</FONT></A><br>
+<A NAME="2852299">
+To specify the sort order of the results, construct one or more <FONT FACE="courier, courier new, monospace">LDAPSortKey</FONT> objects. Each object represents a sort key generated from a string in the following format: 
+</P>
+</A>
+<PRE><A NAME="2852301"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>[-]&lt;attrname&gt;[:&lt;matchingruleoid&gt;]
+</FONT></A></PRE>
+
+
+<A NAME="2852302">
+<FONT FACE="courier, courier new, monospace">&lt;attrname&gt; </FONT>is the name of the attribute that you want to sort by.<FONT FACE="courier, courier new, monospace"> &lt;matchingruleoid&gt; </FONT>is the optional OID of a matching rule that you want to use for sorting. The minus sign indicates that the results should be sorted in reverse order for that attribute. 
+</P>
+</A>
+<A NAME="2852305">
+For example, the following string specifies that results should be sorted by first name ("givenname") in descending order:
+</P>
+</A>
+<PRE><A NAME="2852308"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>"-givenname"
+</FONT></A></PRE>
+
+
+<A NAME="2852309">
+Pass this string to the <FONT FACE="courier, courier new, monospace">LDAPSortKey</FONT> constructor to create a sort key. For example:
+</P>
+</A>
+<PRE><A NAME="2852691"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>LDAPSortKey sortByFirstNameReverse = new LDAPSortKey( "-givenname" );
+</FONT></A></PRE>
+
+
+<A NAME="2852429">
+To sort by more than one attribute, construct more than one <FONT FACE="courier, courier new, monospace">LDAPSortKey</FONT> object and create an array of the objects. 
+</P>
+</A>
+<A NAME="2852644">
+For example, suppose you want to sort the result by last name ("sn") in ascending order. If two or more entries have the same last name, you want to sort the result by first name ("givenname") in ascending order. 
+</P>
+</A>
+<A NAME="2852643">
+To specify this sort order, you construct two <FONT FACE="courier, courier new, monospace">LDAPSortKey</FONT> objects and create an array:
+</P>
+</A>
+<PRE><A NAME="2852652"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+LDAPSortKey sortByLastName = new LDAPSortKey( "sn" );<br>
+LDAPSortKey sortByFirstName = new LDAPSortKey( "givenname" );<br>
+LDAPSortKey[] sortOrder = { sortByLastName, sortByFirstName };<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2861219">
+If you are using the Netscape Directory Server 3.<I>x</I>, keep the following in mind:
+</P>
+</A>
+<ul><P>
+<A NAME="2861331">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+For attributes that have multiple values, the Netscape Directory Server 3.<I>x</I> will use the "highest" value when sorting. </FONT></LI></A><P><A NAME="2861332">
+For example, suppose you choose to sort by the <FONT FACE="courier, courier new, monospace">ou</FONT> attribute. If an entry has 
+"Accounting" and "People" as values of the <FONT FACE="courier, courier new, monospace">ou</FONT> attribute, the server will use 
+"People" when sorting this entry. 
+
+</A></P>
+<P><A NAME="2861333">
+On the other hand, if the values are "People" and "Product Development", 
+the server will use "Product Development" when sorting the entry. 
+
+</A></P>
+<P>
+<A NAME="2861334">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+If an entry does not contain the attribute used for sorting, the Netscape Directory Server 3.<I>x</I> sorts that entry before other entries that do contain the attribute. </FONT></LI></A><P><A NAME="2861339">
+For example, suppose the entry for Barbara Jensen does not contain the <FONT FACE="courier, courier new, monospace">ou</FONT> 
+attribute and the entry for Kurt Jensen does contain the <FONT FACE="courier, courier new, monospace">ou</FONT> attribute. If the 
+server is sorting by the <FONT FACE="courier, courier new, monospace">ou</FONT> attribute, Barbara Jensen's entry will come before 
+Kurt Jensen's entry in the sorted results.
+
+</A></P>
+</ul><A NAME="Creating the Control">
+</A><A NAME="2852494">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Creating the Control</B>
+</FONT></A><br>
+<A NAME="2852495">
+Next, to create the server-side sorting control, construct a new <FONT FACE="courier, courier new, monospace">LDAPSortControl</FONT> object. Pass the <FONT FACE="courier, courier new, monospace">LDAPSortKey</FONT> object (or the array of <FONT FACE="courier, courier new, monospace">LDAPSortKey</FONT> objects) to the <FONT FACE="courier, courier new, monospace">LDAPSortControl</FONT> constructor. 
+</P>
+</A>
+<A NAME="2852497">
+In the constructor, you can also specify whether or not the control is critical to the search operation. If the control is marked as critical and the server cannot sort the results, the server should not send back any entries. (See <a href="controls.htm#2853575">"Interpreting the Results"</a> for more information on the effect of a critical control.) 
+</P>
+</A>
+<A NAME="2852729">
+For example, the following section of code creates a server-side sorting control and specifies that the control is critical to the search operation:
+</P>
+</A>
+<PRE><A NAME="2852732"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>LDAPSortKey sortOrder = new LDAPSortKey( "-givenname" );<br>
+LDAPSortControl sortCtrl = new LDAPSortControl( sortOrder, true );
+</FONT></A></PRE>
+
+
+<A NAME="Performing the Search">
+</A><A NAME="2852506">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Performing the Search</B>
+</FONT></A><br>
+<A NAME="2852507">
+To specify that you want the server to sort the results, do the following:
+</P>
+</A>
+<ol>
+<P><a name="2852765">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Get a clone of <FONT FACE="courier, courier new, monospace">LDAPSearchConstraints</FONT> for the current connection by invoking the <FONT FACE="courier, courier new, monospace">getSearchConstraints</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object. </LI></a><P><a name="2852825">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Invoke the <FONT FACE="courier, courier new, monospace">setServerControls</FONT> method for the copied <FONT FACE="courier, courier new, monospace">LDAPSearchConstraints</FONT> object, and pass in the <FONT FACE="courier, courier new, monospace">LDAPSortControl</FONT> object that you have constructed. </LI></a><P><a name="2852855">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Invoke the <FONT FACE="courier, courier new, monospace">search</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object, passing in the <FONT FACE="courier, courier new, monospace">LDAPSearchConstraints</FONT> object. </LI></a><P><A NAME="2852510">
+The server returns a result for the search operation and a response control. 
+The response control indicates the success or failure of the sorting. 
+
+</A></P>
+<P><a name="2852512">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Invoke the <FONT FACE="courier, courier new, monospace">getResponseControls</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPSearchResults</FONT> object to retrieve any controls sent back by the server in response to the search. </LI></a><P><A NAME="2852514">
+Response controls are passed back as an array of <FONT FACE="courier, courier new, monospace">LDAPControl</FONT> objects. 
+
+</A></P>
+<P><a name="2852515">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Examine the type of each returned control. If a control is an instance of <FONT FACE="courier, courier new, monospace">LDAPSortControl</FONT>, you can read the result code for the sorting operation using the <FONT FACE="courier, courier new, monospace">getResultCode</FONT> method. </LI></a><ul><P><A NAME="2869584">
+If the sorting operation failed, the server may also return the name of the 
+attribute that caused the failure. You can read the name of this attribute 
+with the <FONT FACE="courier, courier new, monospace">getFailedAttribute</FONT> method. 
+
+</A></P>
+</ul></ol>
+<A NAME="2852296">
+The server can return the following result codes that apply to the sorting operation.
+</P>
+</A>
+<A NAME="2864426">
+<TABLE BORDER=1 cellpadding=4 cellspacing=3>
+<CAPTION></caption>
+<A NAME="LDAP result codes for sorting search results
+">
+</A>
+<A NAME="2853087">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<B>
+Table 13.2   LDAP result codes for sorting search results
+
+</B>
+</font><br></a></caption><tr><th valign=baseline align=left><b><A NAME="Result Code">
+</A>
+<A NAME="2853091">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Result Code
+</FONT>
+</B>
+</A>
+<BR><B></th><th valign=baseline align=left><b><A NAME="Description">
+</A>
+<A NAME="2853093">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Description
+</FONT>
+</B>
+</A>
+<BR><B></th></tr>
+<tr><td valign=top><A NAME="2853115">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">LDAPException</FONT>.<FONT FACE="courier, courier new, monospace">SUCCESS</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2853117">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The results were sorted successfully. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2853165">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">LDAPException</FONT>.<br><FONT FACE="courier, courier new, monospace">OPERATION_ERROR</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2853121">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+An internal server error occurred. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2853173">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">LDAPException</FONT>.<br><FONT FACE="courier, courier new, monospace">TIME_LIMIT_EXCEEDED</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2853280">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The maximum time allowed for a search was exceeded before the server finished sorting the results. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2853181">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">LDAPException</FONT>.<br><FONT FACE="courier, courier new, monospace">STRONG_AUTH_REQUIRED</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2853320">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The server refused to send back the sorted search results because it requires you to use a stronger authentication method. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2853189">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">LDAPException</FONT>.<br><FONT FACE="courier, courier new, monospace">ADMIN_LIMIT_EXCEEDED</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2853133">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+There are too many entries for the server to sort. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2853197">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">LDAPException</FONT>.<br><FONT FACE="courier, courier new, monospace">NO_SUCH_ATTRIBUTE</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2853137">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The sort key list specifies an attribute that does not exist. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2853205">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">LDAPException</FONT>.<br><FONT FACE="courier, courier new, monospace">INAPPROPRIATE_MATCHING</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2853364">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The sort key list specifies a matching rule that is not recognized or appropriate 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2853213">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">LDAPException</FONT>.<br><FONT FACE="courier, courier new, monospace">INSUFFICIENT_ACCESS_RIGHTS</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2853404">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The server did not send the sorted results because the client has insufficient access rights
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2853221">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">LDAPException</FONT>.<FONT FACE="courier, courier new, monospace">BUSY</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2853149">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The server is too busy to sort the results. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2853229">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">LDAPException</FONT>.<br><FONT FACE="courier, courier new, monospace">UNWILLING_TO_PERFORM</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2853097">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The server is unable to sort the results. 
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2853237">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<FONT FACE="courier, courier new, monospace">LDAPException</FONT>.<FONT FACE="courier, courier new, monospace">OTHER</FONT>
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2853456">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+This general result code indicates that the server failed to sort the results for a reason other than the ones listed above. 
+</FONT>
+</A>
+<BR></td></tr>
+</TABLE></P></A>
+<A NAME="Interpreting the Results">
+</A><A NAME="2853575">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Interpreting the Results</B>
+</FONT></A><br>
+<A NAME="2853576">
+The following table lists the kinds of results to expect from the LDAP server under different situations.
+</P>
+</A>
+<A NAME="2864673">
+<TABLE BORDER=1 cellpadding=4 cellspacing=3>
+<CAPTION></caption><tr><th valign=baseline align=left><b><A NAME="Does the Server Support the Sort Control?">
+</A>
+<A NAME="2865537">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Does the Server Support the Sort Control?
+</FONT>
+</B>
+</A>
+<BR><B></th><th valign=baseline align=left><b><A NAME="Is the Sort Control Marked as Critical?">
+</A>
+<A NAME="2865539">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Is the Sort Control Marked as Critical?
+</FONT>
+</B>
+</A>
+<BR><B></th><th valign=baseline align=left><b><A NAME="Are There any Other Conditions?">
+</A>
+<A NAME="2865541">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Are There any Other Conditions?
+</FONT>
+</B>
+</A>
+<BR><B></th><th valign=baseline align=left><b><A NAME="Results from the LDAP Server">
+</A>
+<A NAME="2865543">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+<B>Results from the LDAP Server
+</FONT>
+</B>
+</A>
+<BR><B></th></tr>
+<tr><td valign=top><A NAME="2865772">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+No
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2865774">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+No
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2865776">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+N/A
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2865778">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The server ignores the sorting control and returns the entries unsorted.
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2865553">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+No
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2865555">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Yes
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2865557">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+N/A
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2865559">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The server does not send back any entries
+</FONT>
+</A>
+<BR></td></tr>
+<tr><td valign=top><A NAME="2865570">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Yes
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2865572">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+No
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2865574">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The server cannot sort the results using the specified sort key list.
+</FONT>
+</A>
+<BR></td><td valign=top><ul><A NAME="2865576">
+<LI>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The server returns the entries unsorted. 
+</FONT>
+</LI>
+</A><A NAME="2865577">
+<LI>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The server sends back the sorting response control, which specifies the result code of the sort attempt and (optionally) the attribute type that caused the error. 
+</FONT>
+</LI>
+</A></ul></td></tr>
+<tr><td valign=top><A NAME="2865823">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Yes
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2865825">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Yes
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2865827">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The server cannot sort the results using the specified sort key list. 
+</FONT>
+</A>
+<BR></td><td valign=top><ul><A NAME="2865829">
+<LI>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The server does not send back any entries. 
+</FONT>
+</LI>
+</A><A NAME="2865830">
+<LI>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The server sends back the sorting response control, which specifies the result code of the sort attempt and (optionally) the attribute type that caused the error. 
+</FONT>
+</LI>
+</A></ul></td></tr>
+<tr><td valign=top><A NAME="2865841">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Yes
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2865843">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Yes or No (Does not affect the results)
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2865845">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The search itself failed.
+</FONT>
+</A>
+<BR></td><td valign=top><ul><A NAME="2865847">
+<LI>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The server sends back a result code for the search operation. 
+</FONT>
+</LI>
+</A><A NAME="2865848">
+<LI>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The server does not send back the sorting response control.
+</FONT>
+</LI>
+</A></ul></td></tr>
+<tr><td valign=top><A NAME="2865972">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Yes
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2865974">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+Yes or No (Does not affect the results)
+</FONT>
+</A>
+<BR></td><td valign=top><A NAME="2865976">
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The server successfully sorted the entries.
+</FONT>
+</A>
+<BR></td><td valign=top><ul><A NAME="2865978">
+<LI>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The server sends back the sorted entries. 
+</FONT>
+</LI>
+</A><A NAME="2865979">
+<LI>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+The server sends back the sorting response control, which specifies the result code of the sort attempt (<FONT FACE="courier, courier new, monospace">LDAPException</FONT>.<FONT FACE="courier, courier new, monospace">SUCCESS</FONT>).
+</FONT>
+</LI>
+</A></ul></td></tr>
+</TABLE></P></A>
+<A NAME="Known Problems with Server Sorting">
+</A><A NAME="2861521">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Known Problems with Server Sorting</B>
+</FONT></A><br>
+<A NAME="2861522">
+The following problems may occur when using the server-side sorting control with the Netscape Directory Server 3.<I>x</I> (most of these problems are fixed in version 4.0 of the server):
+</P>
+</A>
+<ul><P>
+<A NAME="2861523">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+The server does not sort entries if the search filter consists of unindexed attributes.</FONT></LI></A><P><A NAME="2861524">
+When processing a search request, the server generates a list of potential 
+candidates from the indexes, sorts the candidate list, then compares each 
+candidate against the search filter. 
+
+</A></P>
+<P><A NAME="2861525">
+If no indexes are applicable to the search, the candidate list consists of all 
+entries. If the candidate lists consists of all entries, the server does not sort 
+the list and instead sends back an<FONT FACE="courier, courier new, monospace"> LDAP_UNWILLING_TO_PERFORM </FONT>result 
+code. 
+
+</A></P>
+<P><A NAME="2861526">
+For example, suppose your search filter is "l=Sunnyvale". Since the "l" 
+attribute (the "location" attribute) is not indexed by default, the server 
+cannot use any indexes to narrow down the list of potential candidates, and 
+all entries are considered candidates. If you attempt to sort by any attribute, 
+the server will refuse to sort the entries. 
+
+</A></P>
+<P>
+<A NAME="2861527">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+The server does not sort entries if you bind as the root DN and specify no time limit. </FONT></LI></A><P><A NAME="2861528">
+Normally, if you bind as the root DN and specify no time limit, the server 
+allows you an infinite time limit. As the server sorts the list of candidate 
+entries during a search, the server checks to determine if the time limit has 
+been exceeded. However, the server incorrectly calculates the amount of 
+time allowed, so larger sets of candidates will not be sorted. 
+
+</A></P>
+</ul><A NAME="Example of Using the Server-Sorting Control">
+</A><A NAME="2855363">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Example of Using the Server-Sorting Control</B>
+</FONT></A><br>
+<A NAME="2855364">
+The following program uses the server-sorting control to get a list of all users in the directory, sorted in ascending order by last name, then in descending order by first name.
+</P>
+</A>
+<PRE><A NAME="2867439"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+import netscape.ldap.*;<br>
+import netscape.ldap.controls.*;<br>
+import java.util.*;<br>
+...<br>
+public class SrchSort {<br>
+&nbsp;&nbsp;&nbsp;public static void main( String[] args ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPConnection ld = new LDAPConnection();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String hostname = "localhost";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int portnumber = LDAPv2.DEFAULT_PORT;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int status = -1;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Connect to server */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.connect( 3, hostname, portnumber, "", "" );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Search for last names that start with "Wa". */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MY_FILTER = "sn=Wa*";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MY_BASE = "o=Airius.com";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] attrs = { "sn", "givenname" };<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Create sort keys that specify the sort order. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPSortKey sortByLastName = new LDAPSortKey( "sn" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPSortKey sortByFirstName = new LDAPSortKey( "-givenname" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPSortKey[] sortOrder = { sortByLastName, sortByFirstName };<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Create a server control using that sort key. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPSortControl sortCtrl = new LDAPSortControl(sortOrder, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;true);<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Create search constraints to use that control. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPSearchConstraints cons = ld.getSearchConstraints();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cons.setServerControls( sortCtrl );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Perform the search. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPSearchResults res = ld.search( MY_BASE, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPv3.SCOPE_SUB, MY_FILTER, attrs, false, cons );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Loop through the results until finished. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Sorted Results from Server" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "==========================" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ( res.hasMoreElements() ) {<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the next directory entry. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPEntry findEntry = null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;findEntry = res.next();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Skip any referrals found for now. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( LDAPReferralException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the set of attributes for that entry. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttributeSet findAttrs = findEntry.getAttributeSet();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enumeration enumAttrs = findAttrs.getAttributes();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Iterate through the attributes. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ( enumAttrs.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttribute anAttr =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(LDAPAttribute)enumAttrs.nextElement();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the set of values for each attribute. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enumeration enumVals = anAttr.getStringValues();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( enumVals == null ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\tNo values." );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Iterate through the values and print each value. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String aVal = (String)enumVals.nextElement();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print( aVal );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (enumVals.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aVal = (String)enumVals.nextElement();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print( ", " + aVal );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print( "\t\t" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Determine if the server sent a control back to you. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPControl[] returnedControls = res.getResponseControls();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( returnedControls != null ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for ( int i=0; i&lt;returnedControls.length; i++ ){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!(returnedControls[i] instanceof LDAPSortControl)){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPSortControl sortRsp = (LDAPSortControl)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returnedControls[i];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int resultCode = sortRsp.getResultCode;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*Check if the result code indicated an error occurred.*/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( resultCode != 0 ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Result code: " + resultCode );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPException.errorCodeToString( resultCode ) );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* If the server specified the attribute that <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;caused the failure, print it out. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String failedAttr = sortRsp.getFailedAttribute();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( failedAttr != null ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Failed on "+failedAttr );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Server did not indicate which<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "attribute caused sorting to fail." );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status = 0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Done, so disconnect */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( (ld != null) &amp;&amp; ld.isConnected() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.disconnect();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch ( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(status);<br>
+&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+...
+</FONT></A></PRE>
+
+
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Using the Persistent Search Control"></A>
+<A NAME="2851860">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Using the Persistent Search Control</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2857092">
+The control with the OID 2.16.840.1.113730.3.4.3 (the constant <FONT FACE="courier, courier new, monospace">netscape.ldap.controls</FONT>.<FONT FACE="courier, courier new, monospace">LDAPPersistSearchControl</FONT>.<FONT FACE="courier, courier new, monospace">PERSISTENTSEARCH</FONT>) is the persistent search control. A persistent search (an ongoing search operation), which allows your LDAP client to get notification of changes to the directory.
+</P>
+</A>
+<A NAME="2857095">
+The persistent search control is described in the Internet-Draft "Persistent Search: A Simple LDAP Change Notification Mechanism." This document is available at: <A HREF="http://www.ietf.org/internet-drafts/draft-ietf-ldapext-psearch-00.txt" TARGET="_blank"><FONT FACE="courier, courier new, monospace">http://www.ietf.org/internet-drafts/draft-ietf-ldapext-psearch-00.txt</a></FONT> 
+</P>
+</A>
+<a name="2870911">
+<B>Note. </B></A><A NAME="2857099">
+Internet-Drafts expire every six months. If the URL above does not work, try incrementing the number by one. For example, <FONT FACE="courier, courier new, monospace">draft-06.txt</FONT> would become <FONT FACE="courier, courier new, monospace">draft-07.txt</FONT>.
+</P>
+</A>
+<A NAME="2870921">
+To use persistent searching for change notification, you create a "persistent search" control that specifies the types of changes that you want to track. You include the control in a search request. If an entry in the directory is changed, the server determines if the entry matches the search criteria in your request and if the change is the type of change that you are tracking. If both of these are true, the server sends the entry to your client. 
+</P>
+</A>
+<A NAME="2857103">
+You can use this control in conjunction with an "entry change notification" control (see <a href="controls.htm#2849610">"Using the Entry Change Notification Control"</a>). 
+</P>
+</A>
+<A NAME="2858080">
+The rest of this section describes how to create and use this control. 
+</P>
+</A>
+<ul><P>
+<A NAME="2858109">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2857105">"Creating the Control"</a></FONT></LI></A><P>
+<A NAME="2858184">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2857972">"Performing the Search"</a></FONT></LI></A><P>
+<A NAME="2858096">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2858132">"Example of Using the Persistent Search Control"</a></FONT></LI></A></ul><A NAME="Creating the Control">
+</A><A NAME="2857105">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Creating the Control</B>
+</FONT></A><br>
+<A NAME="2857366">
+To create a persistent search control, you construct a new <FONT FACE="courier, courier new, monospace">LDAPPersistSearchControl</FONT> object. When invoking the <FONT FACE="courier, courier new, monospace">LDAPPersistSearchControl</FONT> constructor, you can specify the following information: 
+</P>
+</A>
+<ul><P>
+<A NAME="2857111">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+The type of change you want to track. You can specify any of the following (or any combination of the following using a bitwise OR operator): </FONT></LI></A><ul>
+<P>
+<A NAME="2857113">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">ADD</FONT> indicates that you want to track added entries 
+</FONT></LI></A><P>
+<A NAME="2857114">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">DELETE</FONT> indicates that you want to track deleted entries 
+</FONT></LI></A><P>
+<A NAME="2857115">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">MODIFY</FONT> indicates that you want to track modified entries 
+</FONT></LI></A><P>
+<A NAME="2857116">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">MODDN</FONT> indicates that you want to track renamed entries 
+</FONT></LI></A></ul>
+<P>
+<A NAME="2857118">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+A preference indicating whether you want the server to return all entries that initially matched the search criteria </FONT></LI></A><P>
+<A NAME="2857120">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+A preference indicating whether or not you want entry change notification controls included with every modified entry returned by the server </FONT></LI></A></ul><A NAME="2857122">
+For example, the following section of code 
+</P>
+</A>
+<PRE><A NAME="2857577"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+/* Track all types of changes. */<br>
+int op = LDAPPersistSearchControl.ADD |<br>
+&nbsp;&nbsp;&nbsp;LDAPPersistSearchControl.MODIFY |<br>
+&nbsp;&nbsp;&nbsp;LDAPPersistSearchControl.DELETE |<br>
+&nbsp;&nbsp;&nbsp;LDAPPersistSearchControl.MODDN;<br>
+<br>
+/* Return only entries that have changed. */<br>
+boolean changesOnly = true;<br>
+<br>
+/* Return an "entry change notification" control. */ <br>
+boolean returnControls = true;<br>
+<br>
+/* Mark the control as critical. */<br>
+boolean isCritical = true;<br>
+<br>
+/* Create the control. */ <br>
+LDAPPersistSearchControl persistCtrl = new<br>
+&nbsp;&nbsp;&nbsp;LDAPPersistSearchControl( op, changesOnly,<br>
+&nbsp;&nbsp;&nbsp;returnControls, isCritical );<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="Performing the Search">
+</A><A NAME="2857972">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Performing the Search</B>
+</FONT></A><br>
+<A NAME="2857973">
+To specify that you want to start a persistent search, do the following:
+</P>
+</A>
+<ol>
+<P><a name="2857855">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Get a clone of <FONT FACE="courier, courier new, monospace">LDAPSearchConstraints</FONT> for the current connection by invoking the <FONT FACE="courier, courier new, monospace">getSearchConstraints</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object. </LI></a><P><a name="2857872">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Invoke the <FONT FACE="courier, courier new, monospace">setServerControls</FONT> method for the cloned <FONT FACE="courier, courier new, monospace">LDAPSearchConstraints</FONT> object, and pass in the <FONT FACE="courier, courier new, monospace">LDAPPersistSearchControl</FONT> object that you have constructed. </LI></a><P><a name="2857885">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Invoke the <FONT FACE="courier, courier new, monospace">search</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object, passing in the <FONT FACE="courier, courier new, monospace">LDAPSearchConstraints</FONT> object. </LI></a><P><A NAME="2857889">
+The server returns matching entries as they change. If you specified that 
+you wanted an "entry change notification" control included with each entry, 
+you can get these controls from the server's results. For details, see <a href="controls.htm#2849610">"Using 
+the Entry Change Notification Control"</a>. 
+
+</A></P>
+</ol>
+<A NAME="2857125">
+To end the persistent search, you can either invoke the <FONT FACE="courier, courier new, monospace">abandon</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object to abandon the search operation, or you can invoke the <FONT FACE="courier, courier new, monospace">disconnect</FONT> method to disconnect from the server. 
+</P>
+</A>
+<A NAME="Example of Using the Persistent Search Control">
+</A><A NAME="2858132">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Example of Using the Persistent Search Control</B>
+</FONT></A><br>
+<A NAME="2858135">
+The following program performs a persistent search and receives "entry change notification" controls from the server. 
+</P>
+</A>
+<PRE><A NAME="2858151"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>import netscape.ldap.*;<br>
+import netscape.ldap.controls.*;<br>
+import java.util.*;<br>
+public class SrchPrst implements Runnable {<br>
+&nbsp;&nbsp;&nbsp;private String hostname;<br>
+&nbsp;&nbsp;&nbsp;private int portnumber;<br>
+&nbsp;&nbsp;&nbsp;public SrchPrst() {<br>
+&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;public static void main( String[] args ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Start up a new thread. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thread th = new Thread( new SrchPrst(), "mainConn" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;th.start();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Main thread started." );<br>
+&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;public void run() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPConnection ld = new LDAPConnection();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String hostname = "localhost";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int portnumber = LDAPv2.DEFAULT_PORT;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Connect to server */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld.connect( 3, hostname, portnumber, "", "" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Specify that you want to track changes to all entries. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MY_FILTER = "(objectclass=*)";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String MY_BASE = "o=Airius.com";<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Create a persistent search control. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int op = LDAPPersistSearchControl.ADD |<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPPersistSearchControl.MODIFY |<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPPersistSearchControl.DELETE |<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPPersistSearchControl.MODDN;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boolean changesOnly = true;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boolean returnControls = true;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boolean isCritical = true;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPPersistSearchControl persistCtrl = new<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPPersistSearchControl( op, changesOnly,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returnControls, isCritical );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Create search constraints to use that control. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPSearchConstraints cons = ld.getSearchConstraints();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cons.setServerControls( persistCtrl );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Start the persistent search. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPSearchResults res = ld.search( MY_BASE,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPv3.SCOPE_SUB, MY_FILTER, null, false, cons );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Loop through the results until finished. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ( res.hasMoreElements() ) {<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Print any entries that have changed. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\n======= Changed Entry =======" );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the next directory entry. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPEntry findEntry = res.next();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the set of attributes for that entry. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttributeSet findAttrs = findEntry.getAttributeSet();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enumeration enumAttrs = findAttrs.getAttributes();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Iterate through the attributes. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ( enumAttrs.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPAttribute anAttr =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(LDAPAttribute)enumAttrs.nextElement();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String attrName = anAttr.getName();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\t" + attrName );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the set of values for each attribute. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enumeration enumVals = anAttr.getStringValues();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Iterate through the values and print each value. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (enumVals.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String aVal = (String)enumVals.nextElement();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\t\t" + aVal );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get any entry change controls. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPControl[] responseCtrls = res.getResponseControls();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( responseCtrls != null ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for ( int i=0; i&lt;responseCtrls.length; i++ ){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!(responseCtrls[i] instanceof<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPEntryChangeControl)){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPEntryChangeControl entryCtrl =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(LDAPEntryChangeControl) responseCtrls[i];<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get information on the type of change made. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int changeType = entryCtrl.getChangeType();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( changeType != -1 ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print( "Change made: " );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch ( changeType ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case LDAPPersistSearchControl.ADD:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Added new entry." );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case LDAPPersistSearchControl.MODIFY:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Modified entry." );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case LDAPPersistSearchControl.DELETE:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Deleted entry." );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case LDAPPersistSearchControl.MODDN:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Renamed entry." );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the change log number, if present. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int changeNumber = entryCtrl.getChangeNumber();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( changeNumber != -1 ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Change log number: " + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;changeNumber );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the previous DN of the entry, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if a modify DN operation was performed. */ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String oldDN = entryCtrl.getPreviousDN();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( oldDN != null ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Previous DN: " + oldDN );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "No entry change control." );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "\n" );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch( LDAPException e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+...
+</FONT></A></PRE>
+
+
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Using the Entry Change Notification Control"></A>
+<A NAME="2849610">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Using the Entry Change Notification Control</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2858118">
+The control with the OID 2.16.840.1.113730.3.4.7 (or the constant <FONT FACE="courier, courier new, monospace">netscape.ldap.controls</FONT>.<FONT FACE="courier, courier new, monospace">LDAPEntryChangeControl</FONT>.<FONT FACE="courier, courier new, monospace">ENTRYCHANGED</FONT>) is the "entry change notification" control. These types of controls can be included with entries sent back from the server during a persistent search. (For more information on persistent searches, see <a href="controls.htm#2851860">"Using the Persistent Search Control"</a>.) 
+</P>
+</A>
+<A NAME="2858125">
+The "entry change notification" control is described in the Internet-Draft "Persistent Search: A Simple LDAP Change Notification Mechanism." This document is available at: <FONT FACE="courier, courier new, monospace"><A HREF="http://www.ietf.org/internet-drafts/draft-ietf-ldapext-psearch-00.txt" TARGET="_blank">http://www.ietf.org/internet-drafts/draft-ietf-ldapext-psearch-00.txt</a></FONT>
+</P>
+</A>
+<a name="2870930">
+<B>Note. </B></A><A NAME="2860238">
+Internet-Drafts expire every six months. If the URL above does not work, try incrementing the number by one. For example, <FONT FACE="courier, courier new, monospace">draft-06.txt</FONT> would become <FONT FACE="courier, courier new, monospace">draft-07.txt</FONT>.
+</P>
+</A>
+<A NAME="2870936">
+The rest of this section describes how to use these types of controls.
+</P>
+</A>
+<ul><P>
+<A NAME="2860248">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2860217">"Getting the Control"</a></FONT></LI></A><P>
+<A NAME="2860239">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="controls.htm#2860226">"Working with Change Log Numbers"</a></FONT></LI></A></ul><A NAME="Getting the Control">
+</A><A NAME="2860217">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Getting the Control</B>
+</FONT></A><br>
+<A NAME="2849611">
+To get an "entry change notification" control that is included with an entry, do the following: 
+</P>
+</A>
+<ol>
+<P><a name="2858017">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>As you retrieve each entry, invoke the <FONT FACE="courier, courier new, monospace">getResponseControls</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object to retrieve any response controls sent back from the server. </LI></a><P><A NAME="2858021">
+Response controls are passed back as an array of <FONT FACE="courier, courier new, monospace">LDAPControl</FONT> objects. 
+
+</A></P>
+<P><a name="2858025">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Pass this array of <FONT FACE="courier, courier new, monospace">LDAPControl</FONT> objects as an argument to the <FONT FACE="courier, courier new, monospace">LDAPPersistSearchControl</FONT>.<FONT FACE="courier, courier new, monospace">parseResponse</FONT> static method to retrieve the "entry change notification" control. </LI></a></ol>
+<A NAME="2858009">
+An "entry change notification" control is represented by an object of the <FONT FACE="courier, courier new, monospace">LDAPEntryChangeControl</FONT> class. To get data from this control, you can invoke the accessor methods, such as <FONT FACE="courier, courier new, monospace">getChangeNumber</FONT>, <FONT FACE="courier, courier new, monospace">getChangeType</FONT>, and <FONT FACE="courier, courier new, monospace">getPreviousDN</FONT>. 
+</P>
+</A>
+<A NAME="Working with Change Log Numbers">
+</A><A NAME="2860226">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Working with Change Log Numbers</B>
+</FONT></A><br>
+<A NAME="2850376">
+If the Netscape Directory Server is set up to be a supplier (for replicating changes in the directory to other servers), the server keeps a record of the changes made to the directory in a change log. Each record of a change has a number that identifies it in the log.
+</P>
+</A>
+<A NAME="2860297">
+You can get the change number for a modified entry from the <FONT FACE="courier, courier new, monospace">LDAPEntryChangeControl</FONT> object. 
+</P>
+</A>
+<A NAME="2850377">
+If you want to look up the record for a particular change log number (to get more information about the change that took place), you can search for the record. In the Netscape Directory Server, the change log is represented by an entry in the directory, and individual change records are represented by entries in a subtree beneath the change log entry. 
+</P>
+</A>
+<A NAME="2850381">
+To determine the DN for the change log entry, search the <a href="glossary.htm#1014998">root DSE</a> and retrieve the <FONT FACE="courier, courier new, monospace">changelog</FONT> attribute. For example, the value of this attribute might be "cn=changelog", which is the DN for the change log entry. 
+</P>
+</A>
+<A NAME="2850382">
+Each change log record is an entry under the change log entry. The change log number is the value of the <FONT FACE="courier, courier new, monospace">changenumber</FONT> attribute of the record. To get a specific change log record, you can search the directory with the base DN "cn=changelog" and with the search filter "changenumber=&lt;value&gt;", where &lt;value&gt; is the change number of the record.
+</P>
+</A>
+<A NAME="2850374">
+Note that you may need to authenticate as the directory manager to have access to these entries.
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Using the Virtual List View Control"></A>
+<A NAME="2848467">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Using the Virtual List View Control</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2860306">
+The control with the OID 2.16.840.1.113730.3.4.9 (or the constant <FONT FACE="courier, courier new, monospace">netscape.ldap.controls</FONT>.<FONT FACE="courier, courier new, monospace">LDAPVirtualListControl</FONT>.<FONT FACE="courier, courier new, monospace">VIRTUALLIST</FONT>) is a virtual list view control. When you send a search request with this control and with a server-side sorting control to the server, the server should sort the results and return the specified subset of entries back to your client.
+</P>
+</A>
+<A NAME="2860310">
+The virtual list view control is described in the Internet-Draft "LDAP Extensions for Scrolling View Browsing of Search Results." This document is available at: <FONT FACE="courier, courier new, monospace"><A HREF="http://www.ietf.org/internet-drafts/draft-ietf-ldapext-ldapv3-vlv-01.txt" TARGET="_blank">http://www.ietf.org/internet-drafts/draft-ietf-ldapext-ldapv3-vlv-01.txt</a></FONT> 
+</P>
+</A>
+<a name="2870939">
+<B>Note. </B></A><A NAME="2860314">
+Internet-Drafts expire every six months. If the URL above does not work, try incrementing the number by one. For example, <FONT FACE="courier, courier new, monospace">draft-06.txt</FONT> would become <FONT FACE="courier, courier new, monospace">draft-07.txt</FONT>.
+</P>
+</A>
+<A NAME="2870961">
+Although Netscape Directory Server 4.<I>x</I> supports this control, not all servers do. For information on determining if a server supports this or other LDAP v3 controls, see <a href="controls.htm#2849035">"Determining the Controls Supported By the Server"</a>. 
+</P>
+</A>
+<A NAME="2860661">
+Note that after you set the list size by invoking the <FONT FACE="courier, courier new, monospace">setListSize</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPVirtualListControl</FONT> object, you need to invoke the <FONT FACE="courier, courier new, monospace">setRange</FONT> method to recreate the control using the new data. (<FONT FACE="courier, courier new, monospace">setRange</FONT> generates the BER-encoded request to be sent to the server; <FONT FACE="courier, courier new, monospace">setListSize</FONT> does not do this.) 
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Using the Manage DSA IT Control"></A>
+<A NAME="2848484">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Using the Manage DSA IT Control</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2860326">
+The control with the OID 2.16.840.1.113730.3.4.2 (or the constant <FONT FACE="courier, courier new, monospace">netscape.ldap</FONT>.<FONT FACE="courier, courier new, monospace">LDAPControl</FONT>.<FONT FACE="courier, courier new, monospace">MANAGEDSAIT</FONT>) is the manage DSA IT control. You can use this control to manage <a href="glossary.htm#1014832">search reference</a>s in the directory. 
+</P>
+</A>
+<A NAME="2860329">
+The manage DSA IT control is described in the Internet-Draft "LDAP Control Extension for Server Side Sorting of Search Results." This document is available at: <FONT FACE="courier, courier new, monospace"><A HREF="http://www.ietf.org/internet-drafts/draft-ietf-ldapext-sorting-00.txt" TARGET="_blank"><A HREF="" TARGET="_blank">http://www.ietf.org/internet-drafts/draft-ietf-ldapext-sorting-00.txt</a></FONT> 
+</P>
+</A>
+<a name="2870976">
+<B>Note. </B></A><A NAME="2860331">
+Internet-Drafts expire every six months. If the URL above does not work, try incrementing the number by one. For example, <FONT FACE="courier, courier new, monospace">draft-06.txt</FONT> would become <FONT FACE="courier, courier new, monospace">draft-07.txt</FONT>.
+</P>
+</A>
+<A NAME="2870993">
+To create this control, construct a new <FONT FACE="courier, courier new, monospace">LDAPControl</FONT> object. In the <FONT FACE="courier, courier new, monospace">LDAPControl</FONT> constructor, set the OID of the control to 2.16.840.1.113730.3.4.2. 
+</P>
+</A>
+<A NAME="2860333">
+When you add this control to the array of <FONT FACE="courier, courier new, monospace">LDAPControl</FONT> objects that you pass to a method that performs an LDAP operation, the server treats search references as ordinary entries.
+</P>
+</A>
+<A NAME="2860335">
+Rather than returning a reference to you, the server returns the entry containing the reference. This allows your client application to manage search references in the directory. 
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Using Password Policy Controls"></A>
+<A NAME="2848498">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Using Password Policy Controls</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2860338">
+The Netscape Directory Server 3.0 and later versions use two server response controls to send information back to a client after an LDAP bind operation:
+</P>
+</A>
+<ul><P>
+<A NAME="2860340">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+The control with the OID 2.16.840.1.113730.3.4.4 (or the constant <FONT FACE="courier, courier new, monospace">netscape.ldap</FONT>.<FONT FACE="courier, courier new, monospace">LDAPControl</FONT>.<FONT FACE="courier, courier new, monospace">PWEXPIRED</FONT>) is the expired password control. </FONT></LI></A><P><A NAME="2861490">
+This control is used if the server is configured to require users to change 
+their passwords when first logging in and whenever the passwords are 
+reset. 
+
+</A></P>
+<P><A NAME="2861491">
+If the user is logging in for the first time or if the user's password has been 
+reset, the server sends this control to indicate that the client needs to 
+change the password immediately. 
+
+</A></P>
+<P><A NAME="2861492">
+At this point, the only operation that the client can perform is to change the 
+user's password. If the client requests any other LDAP operation, the server 
+sends back an<FONT FACE="courier, courier new, monospace"> LDAP_UNWILLING_TO_PERFORM </FONT>result code with an expired 
+password control. 
+
+</A></P>
+<P>
+<A NAME="2860344">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+The control with the OID 2.16.840.1.113730.3.4.5 (or the constant <FONT FACE="courier, courier new, monospace">netscape.ldap</FONT>.<FONT FACE="courier, courier new, monospace">LDAPControl</FONT>.<FONT FACE="courier, courier new, monospace">PWEXPIRING</FONT>) is the password expiration warning control. </FONT></LI></A><P><A NAME="2861505">
+This control is used if the server is configured to expire user passwords 
+after a certain amount of time. 
+
+</A></P>
+<P><A NAME="2860577">
+The server sends this control back to the client if the client binds using a 
+password that will soon expire. If you invoke the <FONT FACE="courier, courier new, monospace">getValue</FONT> method for this 
+<FONT FACE="courier, courier new, monospace">LDAPControl</FONT> object, the method returns the number of seconds before the 
+password will expire. 
+
+</A></P>
+</ul><A NAME="2860587">
+To get these server response controls when binding, invoke the <FONT FACE="courier, courier new, monospace">getResponseControls</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPConnection</FONT> object after you attempt to authenticate to the server.
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Using the Proxied Authorization Control"></A>
+<A NAME="2869883">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Using the Proxied Authorization Control</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2869884">
+The control with the OID 2.16.840.1.113730.3.4.12 (or the constant <FONT FACE="courier, courier new, monospace">netscape.ldap</FONT>.<FONT FACE="courier, courier new, monospace">LDAPProxiedAuthControl</FONT>.<FONT FACE="courier, courier new, monospace">PROXIEDAUTHREQUEST</FONT>) allows LDAP clients to use different credentials, without rebinding, when executing LDAP operations. This is called proxied authorization.
+</P>
+</A>
+<A NAME="2870492">
+For example, suppose we have a messaging server that stores its user profiles on an LDAP server. For certain types of requests the messaging server needs to use a DN and password other than its own. Doing this without proxied authorization requires the messaging server to rebind, using the different credentials, before executing each operation. 
+</P>
+</A>
+<A NAME="2870151">
+If the messaging server uses the proxied authorization control, it can act as the user when executing an operation, while only maintaining its own binding to the LDAP server. This drastically improves performance, especially when processing a large number of requests.
+</P>
+</A>
+<A NAME="2869888">
+The control is described more fully in the Internet-Draft "LDAP Proxied Authorization Control." This document is available at: <FONT FACE="courier, courier new, monospace"><A HREF="http://www.ietf.org/internet-drafts/draft-ietf-ldapext-sorting-00.txt" TARGET="_blank"><A HREF="" TARGET="_blank"><A HREF="http://www.ietf.org/internet-drafts/draft-weltman-ldapv3-proxy-03.txt" TARGET="_blank">http://www.ietf.org/internet-drafts/draft-weltman-ldapv3-proxy-03.txt</a></FONT>.
+</P>
+</A>
+<a name="2870996">
+<B>Note. </B></A><A NAME="2870180">
+Internet-Drafts expire every six months. If the URL above does not work, try incrementing the number by one. For example, <FONT FACE="courier, courier new, monospace">draft-06.txt</FONT> would become <FONT FACE="courier, courier new, monospace">draft-07.txt</FONT>.
+</P>
+</A>
+</FONT>
+  </TD>
+</TR>
+<TR>
+  <TD>&nbsp;
+  </TD>
+</TR>
+<TR>
+  <TD BGCOLOR="#9999CC"><A HREF="#top"><IMG SRC="up.gif" BORDER=0></A>
+  </TD>
+</TR>
+</TABLE>
+<BR>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-2 COLOR="#999999">
+&copy; Copyright 1999 Netscape Communications Corporation.  All rights reserved.
+</FONT> </CENTER>
+
+<BR>
+
+</BODY>
+
+</HTML>

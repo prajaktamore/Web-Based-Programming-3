@@ -1,0 +1,1092 @@
+<html><head>
+<title>"Directory SDK for Java 4.0 Programmer's Guide": Using Filter Configuration Files
+ </title>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+
+        // for older browsers, will just replace the document
+
+        function showHideLayerSwitch(ignored)
+        {
+                document.location = 'contents.htm';
+        }
+
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript1.2">
+
+
+        var visibleVar="null";
+
+    if (navigator.appName == "Netscape") {
+        layerStyleRef="layer.";
+        layerRef="document.layers";
+        styleSwitch="";
+        visibleVar="show";
+    } else {
+        layerStyleRef="layer.style.";
+        layerRef="document.all";
+        styleSwitch=".style";
+        visibleVar="visible";
+    }
+        
+    function showHideLayerSwitch(layerName)
+    {
+        if (eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility == visibleVar')) {
+                hideLayer(layerName);
+        } else {
+            showLayer(layerName);
+        }
+    }
+
+    function showLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="visible"');
+    }
+        
+    function hideLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="hidden"');
+    }
+
+
+</SCRIPT>
+
+<STYLE TYPE="text/css">
+        #header {
+                z-index: 5;
+                visibility: visible;
+        }
+        #pulldownMenu {
+                position: absolute; 
+                z-index: 10; 
+                visibility: hidden; 
+                left: 182px; 
+                top: 55px;
+        }
+</STYLE>
+
+<DIV BGCOLOR="#000000" id="pulldownMenu" >
+
+<SCRIPT>
+        function onMouseOut()
+        {
+                visibility="hide";
+        }
+</SCRIPT>
+
+<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0> <TR> <TD BGCOLOR="#9999CC">
+
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+<A HREF="contents.htm"> <FONT COLOR="white"> Complete Contents</FONT></A><BR> 
+
+<A HREF="preface.htm"> <FONT COLOR="white"> Preface</FONT></A><BR> 
+
+<A HREF="ldap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 1</FONT> Understanding LDAP</FONT></A><BR> 
+
+<A HREF="api.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 2</FONT> Using the Netscape Directory SDK for Java</FONT> 
+</A><BR> 
+
+<A HREF="qckstart.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 3</FONT> Quick Start</FONT> 
+</A><BR> 
+
+<A HREF="writing.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 4</FONT> Writing an LDAP Client</FONT></A><BR> 
+
+<A HREF="using.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 5</FONT>  Using the LDAP Java Classes</FONT></A><BR> 
+
+<A HREF="search.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 6</FONT> Searching the Directory</FONT></A><BR> 
+
+<A HREF="filter.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 7</FONT> Using Filter Configuration Files</FONT></A><BR>
+
+<A HREF="addmod.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 8</FONT> Adding, Updating, and Deleting Entries</FONT></A><BR>
+
+<A HREF="compare.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 9</FONT> Comparing Values in Entries</FONT></A><BR>
+
+<A HREF="url.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 10</FONT> Working with LDAP URLs</FONT></A><BR>
+
+<A HREF="servinfo.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 11</FONT> Getting Server Information</FONT></A><BR>
+
+<A HREF="ssl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 12</FONT> Connecting Over SSL</FONT></A><BR>
+
+<A HREF="controls.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 13</FONT> Working with LDAP Controls</FONT></A><BR>
+
+<A HREF="sasl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 14</FONT> Using SASL Authentication</FONT></A><BR>
+
+<A HREF="JNDIchap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 15</FONT> Using Netscape's JNDI Service Provider</FONT></A><BR>
+
+<A HREF="extendop.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 16</FONT> Working with Extended Operations</FONT></A><BR>
+
+<A HREF="asynch.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 17</FONT> Using the Asynchronous Interface</FONT></A><BR>
+
+<A HREF="glossary.htm"> <FONT COLOR="white"> Glossary</A><BR> 
+
+</TD> </TR> </TABLE> </DIV>
+
+</SCRIPT>
+
+</HEAD>
+
+<BODY LINK="#666699" VLINK="#666699" ALINK="#333366" BGCOLOR="#FFFFFF"><FONT FACE="PrimaSans BT, Verdana, 
+
+Sans-Serif" Size=-1>
+<a name="TOP">
+<TABLE CELLPADDING=10 CELLSPACING=2 border=0 WIDTH=100% BGCOLOR="#CCCCCC"> 
+
+<TR><TD><TABLE CELLPADDING=5 CELLSPACING=2 border=0>
+<TR>
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="search.htm"><IMG SRC="prev.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0>Previous</a></FONT>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+  <a href="addmod.htm">Next<IMG SRC="next.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0></a></FONT>
+  </TD>   
+
+  <TD></TD>
+
+  <TD BGCOLOR="#9999CC"> <A HREF="javascript:showHideLayerSwitch('pulldownMenu');"><FONT FACE="PrimaSans BT, 
+
+Verdana, Sans-Serif" SIZE=-1 
+  COLOR="white">Contents</FONT></A>
+  </TD>
+
+  <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><A HREF="index.htm">Index</A></FONT>
+  </TD>
+
+</TR>
+</TABLE>
+</TD></TR> 
+</TABLE>
+
+<BR> <BR>
+
+</a>
+</DIV>
+
+</P>
+
+<CENTER>
+<TABLE CELLPADDING=2 CELLSPACING=2 WIDTH="85%" BORDER=0>
+<TR>
+  <TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="
+">
+</A>
+<A NAME="1915312">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+
+
+</FONT></B><P><A NAME="
+">
+</A>
+<A NAME="2832073">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="#999999">
+<B>
+Chapter 7
+</B></FONT></A><A NAME="Using Filter Configuration Files
+">
+</A>
+<A NAME="2832076">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+Using Filter Configuration Files
+
+</FONT></B><P><A NAME="2832934">
+This chapter explains how to use API function to work with filter configuration files. Filter configuration files can help simplify the process of selecting the appropriate search filter for a search request.</P></A>
+<A NAME="2834005">
+The chapter contains the following sections:
+</P>
+</A>
+<ul><P>
+<A NAME="2833989">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="filter.htm#2837632">"Understanding Filter Configuration Files"</a></FONT></LI></A><P>
+<A NAME="2832959">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="filter.htm#2833925">"Understanding the Configuration File Syntax"</a></FONT></LI></A><P>
+<A NAME="2833128">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="filter.htm#2833064">"Understanding Filter Parameters"</a></FONT></LI></A><P>
+<A NAME="2832987">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="filter.htm#2829616">"Loading a Filter Configuration File"</a></FONT></LI></A><P>
+<A NAME="2832996">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="filter.htm#2828848">"Retrieving Filters"</a></FONT></LI></A><P>
+<A NAME="2833020">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="filter.htm#2838779">"Adding Filter Prefixes and Suffixes"</a></FONT></LI></A></ul><A NAME="2837628">
+Note that the LDAP filter classes use the OROMatcher regular expression package (from ORO Java Software), which is provided with the SDK. If you want to use the OROMatcher package separately (not through the Netscape Directory SDK for Java classes), you must obtain a license to use the OROMatcher package from ORO Java Software. (You can also obtain the OROMatcher documentation directly from ORO.) 
+</P>
+</A>
+<A NAME="2837630">
+For details, see the ORO home page at http://www.oroinc.com/</a>. 
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Understanding Filter Configuration Files"></A>
+<A NAME="2837632">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Understanding Filter Configuration Files</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2833950">
+Suppose that you are writing a client that allows users to search the directory. You might want to use different search filters tailored for specific types of search criteria. For example, suppose the user wants to search for this:
+</P>
+</A>
+<PRE><A NAME="2833951"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>bjensen@airius.com
+</FONT></A></PRE>
+
+
+<A NAME="2833952">
+You might want to use this search filter:
+</P>
+</A>
+<PRE><A NAME="2833953"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>(mail=bjensen@airius.com)
+</FONT></A></PRE>
+
+
+<A NAME="2833954">
+Similarly, suppose the search term entered by the user contains numbers, like this:
+</P>
+</A>
+<PRE><A NAME="2833955"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>555-1212
+</FONT></A></PRE>
+
+
+<A NAME="2833956">
+In this case, you might want to use this search filter:
+</P>
+</A>
+<PRE><A NAME="2833957"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>(telephoneNumber=555-1212)
+</FONT></A></PRE>
+
+
+<A NAME="2833958">
+Rather than write code to explicitly create the appropriate filter (based on the user's search criteria), you can include the filters in a filter configuration file.
+</P>
+</A>
+<A NAME="2833959">
+A filter configuration file contains a list of filters that you can load and use in your searches.
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Understanding the Configuration File Syntax"></A>
+<A NAME="2833925">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Understanding the Configuration File Syntax</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2833058">
+A filter configuration file has the following format: 
+</P>
+</A>
+<PRE><A NAME="2833059"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>tag
+</FONT></A></PRE>
+
+
+<PRE><A NAME="2833060"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>     pattern1     delimiters     filter1-1     desc1-1     [scope1]
+</FONT></A></PRE>
+
+
+<PRE><A NAME="2829385"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>                                 filter1-2     desc1-2     [scope2]
+</FONT></A></PRE>
+
+
+<PRE><A NAME="2830612"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>
+</FONT></A></PRE>
+
+
+<PRE><A NAME="2829386"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>     pattern2     delimiters     filter2-1     desc2-1     [scope3]
+</FONT></A></PRE>
+
+
+<PRE><A NAME="2829395"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>     ...
+</FONT></A></PRE>
+
+
+<A NAME="2829387">
+This format is explained below:
+</P>
+</A>
+<ul><P>
+<A NAME="2829388">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">tag </FONT>identifies a group of filters. You can use different tags to distinguish filters for different types of objects. For example, you can use a tag to represent filters for person entries, a tag to represent filters for organization entries, and so on:</FONT></LI></A><PRE><A NAME="2831300"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"people"
+</FONT></A></PRE>
+
+
+<PRE><A NAME="2831301"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... (filters for searching "person" entries) ...
+</FONT></A></PRE>
+
+
+<PRE><A NAME="2831306"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"organization"
+</FONT></A></PRE>
+
+
+<PRE><A NAME="2831307"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... (filters for "organization" entries) ...
+</FONT></A></PRE>
+
+
+<ul><P><A NAME="2830869">
+You can specify a tag (or part of a tag) as a parameter. The tag narrows the 
+list of filters that the function can retrieve. 
+
+</A></P>
+</ul><P>
+<A NAME="2829389">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">pattern1 </FONT>and<FONT FACE="courier, courier new, monospace"> pattern2 </FONT>are regular expressions used to determine which filter is selected, based on the search criteria. For example, if you specify "^[0-9]" as the pattern for a filter, the filter is selected for all search criteria beginning with a number. </FONT></LI></A><PRE><A NAME="2831373"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"people"
+</FONT></A></PRE>
+
+
+<PRE><A NAME="2831374"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"^[0-9]"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...
+</FONT></A></PRE>
+
+
+<ul><P><A NAME="2833061">
+For more information on regular expressions, consult your UNIX 
+documentation (for example, documentation on the <FONT FACE="courier, courier new, monospace">ed</FONT> command contains 
+some information on regular expressions). 
+
+</A></P>
+</ul><P>
+<A NAME="2831375">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">delimiters </FONT>specifies the delimiters used to distinguish one field from another within the search criteria. For example, if the search criteria consists of a city name and state abbreviation separated by a comma, specify "," as the delimiter. </FONT></LI></A><P>
+<A NAME="2829391">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">filter1-1</FONT>,<FONT FACE="courier, courier new, monospace"> filter1-2</FONT>, and<FONT FACE="courier, courier new, monospace"> filter2-1 </FONT>are filters. Use<FONT FACE="courier, courier new, monospace"> %v </FONT>to represent the search criteria. For example, to search e-mail addresses, use the filter <FONT FACE="courier, courier new, monospace">(mail=%v)</FONT>. During runtime, if the search criteria <FONT FACE="courier, courier new, monospace">bjensen@airius.com</FONT> is entered, the filter becomes <FONT FACE="courier, courier new, monospace">(mail=bjensen@airius.com)</FONT>. </FONT></LI></A><ul><P><A NAME="2829534">
+If the search criteria consists of a number of delimited fields (for example, a 
+"last name, first name" format like "Jensen, Barbara"), use <FONT FACE="courier, courier new, monospace">%v1, %v2, ... , 
+%vn</FONT> to represent the different fields within the search criteria. For example:
+
+</A></P>
+<PRE><A NAME="2831407"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"people"
+</FONT></A></PRE>
+
+
+<PRE><A NAME="2831408"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"^[A-Z]*,"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;","&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&amp;(sn=%v1)(givenName=%v2))
+</FONT></A></PRE>
+
+
+<P><A NAME="2829963">
+In this example, the delimiter is a comma. The word before the delimiter 
+replaces <FONT FACE="courier, courier new, monospace">%v1</FONT> in the filter, and the word after the delimiter replaces <FONT FACE="courier, courier new, monospace">%v2</FONT> in 
+the filter. If the user searches for:
+
+</A></P>
+<PRE><A NAME="2831450"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jensen, Barbara
+</FONT></A></PRE>
+
+
+<P><A NAME="2831462">
+the resulting filter is:
+
+</A></P>
+<PRE><A NAME="2831467"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&amp;(sn=Jensen)(givenName=Barbara))
+</FONT></A></PRE>
+
+
+<P><A NAME="2831437">
+You can also specify ranges of fields. For example, to specify the values in 
+the first three fields, use <FONT FACE="courier, courier new, monospace">%v1-3</FONT>. To specify values from the third field to the 
+last field, use <FONT FACE="courier, courier new, monospace">%v3-</FONT>. To specify the value in the last field, use <FONT FACE="courier, courier new, monospace">%v$</FONT>.
+
+</A></P>
+</ul><P>
+<A NAME="2829392">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">desc1-1</FONT>,<FONT FACE="courier, courier new, monospace"> desc1-2</FONT>, and<FONT FACE="courier, courier new, monospace"> desc2-1 </FONT>are phrases briefly describing the filters. </FONT></LI></A><P>
+<A NAME="2834783">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">scope1</FONT>,<FONT FACE="courier, courier new, monospace"> scope2</FONT>, and<FONT FACE="courier, courier new, monospace"> scope3 </FONT>specify the scope of each search. This field is optional and can have the values "base", "onelevel", or "subtree". </FONT></LI></A></ul><A NAME="2829555">
+For example, the following section of a filter configuration file specifies a filter for telephone numbers and two filters for email addresses. The telephone number filter is used if the search criteria contains one or more numbers. The email filters are used if the search criteria contains an at sign (<FONT FACE="courier, courier new, monospace">@</FONT>). 
+</P>
+</A>
+<PRE>
+"people"
+
+</PRE>
+<PRE>
+     "^[0-9][0-9-]*$"     " "     "(telephoneNumber=*%v))"     "phone number ends with"
+
+</PRE>
+<PRE>
+     "@"                  " "     "(mail=%v)"                  "email address is"
+
+</PRE>
+<PRE>
+                                  "(mail=%v*)"                 "email address starts with"
+
+</PRE>
+<A NAME="2829563">
+You should specify the filters in the order that you want them to be used. For example, if you want to apply the <FONT FACE="courier, courier new, monospace">(mail=%v)</FONT> filter before the <FONT FACE="courier, courier new, monospace">(mail=%v*)</FONT> filter, make sure that the filters appear in that order.
+</P>
+</A>
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Understanding Filter Parameters"></A>
+<A NAME="2833064">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Understanding Filter Parameters</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2833130">
+Within a filter, you can use the following parameters:
+</P>
+</A>
+<ul><P>
+<A NAME="2833091">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">%v</FONT> </FONT></LI></A><ul><P><A NAME="2833139">
+This parameter means that the entire search criteria is inserted in place of 
+<FONT FACE="courier, courier new, monospace">%v</FONT>. For example, if the filter is <FONT FACE="courier, courier new, monospace">(mail=%v)</FONT>, entering the word <FONT FACE="courier, courier new, monospace">jensen</FONT> 
+results in the filter <FONT FACE="courier, courier new, monospace">(mail=jensen)</FONT>.
+
+</A></P>
+</ul><P>
+<A NAME="2833159">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">%v$</FONT> </FONT></LI></A><ul><P><A NAME="2833272">
+This parameter means that the last word in the search criteria is inserted in 
+place of <FONT FACE="courier, courier new, monospace">%v</FONT>. For example, if the filter is <FONT FACE="courier, courier new, monospace">(sn=%v$)</FONT>, entering the words 
+<FONT FACE="courier, courier new, monospace">Barbara Jensen</FONT> results in the filter <FONT FACE="courier, courier new, monospace">(sn=Jensen)</FONT>.
+
+</A></P>
+</ul><P>
+<A NAME="2833273">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">%v</FONT><I><FONT FACE="courier, courier new, monospace">N</FONT></I> (Note: N is a single digit between 1 and 9)</FONT></LI></A><ul><P><A NAME="2833274">
+This parameter means that the <I>N</I>th word in the search criteria is inserted in 
+place of <FONT FACE="courier, courier new, monospace">%v</FONT><I><FONT FACE="courier, courier new, monospace">N</FONT></I>. For example, if the filter is <FONT FACE="courier, courier new, monospace">(sn=%v2)</FONT>, entering the words 
+<FONT FACE="courier, courier new, monospace">Barbara Jensen</FONT> results in the filter <FONT FACE="courier, courier new, monospace">(sn=Jensen)</FONT>.
+
+</A></P>
+</ul><P>
+<A NAME="2833161">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">%v</FONT><I><FONT FACE="courier, courier new, monospace">M</FONT></I><FONT FACE="courier, courier new, monospace">-</FONT><I><FONT FACE="courier, courier new, monospace">N</FONT></I> (Note: M and N are single digits between 1 and 9)</FONT></LI></A><ul><P><A NAME="2833232">
+This parameter means that the sequence of the <I>M</I>th through the <I>N</I>th words 
+in the search criteria is inserted in place of <FONT FACE="courier, courier new, monospace">%v</FONT><I><FONT FACE="courier, courier new, monospace">M</FONT></I><FONT FACE="courier, courier new, monospace">-</FONT><I><FONT FACE="courier, courier new, monospace">N</FONT></I>. For example, if the filter 
+is <FONT FACE="courier, courier new, monospace">(cn=%v1-2)</FONT>, entering the words <FONT FACE="courier, courier new, monospace">Barbara Jensen</FONT> results in the filter 
+<FONT FACE="courier, courier new, monospace">(cn=Barbara Jensen)</FONT>.
+
+</A></P>
+</ul><P>
+<A NAME="2833095">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<FONT FACE="courier, courier new, monospace">%v</FONT><I><FONT FACE="courier, courier new, monospace">N</FONT></I><FONT FACE="courier, courier new, monospace">-</FONT> (Note: N is a single digit between 1 and 9)</FONT></LI></A><ul><P><A NAME="2833302">
+This parameter means that the sequence of the <I>N</I>th through the last words 
+in the search criteria is inserted in place of <FONT FACE="courier, courier new, monospace">%v</FONT><I><FONT FACE="courier, courier new, monospace">N</FONT></I><FONT FACE="courier, courier new, monospace">-</FONT>. For example, if the filter is 
+<FONT FACE="courier, courier new, monospace">(cn=%v2-)</FONT>, entering the words <FONT FACE="courier, courier new, monospace">Ms. Barbara Jensen</FONT> results in the filter 
+<FONT FACE="courier, courier new, monospace">(cn=Barbara Jensen)</FONT>.
+
+</A></P>
+</ul></ul><BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Loading a Filter Configuration File"></A>
+<A NAME="2829616">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Loading a Filter Configuration File</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2834797">
+To use a filter configuration file, you need to create an <FONT FACE="courier, courier new, monospace">LDAPFilterDescriptor</FONT> object. The <FONT FACE="courier, courier new, monospace">LDAPFilterDescriptor</FONT> constructor allows you to read in the filter configuration file from:
+</P>
+</A>
+<ul><P>
+<A NAME="2834838">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+a file in the local file system (you can specify the path to the file) </FONT></LI></A><P>
+<A NAME="2834859">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+a file served by a web server (you can specify a URL to the file) </FONT></LI></A><P>
+<A NAME="2834868">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+a location in memory (you can specify a <FONT FACE="courier, courier new, monospace">StringBuffer</FONT> containing the filter configuration information) </FONT></LI></A></ul><A NAME="2834839">
+The following section of code reads in a filter configuration file named<FONT FACE="courier, courier new, monospace"> ldapfilter.conf </FONT>in the current directory. 
+</P>
+</A>
+<PRE><A NAME="2834989"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+import netscape.ldap.util.*;<br>
+...<br>
+LDAPFilterDescriptor filtdesc = null;<br>
+try {<br>
+&nbsp;&nbsp;&nbsp;/* Read in the filter configuration file. */<br>
+&nbsp;&nbsp;&nbsp;filtdesc = new LDAPFilterDescriptor( "ldapfilter.conf" );<br>
+} catch ( Exception e ) {<br>
+&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+}<br>
+...
+</FONT></A></PRE>
+
+
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Retrieving Filters"></A>
+<A NAME="2828848">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Retrieving Filters</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2828873">
+After loading a filter configuration file into memory, you can retrieve filters based on the search criteria. For example, if the search criteria is an e-mail address (<FONT FACE="courier, courier new, monospace">bjensen@airius.com</FONT>), you can have your client automatically search for this value in the<FONT FACE="courier, courier new, monospace"> mail </FONT>attribute. 
+</P>
+</A>
+<A NAME="2836091">
+To use the filter configuration file, do the following:
+</P>
+</A>
+<ol>
+<P><a name="2836095">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Invoke the <FONT FACE="courier, courier new, monospace">LDAPFilterDescriptor</FONT> constructor to read in the filter configuration file. </LI></a><P><a name="2836006">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Invoke the <FONT FACE="courier, courier new, monospace">getFilters</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPFilterDescriptor</FONT> object. </LI></a><P><A NAME="2836103">
+Specify the tag of the section that you want to use in the filter configuration 
+file. 
+
+</A></P>
+<P><A NAME="2836123">
+This method returns an <FONT FACE="courier, courier new, monospace">LDAPFilterList</FONT> object, which is an enumeration 
+of <FONT FACE="courier, courier new, monospace">LDAPFilter</FONT> objects containing the filters for the specified search term. 
+
+</A></P>
+<P><a name="2836109">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>Invoke the <FONT FACE="courier, courier new, monospace">next</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPFilterList</FONT> object to iterate through the <FONT FACE="courier, courier new, monospace">LDAPFilter</FONT> objects. </LI></a><P><a name="2836105">
+<B>
+<FONT FACE="ARIAL"><LI></FONT></B>For each <FONT FACE="courier, courier new, monospace">LDAPFilter</FONT> object, get the filter by invoking the <FONT FACE="courier, courier new, monospace">getFilter</FONT> method, passing no arguments. </LI></a></ol>
+<A NAME="2830103">
+Note that you do not need to invoke the <FONT FACE="courier, courier new, monospace">setupFilter</FONT> of the <FONT FACE="courier, courier new, monospace">LDAPFilter</FONT> object to generate the filter. The <FONT FACE="courier, courier new, monospace">getFilters</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPFilterDescriptor</FONT> object does this already. You just need to invoke the <FONT FACE="courier, courier new, monospace">getFilter</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPFilter</FONT> object to get the generated filter. 
+</P>
+</A>
+<A NAME="2836249">
+To get the total number of filter configuration lines that match the specified search term, invoke the <FONT FACE="courier, courier new, monospace">numFilters</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPFilterList</FONT> object. Note that this number decrements each time you invoke the <FONT FACE="courier, courier new, monospace">next</FONT> or <FONT FACE="courier, courier new, monospace">nextElement</FONT> method. 
+</P>
+</A>
+<A NAME="2836133">
+The following section of code uses a filter configuration file containing the following filters:
+</P>
+</A>
+<PRE>
+"people"
+
+</PRE>
+<PRE>
+     "^[0-9][0-9-]*$"     " "     "(telephoneNumber=*%v))"     "phone number ends with"
+
+</PRE>
+<PRE>
+     "@"                  " "     "(mail=%v)"                  "email address is"
+
+</PRE>
+<PRE>
+                                  "(mail=%v*)"                 "email address starts with"
+
+</PRE>
+<A NAME="2830881">
+The following section of code retrieves, generates, and prints filters that match the search criteria. 
+</P>
+</A>
+<PRE><A NAME="2830225"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+import netscape.ldap.util.*;<br>
+import java.util.*;<br>
+<br>
+...<br>
+String searchTerm = "bjensen@airius.com";<br>
+LDAPFilterDescriptor filtdesc = null;<br>
+try {<br>
+&nbsp;&nbsp;&nbsp;/* Read in the filter configuration file. */<br>
+&nbsp;&nbsp;&nbsp;filtdesc = new LDAPFilterDescriptor( "ldapfilt.conf" );<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Get filters from the section "people" for the search term. */<br>
+&nbsp;&nbsp;&nbsp;LDAPFilterList filtlist = null;<br>
+&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filtlist = filtdesc.getFilters( "people", searchTerm );<br>
+&nbsp;&nbsp;&nbsp;} catch ( Exception e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "No matching tag section or filter found." );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(0);<br>
+&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;int totalFilters = filtlist.numFilters();<br>
+&nbsp;&nbsp;&nbsp;System.out.println( "Found " + totalFilters + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" applicable filters.\n" );<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Iterate through the lines in the list. */<br>
+&nbsp;&nbsp;&nbsp;while ( filtlist.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPFilter filtline = filtlist.next();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "Filter #" + ( totalFilters - <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filtlist.numFilters() ) );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get and print information about the selected line<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of filter configuration information. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "  Description: " + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filtline.getDescription() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "  Line #: " + filtline.getLineNumber() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "  Matches pattern: " + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filtline.getMatchPattern() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "  Filter template: " +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filtline.getFilterTemplate() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "  Delimiter: " + filtline.getDelimeter() );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "  Scope: " + filtline.getScope() );<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get the generated filter. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String filterString = filtline.getFilter();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "  Generated filter string: " + filterString + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"\n" );<br>
+&nbsp;&nbsp;&nbsp;}<br>
+} catch ( Exception e ) {<br>
+&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+}<br>
+System.exit( 0 );<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2830976">
+Suppose that the search criteria is <FONT FACE="courier, courier new, monospace">bjensen@airius.com</FONT>. In this case, the code prints the following output:
+</P>
+</A>
+<PRE><A NAME="2838777"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>java GetFilter bjensen@airius.com<br>
+Found 2 applicable filters.<br>
+<br>
+Filter #1<br>
+  Description: email address is<br>
+  Line #: 3<br>
+  Matches pattern: @<br>
+  Filter template: (mail=%v)<br>
+  Delimiter: <br>
+  Scope: subtree<br>
+  Generated filter string: (mail=bjensen@airius.com)<br>
+<br>
+Filter #2<br>
+  Description: email address starts with<br>
+  Line #: 4<br>
+  Matches pattern: @<br>
+  Filter template: (mail=%v*)<br>
+  Delimiter: <br>
+  Scope: subtree<br>
+  Generated filter string: (mail=bjensen@airius.com*)
+</FONT></A></PRE>
+
+
+<BR></TD>
+</TR><TR> 
+<TD BGCOLOR="#9999CC">
+<A HREF="#top">
+<IMG SRC="up.gif" BORDER=0></A>
+<A NAME="Adding Filter Prefixes and Suffixes"></A>
+<A NAME="2838779">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="white"> <B>Adding Filter Prefixes and Suffixes</B></FONT></A></TD></TR>
+<TR><TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="2832766">
+If you need to apply a filter to all searches, you can add a filter prefix and suffix to all filters (rather than add the criteria to all filters). For example, if your client searches only for person entries, you can add the following filter prefix to restrict the search:
+</P>
+</A>
+<PRE><A NAME="2832767"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;(&amp;(l=Sunnyvale)
+</FONT></A></PRE>
+
+
+<A NAME="2832768">
+Note that this filter now requires the following suffix to balance the number of parentheses:
+</P>
+</A>
+<PRE><A NAME="2835883"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;)
+</FONT></A></PRE>
+
+
+<A NAME="2835889">
+For example, given the following filter:
+</P>
+</A>
+<PRE><A NAME="2832781"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;(sn=Jensen)
+</FONT></A></PRE>
+
+
+<A NAME="2835921">
+you can use the filter prefix "(&amp;(l=Sunnyvale" and the filter suffix ")" to narrow down the search to only the entries with l=Sunnyvale:
+</P>
+</A>
+<PRE><A NAME="2832789"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>(&amp;(l=Sunnyvale)(sn=Jensen))
+</FONT></A></PRE>
+
+
+<A NAME="2832798">
+You can set up the filter prefix and suffix in several ways: 
+</P>
+</A>
+<ul><P>
+<A NAME="2836166">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To set these for all filters generated from the filter configuration file, invoke the <FONT FACE="courier, courier new, monospace">setFilterAffixes</FONT> method of the <FONT FACE="courier, courier new, monospace">LDAPFilterDescriptor</FONT> object. See <a href="filter.htm#2836418">"Adding Affixes for All Filters"</a> for an example. </FONT></LI></A><P>
+<A NAME="2836190">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+To set the prefix or suffix for a specific filter, do one of the following: </FONT></LI></A><ul>
+<P>
+<A NAME="2836379">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Invoke the <FONT FACE="courier, courier new, monospace">setFilterAffixes</FONT> methodof the <FONT FACE="courier, courier new, monospace">LDAPFilter</FONT> object, then invoke the <FONT FACE="courier, courier new, monospace">getFilter</FONT> method, passing in the search term again. This builds the filter again, using the specified search term with the prefix and suffix. See <a href="filter.htm#2836749">"Adding Affixes By Using setFilterAffixes"</a> for an example. 
+</FONT></LI></A><P>
+<A NAME="2836214">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Invoke the <FONT FACE="courier, courier new, monospace">getFilter</FONT> method, passing in the search term, the prefix, and the suffix. See <a href="filter.htm#2836703">"Adding Affixes By Using getFilter"</a> for an example. 
+</FONT></LI></A><P>
+<A NAME="2836227">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+Invoke the <FONT FACE="courier, courier new, monospace">setupFilter</FONT> method, passing the search term, the prefix, and the suffix. See <a href="filter.htm#2837259">"Adding Affixes By Using setupFilter"</a> for an example.
+</FONT></LI></A></ul>
+<P><A NAME="2836231">
+Note that setting the prefix and suffix for an individual filter will override 
+any prefix or suffix set for the entire filter configuration file. 
+
+</A></P>
+</ul><A NAME="2836137">
+The rest of this section contains examples that illustrate these different approaches to setting prefixes and suffixes. 
+</P>
+</A>
+<ul><P>
+<A NAME="2837237">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="filter.htm#2836418">"Adding Affixes for All Filters"</a></FONT></LI></A><P>
+<A NAME="2837246">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="filter.htm#2836749">"Adding Affixes By Using setFilterAffixes"</a></FONT></LI></A><P>
+<A NAME="2837324">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="filter.htm#2836703">"Adding Affixes By Using getFilter"</a></FONT></LI></A><P>
+<A NAME="2837251">
+<LI><FONT FACE="PrimaSans BT, Verdana, Sans-Serif">
+<a href="filter.htm#2837259">"Adding Affixes By Using setupFilter"</a></FONT></LI></A></ul><A NAME="Adding Affixes for All Filters">
+</A><A NAME="2836418">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Adding Affixes for All Filters</B>
+</FONT></A><br>
+<A NAME="2836417">
+The following section of code loads the filter configuration file named<FONT FACE="courier, courier new, monospace"> myfilters.conf </FONT>into memory and adds the prefix "(&amp;(l=Sunnyvale)" and the suffix "<FONT FACE="courier, courier new, monospace">)" </FONT>to each filter that will be retrieved from that file: 
+</P>
+</A>
+<PRE><A NAME="2832808"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+import netscape.ldap.util.*;<br>
+...<br>
+LDAPFilterDescriptor filtdesc = null;<br>
+try {<br>
+&nbsp;&nbsp;&nbsp;/* Read in the filter configuration file. */<br>
+&nbsp;&nbsp;&nbsp;filtdesc = new LDAPFilterDescriptor( "myfilter.conf" );<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Add the specified prefix and suffix to all filters. */<br>
+&nbsp;&nbsp;&nbsp;String prefix = "(&amp;(l=Sunnyvale)";<br>
+&nbsp;&nbsp;&nbsp;String suffix = ")";<br>
+&nbsp;&nbsp;&nbsp;filtdesc.setFilterAffixes( prefix, suffix );<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Get filters from the section "people" for the search term. */<br>
+&nbsp;&nbsp;&nbsp;LDAPFilterList filtlist = null;<br>
+&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filtlist = filtdesc.getFilters( "people", searchTerm );<br>
+&nbsp;&nbsp;&nbsp;} catch ( Exception e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "No matching tag section or filter found." );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(0);<br>
+&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Iterate through the lines in the list. */<br>
+&nbsp;&nbsp;&nbsp;while ( filtlist.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPFilter filtline = filtlist.next();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Get and print each filter. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String filterString = filtline.getFilter();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "  Generated filter string: " + filterString + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"\n" );<br>
+&nbsp;&nbsp;&nbsp;}<br>
+} catch ( Exception e ) {<br>
+&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+}<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2836759">
+For example, if the following search term is passed to the <FONT FACE="courier, courier new, monospace">LDAPFilterDescriptor</FONT>.<FONT FACE="courier, courier new, monospace">getFilters</FONT> method: 
+</P>
+</A>
+<PRE><A NAME="2836768"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;bjensen@airius.com
+</FONT></A></PRE>
+
+
+<A NAME="2836769">
+and the corresponding filter (without a prefix or suffix) is: 
+</P>
+</A>
+<PRE><A NAME="2836770"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;(mail=bjensen@airius.com)
+</FONT></A></PRE>
+
+
+<A NAME="2836777">
+the entire generated filter string (retrieved by the <FONT FACE="courier, courier new, monospace">LDAPFilter</FONT>.<FONT FACE="courier, courier new, monospace">getFilter</FONT> method) will be:
+</P>
+</A>
+<PRE><A NAME="2836784"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;(&amp;(l=Sunnyvale)(mail=bjensen@airius.com))
+</FONT></A></PRE>
+
+
+<A NAME="Adding Affixes By Using setFilterAffixes">
+</A><A NAME="2836749">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Adding Affixes By Using setFilterAffixes</B>
+</FONT></A><br>
+<A NAME="2836750">
+The following section of code loads the filter configuration file named<FONT FACE="courier, courier new, monospace"> myfilters.conf </FONT>into memory and uses the <FONT FACE="courier, courier new, monospace">LDAPFilter</FONT>.<FONT FACE="courier, courier new, monospace">setFilterAffixes</FONT> method to add a prefix and suffix to a generated filter: 
+</P>
+</A>
+<PRE><A NAME="2836751"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+import netscape.ldap.util.*;<br>
+...<br>
+LDAPFilterDescriptor filtdesc = null;<br>
+try {<br>
+&nbsp;&nbsp;&nbsp;/* Read in the filter configuration file. */<br>
+&nbsp;&nbsp;&nbsp;filtdesc = new LDAPFilterDescriptor( "myfilter.conf" );<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Get filters from the section "people" for the search term. */<br>
+&nbsp;&nbsp;&nbsp;LDAPFilterList filtlist = null;<br>
+&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filtlist = filtdesc.getFilters( "people", searchTerm );<br>
+&nbsp;&nbsp;&nbsp;} catch ( Exception e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "No matching tag section or filter found." );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(0);<br>
+&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Iterate through the lines in the list. */<br>
+&nbsp;&nbsp;&nbsp;while ( filtlist.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPFilter filtline = filtlist.next();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Add the prefix and suffix, and generate the filter. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String prefix = "(&amp;(l=Sunnyvale)";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String suffix = ")";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filtline.setFilterAffixes( prefix, suffix );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String filterString = filtline.getFilter( searchTerm );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "  Generated filter string: " + filterString + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"\n" );<br>
+&nbsp;&nbsp;&nbsp;}<br>
+} catch ( Exception e ) {<br>
+&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+}<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2836790">
+For example, if the following search term is passed to the <FONT FACE="courier, courier new, monospace">LDAPFilterDescriptor</FONT>.<FONT FACE="courier, courier new, monospace">getFilters</FONT> method: 
+</P>
+</A>
+<PRE><A NAME="2836797"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;bjensen@airius.com
+</FONT></A></PRE>
+
+
+<A NAME="2836798">
+and the corresponding filter (without a prefix or suffix) is: 
+</P>
+</A>
+<PRE><A NAME="2836799"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;(mail=bjensen@airius.com)
+</FONT></A></PRE>
+
+
+<A NAME="2836986">
+the entire generated filter string (retrieved by the <FONT FACE="courier, courier new, monospace">LDAPFilter</FONT>.<FONT FACE="courier, courier new, monospace">getFilter</FONT> method) will be:
+</P>
+</A>
+<PRE><A NAME="2836987"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;(&amp;(l=Sunnyvale)(mail=bjensen@airius.com))
+</FONT></A></PRE>
+
+
+<A NAME="Adding Affixes By Using getFilter">
+</A><A NAME="2836703">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Adding Affixes By Using getFilter</B>
+</FONT></A><br>
+<A NAME="2836704">
+The following section of code loads the filter configuration file named<FONT FACE="courier, courier new, monospace"> myfilters.conf </FONT>into memory and uses the <FONT FACE="courier, courier new, monospace">LDAPFilter</FONT>.<FONT FACE="courier, courier new, monospace">getFilter</FONT> method to add a prefix and suffix to a generated filter: 
+</P>
+</A>
+<PRE><A NAME="2837046"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+import netscape.ldap.util.*;<br>
+...<br>
+LDAPFilterDescriptor filtdesc = null;<br>
+try {<br>
+&nbsp;&nbsp;&nbsp;/* Read in the filter configuration file. */<br>
+&nbsp;&nbsp;&nbsp;filtdesc = new LDAPFilterDescriptor( "myfilter.conf" );<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Get filters from the section "people" for the search term. */<br>
+&nbsp;&nbsp;&nbsp;LDAPFilterList filtlist = null;<br>
+&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filtlist = filtdesc.getFilters( "people", searchTerm );<br>
+&nbsp;&nbsp;&nbsp;} catch ( Exception e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "No matching tag section or filter found." );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(0);<br>
+&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Iterate through the lines in the list. */<br>
+&nbsp;&nbsp;&nbsp;while ( filtlist.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPFilter filtline = filtlist.next();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Add the prefix and suffix, and generate the filter. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String prefix = "(&amp;(l=Sunnyvale)";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String suffix = ")";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String filterString = filtline.getFilter( searchTerm, prefix, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;suffix );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "  Generated filter string: " + filterString + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"\n" );<br>
+&nbsp;&nbsp;&nbsp;}<br>
+} catch ( Exception e ) {<br>
+&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+}<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2836813">
+For example, if the following search term is passed to the <FONT FACE="courier, courier new, monospace">LDAPFilterDescriptor</FONT>.<FONT FACE="courier, courier new, monospace">getFilters</FONT> method: 
+</P>
+</A>
+<PRE><A NAME="2836820"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;bjensen@airius.com
+</FONT></A></PRE>
+
+
+<A NAME="2836821">
+and the corresponding filter (without a prefix or suffix) is: 
+</P>
+</A>
+<PRE><A NAME="2836822"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;(mail=bjensen@airius.com)
+</FONT></A></PRE>
+
+
+<A NAME="2836829">
+the entire generated filter string (retrieved by the <FONT FACE="courier, courier new, monospace">LDAPFilter</FONT>.<FONT FACE="courier, courier new, monospace">getFilter</FONT> method) will be:
+</P>
+</A>
+<PRE><A NAME="2836830"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;(&amp;(l=Sunnyvale)(mail=bjensen@airius.com))
+</FONT></A></PRE>
+
+
+<A NAME="Adding Affixes By Using setupFilter">
+</A><A NAME="2837259">
+<FONT FACE="Palatino, Serif" SIZE="+2" COLOR="black"> 
+<B>Adding Affixes By Using setupFilter</B>
+</FONT></A><br>
+<A NAME="2837260">
+The following section of code loads the filter configuration file named<FONT FACE="courier, courier new, monospace"> myfilters.conf </FONT>into memory and uses the <FONT FACE="courier, courier new, monospace">LDAPFilter</FONT>.<FONT FACE="courier, courier new, monospace">setupFilter</FONT> method to add a prefix and suffix to a generated filter: 
+</P>
+</A>
+<PRE><A NAME="2837267"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>...<br>
+import netscape.ldap.util.*;<br>
+...<br>
+LDAPFilterDescriptor filtdesc = null;<br>
+try {<br>
+&nbsp;&nbsp;&nbsp;/* Read in the filter configuration file. */<br>
+&nbsp;&nbsp;&nbsp;filtdesc = new LDAPFilterDescriptor( "myfilter.conf" );<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Get filters from the section "people" for the search term. */<br>
+&nbsp;&nbsp;&nbsp;LDAPFilterList filtlist = null;<br>
+&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filtlist = filtdesc.getFilters( "people", searchTerm );<br>
+&nbsp;&nbsp;&nbsp;} catch ( Exception e ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "No matching tag section or filter found." );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(0);<br>
+&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;/* Iterate through the lines in the list. */<br>
+&nbsp;&nbsp;&nbsp;while ( filtlist.hasMoreElements() ) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDAPFilter filtline = filtlist.next();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Add the prefix and suffix, and generate the filter. */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String prefix = "(&amp;(l=Sunnyvale)";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String suffix = ")";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filtline.setupFilter( searchTerm, prefix, suffix );
+</FONT></A></PRE>
+
+
+<PRE><A NAME="2839035"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String filterString = filtline.getFilter();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( "  
+Generated filter string: " + filterString + <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"\n" );<br>
+&nbsp;&nbsp;&nbsp;}<br>
+} catch ( Exception e ) {<br>
+&nbsp;&nbsp;&nbsp;System.out.println( "Error: " + e.toString() );<br>
+}<br>
+...
+</FONT></A></PRE>
+
+
+<A NAME="2837300">
+For example, if the following search term is passed to the <FONT FACE="courier, courier new, monospace">LDAPFilterDescriptor</FONT>.<FONT FACE="courier, courier new, monospace">getFilters</FONT> method: 
+</P>
+</A>
+<PRE><A NAME="2837307"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;bjensen@airius.com
+</FONT></A></PRE>
+
+
+<A NAME="2837308">
+and the corresponding filter (without a prefix or suffix) is: 
+</P>
+</A>
+<PRE><A NAME="2837309"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;(mail=bjensen@airius.com)
+</FONT></A></PRE>
+
+
+<A NAME="2837316">
+the entire generated filter string (retrieved by the <FONT FACE="courier, courier new, monospace">LDAPFilter</FONT>.<FONT FACE="courier, courier new, monospace">getFilter</FONT> method) will be:
+</P>
+</A>
+<PRE><A NAME="2837317"><FONT FACE="courier, new courier, monospace" POINT-SIZE=11>&nbsp;&nbsp;&nbsp;(&amp;(l=Sunnyvale)(mail=bjensen@airius.com))
+</FONT></A></PRE>
+
+
+<A NAME="2830603">
+
+</P>
+</A>
+</FONT>
+  </TD>
+</TR>
+<TR>
+  <TD>&nbsp;
+  </TD>
+</TR>
+<TR>
+  <TD BGCOLOR="#9999CC"><A HREF="#top"><IMG SRC="up.gif" BORDER=0></A>
+  </TD>
+</TR>
+</TABLE>
+<BR>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-2 COLOR="#999999">
+&copy; Copyright 1999 Netscape Communications Corporation.  All rights reserved.
+</FONT> </CENTER>
+
+<BR>
+
+</BODY>
+
+</HTML>

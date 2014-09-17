@@ -1,0 +1,405 @@
+<html><head>
+<title>"Directory SDK for Java 4.0 Programmer's Guide":  </title>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+
+        // for older browsers, will just replace the document
+
+        function showHideLayerSwitch(ignored)
+        {
+                document.location = 'contents.htm';
+        }
+
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript1.2">
+
+
+        var visibleVar="null";
+
+    if (navigator.appName == "Netscape") {
+        layerStyleRef="layer.";
+        layerRef="document.layers";
+        styleSwitch="";
+        visibleVar="show";
+    } else {
+        layerStyleRef="layer.style.";
+        layerRef="document.all";
+        styleSwitch=".style";
+        visibleVar="visible";
+    }
+        
+    function showHideLayerSwitch(layerName)
+    {
+        if (eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility == visibleVar')) {
+                hideLayer(layerName);
+        } else {
+            showLayer(layerName);
+        }
+    }
+
+    function showLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="visible"');
+    }
+        
+    function hideLayer(layerName)
+    {
+        eval(layerRef+'["'+layerName+'"]'+styleSwitch+'.visibility="hidden"');
+    }
+
+
+</SCRIPT>
+
+<STYLE TYPE="text/css">
+        #header {
+                z-index: 5;
+                visibility: visible;
+        }
+        #pulldownMenu {
+                position: absolute; 
+                z-index: 10; 
+                visibility: hidden; 
+                left: 120px; 
+                top: 55px;
+        }
+</STYLE>
+
+<DIV BGCOLOR="#000000" id="pulldownMenu" >
+
+<SCRIPT>
+        function onMouseOut()
+        {
+                visibility="hide";
+        }
+</SCRIPT>
+
+<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0> <TR> <TD BGCOLOR="#9999CC">
+
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1>
+
+<A HREF="contents.htm"> <FONT COLOR="white"> Complete Contents</FONT></A><BR> 
+
+<A HREF="preface.htm"> <FONT COLOR="white"> Preface</FONT></A><BR> 
+
+<A HREF="ldap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 1</FONT> Understanding LDAP</FONT></A><BR> 
+
+<A HREF="api.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 2</FONT> Using the Netscape Directory SDK for Java</FONT> 
+</A><BR> 
+
+<A HREF="qckstart.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 3</FONT> Quick Start</FONT> 
+</A><BR> 
+
+<A HREF="writing.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 4</FONT> Writing an LDAP Client</FONT></A><BR> 
+
+<A HREF="using.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 5</FONT>  Using the LDAP Java Classes</FONT></A><BR> 
+
+<A HREF="search.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 6</FONT> Searching the Directory</FONT></A><BR> 
+
+<A HREF="filter.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 7</FONT> Using Filter Configuration Files</FONT></A><BR>
+
+<A HREF="addmod.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 8</FONT> Adding, Updating, and Deleting Entries</FONT></A><BR>
+
+<A HREF="compare.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 9</FONT> Comparing Values in Entries</FONT></A><BR>
+
+<A HREF="url.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 10</FONT> Working with LDAP URLs</FONT></A><BR>
+
+<A HREF="servinfo.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 11</FONT> Getting Server Information</FONT></A><BR>
+
+<A HREF="ssl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 12</FONT> Connecting Over SSL</FONT></A><BR>
+
+<A HREF="controls.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 13</FONT> Working with LDAP Controls</FONT></A><BR>
+
+<A HREF="sasl.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 14</FONT> Using SASL Authentication</FONT></A><BR>
+
+<A HREF="JNDIchap.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 15</FONT> Using Netscape's JNDI Service Provider</FONT></A><BR>
+
+<A HREF="extendop.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 16</FONT> Working with Extended Operations</FONT></A><BR>
+
+<A HREF="asynch.htm"> <FONT COLOR="white"> 
+<FONT COLOR="#E0E0E0">Chapter 17</FONT> Using the Asynchronous Interface</FONT></A><BR>
+
+<A HREF="glossary.htm"> <FONT COLOR="white"> Glossary</A><BR> 
+
+</TD> </TR> </TABLE> </DIV>
+
+</SCRIPT>
+
+</HEAD>
+
+<BODY LINK="#666699" VLINK="#666699" ALINK="#333366" BGCOLOR="#FFFFFF"><FONT FACE="PrimaSans BT, Verdana, 
+
+Sans-Serif" Size=-1>
+<a name="TOP">
+<TABLE CELLPADDING=10 CELLSPACING=2 border=0 WIDTH=100% BGCOLOR="#CCCCCC"> 
+<TR>
+  <TD><TABLE CELLPADDING=5 CELLSPACING=2 border=0>
+  <TR>
+    <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1 COLOR="BLACK">
+    <a href="asynch.htm"><IMG SRC="prev.gif" WIDTH=16 HEIGHT=14 ALIGN="texttop" 
+
+BORDER=0>Previous</a></FONT>
+    </TD>
+
+    <TD></TD>
+
+    <TD BGCOLOR="#9999CC"> <A HREF="javascript:showHideLayerSwitch('pulldownMenu');"><FONT FACE="PrimaSans BT, 
+
+Verdana, Sans-Serif" SIZE=-1 
+    COLOR="white">Contents</FONT></A>
+    </TD>
+
+    <TD BGCOLOR="#FFFFFF"> <FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-1><A 
+
+HREF="index.htm">Index</A></FONT>
+    </TD>
+
+  </TR>
+  </TABLE>
+  </TD>
+</TR> 
+</TABLE>
+
+<BR> <BR>
+
+</a>
+</DIV>
+
+</P>
+
+<CENTER>
+<TABLE CELLPADDING=2 CELLSPACING=2 WIDTH="85%" BORDER=0>
+<TR>
+  <TD><FONT FACE="PrimaSans BT, Verdana, Sans-Serif" Size=-1><A NAME="
+">
+</A>
+<A NAME="999926">
+<FONT FACE="Palatino, Serif" SIZE="+2"> 
+<B>
+Glossary 
+
+</FONT></B></A><P><A NAME="1013034">
+This glossary defines terms commonly used when working with LDAP. </P></A>
+<dl>
+<A NAME="base DN">
+</A>
+<A NAME="1014824">
+<B>base DN.
+</B>&nbsp;
+</A><A NAME="1015012">
+The distinguished name (DN) that identifies the starting point of a search. <P>
+</A>
+<A NAME="1015020">
+For example, if you want to search all of the entries in the "ou=People,o=Airius.com" subtree of the directory, "ou=People,o=Airius.com" is the base DN.<P>
+</A>
+<A NAME="1015186">
+For more information on base DNs and searching the directory, see <a href="search.htm#2842334">"Specifying the Base DN and Scope"</a>. <P>
+</A>
+<A NAME="continuation reference">
+</A>
+<A NAME="1015011">
+<B>continuation reference.
+</B>&nbsp;
+</A><A NAME="1014956">
+See <a href="glossary.htm#1014832">search reference</a>. <P>
+</A>
+<A NAME="control">
+</A>
+<A NAME="1014952">
+<B>control.
+</B>&nbsp;
+</A><A NAME="1014825">
+LDAP controls are specified as part of the LDAP v3 protocol. A control provides the means to specify additional information for an operation. Clients and servers can send controls as part of the requests and responses for an operation. <P>
+</A>
+<A NAME="1015213">
+For more information on LDAP controls, see <a href="controls.htm#1915315">Chapter 13, "Working with LDAP Controls"</a>. <P>
+</A>
+<A NAME="DIT">
+</A>
+<A NAME="1014813">
+<B>DIT.
+</B>&nbsp;
+</A><A NAME="1014814">
+The hierarchical organization of entries that make up a directory. DIT stands for "Directory Information Tree." <P>
+</A>
+<A NAME="DSA">
+</A>
+<A NAME="1006891">
+<B>DSA.
+</B>&nbsp;
+</A><A NAME="1014774">
+An X.500 term for an LDAP server. DSA stands for "Directory System Agent." <P>
+</A>
+<A NAME="DSE">
+</A>
+<A NAME="1014773">
+<B>DSE.
+</B>&nbsp;
+</A><A NAME="1014770">
+An entry containing server-specific information. DSE stands for "<a href="glossary.htm#1006891">DSA</a>-specific entry." Each server has different attribute values for the DSE. <P>
+</A>
+<A NAME="extended operation">
+</A>
+<A NAME="1014828">
+<B>extended operation.
+</B>&nbsp;
+</A><A NAME="1015055">
+An extension mechanism in the LDAP v3 protocol. You can define extended operations to perform services not covered by the protocol. The extended operation mechanism specifies the means for an LDAP client to request a custom operation (not specified in the LDAP protocol) from an LDAP server. <P>
+</A>
+<A NAME="1015261">
+For more information on extended operations, see <a href="extendop.htm#1915315">Chapter 16, "Working with Extended Operations"</a>. <P>
+</A>
+<A NAME="LDIF">
+</A>
+<A NAME="1015136">
+<B>LDIF.
+</B>&nbsp;
+</A><A NAME="1015491">
+LDAP Data Interchange Format. The format is specified in the Internet-Draft "The LDAP Data Interchange Format -- Technical Specification," which is available at the following location:<FONT FACE="courier, courier new, monospace"> <A HREF="http://www.ietf.org/internet-drafts/draft-good-ldap-ldif-04.txt" TARGET="_blank">http://www.ietf.org/internet-drafts/draft-good-ldap-ldif-04.txt</a>.</FONT> Note that Internet-Drafts expire every six months. If the URL above does not work, try incrementing the number by one. For example, <FONT FACE="courier, courier new, monospace">draft-06.txt</FONT> would become <FONT FACE="courier, courier new, monospace">draft-07.txt</FONT>.<P>
+</A>
+<A NAME="operational attributes">
+</A>
+<A NAME="1015298">
+<B>operational attributes.
+</B>&nbsp;
+</A><A NAME="1015111">
+Attributes that are used by servers for administering the directory. For example, creatorsName is an operational attribute that specifies the DN of the user who added the entry. Operational attributes are not returned in any search results unless you specify the attribute by name in the search request. <P>
+</A>
+<A NAME="1015314">
+For more information on searching the operational attributes, see <a href="search.htm#2846484">"Specifying the Attributes to Retrieve"</a>. <P>
+</A>
+<A NAME="referral">
+</A>
+<A NAME="1014843">
+<B>referral.
+</B>&nbsp;
+</A><A NAME="1014847">
+Refers an LDAP client to another LDAP server. An LDAP server can be configured to send your client a referral if your client requests a DN with a suffix that is not in the server's directory tree (for example, if the directory includes entries under "o=Airius.com" and your client requests an entry under "o=AiriusWest.com"). <P>
+</A>
+<A NAME="1014886">
+Referrals contain LDAP URLs that specify the host, port, and base DN of another LDAP server. <P>
+</A>
+<A NAME="1014979">
+Note that referrals are not the same as (but are similar to) search references. A <a href="glossary.htm#1014832">search reference</a> is returned as part of the results of a search; a referral is returned when the base DN of a search (or the target DN of any other LDAP operation) is not part of the LDAP server's directory tree.<P>
+</A>
+<A NAME="1015325">
+For more information on handling referrals, see <a href="using.htm#2844087">"Handling Referrals"</a>. <P>
+</A>
+<A NAME="referral hop limit">
+</A>
+<A NAME="1014995">
+<B>referral hop limit.
+</B>&nbsp;
+</A><A NAME="1014996">
+The maximum number of referrals that your client should follow in a row. For example, suppose your client receives a referral from LDAP server A to LDAP server B. After your client follows the referral to LDAP server B, that server sends you a referral to LDAP server C, which in turn refers you to LDAP server D. Your client has been referred 3 times in a row. If the referral hop limit is 2, the referral hop limit has been exceeded. <P>
+</A>
+<A NAME="1015339">
+For more information on handling referrals, see <a href="using.htm#2844087">"Handling Referrals"</a>. <P>
+</A>
+<A NAME="root DSE">
+</A>
+<A NAME="1014998">
+<B>root DSE.
+</B>&nbsp;
+</A><A NAME="1015005">
+An entry (a <a href="glossary.htm#1014773">DSE</a>) that is located at the root of the <a href="glossary.htm#1014813">DIT</a>. <P>
+</A>
+<A NAME="1015341">
+For information on getting the root DSE of an LDAP server, see <a href="servinfo.htm#2850362">"Getting the Root DSE"</a>. <P>
+</A>
+<A NAME="search reference">
+</A>
+<A NAME="1014832">
+<B>search reference.
+</B>&nbsp;
+</A><A NAME="1014912">
+Also known as continuation references, search result references, or smart referrals. A search reference is an entry in the directory that refers to another LDAP server (the reference is in the form of an LDAP URL). <P>
+</A>
+<A NAME="1014915">
+Search references are returned in search results along with entries found in the search. (A <a href="glossary.htm#1014843">referral</a>, on the other hand, is returned before searching through any entries. A referral is returned if the base DN does not have a suffix that is handled by the server.) <P>
+</A>
+<A NAME="1015348">
+For more information on handling search references, see <a href="search.htm#2828841">"Getting the Search Results"</a>. <P>
+</A>
+<A NAME="search result reference">
+</A>
+<A NAME="1014911">
+<B>search result reference.
+</B>&nbsp;
+</A><A NAME="1014966">
+See <a href="glossary.htm#1014832">search reference</a>.<P>
+</A>
+<A NAME="server plug-in">
+</A>
+<A NAME="1014965">
+<B>server plug-in.
+</B>&nbsp;
+</A><A NAME="1014833">
+Beginning with version 3.0, Netscape Directory Server supports a plug-in interface that allows you to extend the functionality of the server. You can write plug-ins that handle extended operations or SASL authentication requests. For more information on server plug-ins, see the <A HREF="http://developer.netscape.com/docs/manuals/directory/dirPlugin40/index.htm" TARGET="_blank">Netscape Directory Server Programmer's Guide</a>. <P>
+</A>
+<A NAME="smart referral">
+</A>
+<A NAME="1011532">
+<B>smart referral.
+</B>&nbsp;
+</A><A NAME="1014972">
+See <a href="glossary.htm#1014832">search reference</a>.<P>
+</A>
+<A NAME="subschema entry">
+</A>
+<A NAME="1015127">
+<B>subschema entry.
+</B>&nbsp;
+</A><A NAME="1015128">
+Entry containing all the schema definitions (definitions of object classes, attributes, matching rules, and so on) used by entries in part of a directory tree. <P>
+</A>
+<A NAME="1015355">
+For more information on getting the subschema entry, see <a href="servinfo.htm#2852250">"Getting the Schema for an LDAP Server"</a>. <P>
+</A>
+<A NAME="">
+</A>
+<A NAME="1014977">
+<B>.
+</B>&nbsp;
+</A></dl>
+</FONT>
+  </TD>
+</TR>
+<TR>
+  <TD>&nbsp;
+  </TD>
+</TR>
+<TR>
+  <TD BGCOLOR="#9999CC"><A HREF="#top"><IMG SRC="up.gif" BORDER=0></A>
+  </TD>
+</TR>
+</TABLE>
+
+<BR>
+<FONT FACE="PrimaSans BT, Verdana, Sans-Serif" SIZE=-2 COLOR="#999999">
+&copy; Copyright 1999 Netscape Communications Corporation.  All rights reserved.
+</FONT> </CENTER>
+
+<BR>
+
+</BODY>
+
+</HTML>
